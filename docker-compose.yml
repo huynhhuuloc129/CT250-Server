@@ -11,7 +11,8 @@ services:
     ports:
       - $API_PORT:3000
     volumes:
-      - .:/usr/src/app
+      - .:/home/app
+      - /home/app/node_modules
     env_file:
       - .env
     depends_on:
