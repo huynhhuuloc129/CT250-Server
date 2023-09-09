@@ -1,4 +1,19 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { Public } from '../auth/utils';
 
 @Controller('users')
-export class UsersController {}
+@ApiTags('users')
+export class UsersController {
+	@Public()
+	@Get('')
+	getListUsers() {
+		return 'get list user';
+	}
+
+	@Public()
+	@Get(':id')
+	getUser() {
+		return 'get user by id';
+	}
+}
