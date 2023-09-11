@@ -1,6 +1,6 @@
 FROM --platform=linux/amd64 node:19-alpine as development
 
-WORKDIR /usr/src/app
+WORKDIR /home/app
 
 ENV NODE_ENV=development
 
