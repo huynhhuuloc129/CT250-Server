@@ -35,7 +35,7 @@ export class User extends BaseObject {
 	dob: Date;
 
 	@Column({
-		type: 'set',
+		type: 'enum',
 		enum: USER_GENDER,
 	})
 	gender: USER_GENDER;
@@ -47,7 +47,7 @@ export class User extends BaseObject {
 	tel: string;
 
 	@Column({
-		type: 'set',
+		type: 'enum',
 		enum: USER_ROLE,
 	})
 	role: USER_ROLE;
