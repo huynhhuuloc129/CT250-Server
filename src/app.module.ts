@@ -7,6 +7,15 @@ import { appConfig } from './app.config';
 import { BullModule } from '@nestjs/bull';
 import { CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-store';
+import { AdminModule } from './modules/admin/admin.module';
+import { LessorModule } from './modules/lessor/lessor.module';
+import { ReviewModule } from './modules/review/review.module';
+import { UtilityModule } from './modules/utility/utility.module';
+import { PhotoModule } from './modules/photo/photo.module';
+import { CommnueModule } from './modules/commnue/commnue.module';
+import { DistrictModule } from './modules/district/district.module';
+import { ProvinceModule } from './modules/province/province.module';
+import { TenantModule } from './modules/tenant/tenant.module';
 @Module({
 	imports: [
 		TypeOrmModule.forRootAsync({
@@ -50,6 +59,15 @@ import { redisStore } from 'cache-manager-redis-store';
 		}),
 		AuthModule,
 		UsersModule,
+		AdminModule,
+		LessorModule,
+		TenantModule,
+		ProvinceModule,
+		DistrictModule,
+		CommnueModule,
+		PhotoModule,
+		UtilityModule,
+		ReviewModule,
 	],
 	controllers: [],
 	providers: [],
