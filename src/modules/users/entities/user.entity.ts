@@ -16,11 +16,11 @@ export enum USER_GENDER {
 
 @Entity()
 export class User extends BaseObject {
-	@Column()
+	@Column({ unique: true })
 	email: string;
 
-	@Column()
-	username: string;
+	// @Column()
+	// username: string;
 
 	@Column()
 	password: string;
