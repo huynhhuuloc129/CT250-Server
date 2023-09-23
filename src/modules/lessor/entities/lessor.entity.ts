@@ -1,5 +1,8 @@
 import { BaseObject } from 'src/shared/entities/base-object.entity';
-import { Entity } from 'typeorm';
+import { Entity, Column } from 'typeorm';
 
 @Entity()
-export class Lessor extends BaseObject {}
+export class Lessor extends BaseObject {
+	@Column()
+	isRegistered: boolean;
+}

@@ -1,37 +1,54 @@
 import { BaseObject } from 'src/shared/entities/base-object.entity';
-import { Column, Entity } from 'typeorm';
+import { Entity, Column } from 'typeorm';
+
+export enum USER_ROLE {
+	USER = 'user',
+	ADMIN = 'admin',
+	tenant = 'tenant',
+	lessor = 'lessor',
+}
+
+export enum USER_GENDER {
+	F = 'female',
+	M = 'male',
+	O = 'other',
+}
 
 @Entity()
 export class User extends BaseObject {
 	@Column()
-	firstName: string;
-
-	@Column()
-	lastName: string;
-
-	@Column()
-	active: boolean;
-
-	@Column({
-		nullable: true,
-	})
-	position: string;
-
-	@Column({
-		nullable: true,
-	})
-	job: string;
-
-	@Column()
 	email: string;
 
-	@Column({
-		nullable: true,
-	})
-	phoneNumber: string;
+	@Column()
+	username: string;
+
+	@Column()
+	password: string;
+
+	@Column()
+	refreshToken: string;
+
+	@Column()
+	fullName: string;
+
+	@Column()
+	dob: Date;
 
 	@Column({
-		nullable: true,
+		type: 'set',
+		enum: USER_GENDER,
 	})
-	birthday: Date;
+	gender: USER_GENDER;
+
+	@Column()
+	address: string;
+
+	@Column()
+	tel: string;
+
+	@Column({
+		type: 'set',
+		enum: USER_ROLE,
+	})
+	role: USER_ROLE;
 }

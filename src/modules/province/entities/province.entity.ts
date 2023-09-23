@@ -1,5 +1,8 @@
 import { BaseObject } from 'src/shared/entities/base-object.entity';
-import { Entity } from 'typeorm';
+import { Entity, Column } from 'typeorm';
 
 @Entity()
-export class Province extends BaseObject {}
+export class Province extends BaseObject {
+	@Column()
+	name: string;
+}
