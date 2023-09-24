@@ -12,13 +12,19 @@ export class Room extends BaseObject {
 	name: string;
 
 	@Column()
-	roomID: string;
-
-	@Column()
 	tenantID: string;
 
 	@Column()
 	roomingHouseID: string;
+
+	@Column()
+	width: number;
+
+	@Column()
+	height: number;
+
+	@Column()
+	dimensions: number;
 
 	@Column()
 	roomPrice: number;
@@ -28,9 +34,6 @@ export class Room extends BaseObject {
 
 	@Column()
 	electricityPrice: number;
-
-	@Column()
-	dimensions: string;
 
 	@Column()
 	summary: string;
