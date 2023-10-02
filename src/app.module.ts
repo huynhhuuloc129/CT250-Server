@@ -7,6 +7,15 @@ import { appConfig } from './app.config';
 import { BullModule } from '@nestjs/bull';
 import { CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-store';
+import { RoomingHousesModule } from './modules/rooming-houses/rooming-houses.module';
+import { RoomsModule } from './modules/rooms/rooms.module';
+import { RoomingSubscriptionsModule } from './modules/rooming-subscriptions/rooming-subscriptions.module';
+import { NotificationsModule } from './modules/notifications/notifications.module';
+import { PaymentRecordsModule } from './modules/payment-records/payment-records.module';
+import { RoomingSubscriptionRequestsModule } from './modules/rooming-subscription-requests/rooming-subscription-requests.module';
+import { CategoriesModule } from './modules/categories/categories.module';
+import { RoomDescriptionsModule } from './modules/room-descriptions/room-descriptions.module';
+import { TemporaryLessorsModule } from './modules/temporary-lessors/temporary-lessors.module';
 @Module({
 	imports: [
 		TypeOrmModule.forRootAsync({
@@ -50,6 +59,15 @@ import { redisStore } from 'cache-manager-redis-store';
 		}),
 		AuthModule,
 		UsersModule,
+		RoomingHousesModule,
+		RoomsModule,
+		RoomingSubscriptionsModule,
+		NotificationsModule,
+		PaymentRecordsModule,
+		RoomingSubscriptionRequestsModule,
+		CategoriesModule,
+		RoomDescriptionsModule,
+		TemporaryLessorsModule,
 	],
 	controllers: [],
 	providers: [],
