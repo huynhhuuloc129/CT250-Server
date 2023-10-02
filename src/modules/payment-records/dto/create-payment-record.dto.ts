@@ -36,12 +36,12 @@ export class CreatePaymentRecordDto {
 	@ApiProperty()
 	@IsOptional()
 	@IsNumber()
-	surcharge: number;
+	surcharge?: number;
 
 	@ApiProperty()
 	@IsOptional()
 	@IsDateString()
-	paidDate: Date;
+	paidDate?: Date;
 
 	@ApiProperty({
 		enum: PAYMENT_STATE,
@@ -52,16 +52,13 @@ export class CreatePaymentRecordDto {
 
 	@ApiHideProperty()
 	@IsOptional()
-	@IsNumber()
 	monthWaterPrice?: number;
 
 	@ApiHideProperty()
 	@IsOptional()
-	@IsNumber()
 	monthElectricityPrice?: number;
 
 	@ApiHideProperty()
 	@IsOptional()
-	@IsNumber()
-	monthTotalPrice: number;
+	monthTotalPrice?: number;
 }
