@@ -16,6 +16,15 @@ import { CommnueModule } from './modules/commnue/commnue.module';
 import { DistrictModule } from './modules/district/district.module';
 import { ProvinceModule } from './modules/province/province.module';
 import { TenantModule } from './modules/tenant/tenant.module';
+import { RoomingHousesModule } from './modules/rooming-houses/rooming-houses.module';
+import { RoomsModule } from './modules/rooms/rooms.module';
+import { RoomingSubscriptionsModule } from './modules/rooming-subscriptions/rooming-subscriptions.module';
+import { NotificationsModule } from './modules/notifications/notifications.module';
+import { PaymentRecordsModule } from './modules/payment-records/payment-records.module';
+import { RoomingSubscriptionRequestsModule } from './modules/rooming-subscription-requests/rooming-subscription-requests.module';
+import { CategoriesModule } from './modules/categories/categories.module';
+import { RoomDescriptionsModule } from './modules/room-descriptions/room-descriptions.module';
+import { TemporaryLessorsModule } from './modules/temporary-lessors/temporary-lessors.module';
 @Module({
 	imports: [
 		TypeOrmModule.forRootAsync({
@@ -68,6 +77,15 @@ import { TenantModule } from './modules/tenant/tenant.module';
 		PhotoModule,
 		UtilityModule,
 		ReviewModule,
+		RoomingHousesModule,
+		RoomsModule,
+		RoomingSubscriptionsModule,
+		NotificationsModule,
+		PaymentRecordsModule,
+		RoomingSubscriptionRequestsModule,
+		CategoriesModule,
+		RoomDescriptionsModule,
+		TemporaryLessorsModule,
 	],
 	controllers: [],
 	providers: [],
