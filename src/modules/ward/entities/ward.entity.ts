@@ -1,5 +1,5 @@
-import { AdministrativeRegion } from 'src/modules/administrative-region/entities/administrative-region.entity';
 import { AdministrativeUnit } from 'src/modules/administrative-unit/entities/administrative-unit.entity';
+import { District } from 'src/modules/district/entities/district.entity';
 import {
 	Entity,
 	Column,
@@ -7,12 +7,12 @@ import {
 	CreateDateColumn,
 	UpdateDateColumn,
 	DeleteDateColumn,
-	ManyToOne,
 	JoinColumn,
+	ManyToOne,
 } from 'typeorm';
 
-@Entity({ name: 'provinces' })
-export class Province {
+@Entity({ name: 'wards' })
+export class Ward {
 	@PrimaryGeneratedColumn()
 	code: number;
 
@@ -40,11 +40,11 @@ export class Province {
 	@Column({ name: 'code_name' })
 	codeName: string;
 
+	@ManyToOne(() => District)
+	@JoinColumn({ name: 'district_code' })
+	districtCode: string;
+
 	@ManyToOne(() => AdministrativeUnit)
 	@JoinColumn({ name: 'administrative_unit_id' })
 	adminitrativeUnitID: string;
-
-	@ManyToOne(() => AdministrativeRegion)
-	@JoinColumn({ name: 'administrative_region_id' })
-	administrativeRegionID: string;
 }

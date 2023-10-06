@@ -1,5 +1,5 @@
 import { Controller } from '@nestjs/common';
-import { CommnueService } from './commnue.service';
+import { CommnueService } from './ward.service';
 
 @Controller('commnue')
 export class CommnueController {

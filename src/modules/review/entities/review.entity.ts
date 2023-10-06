@@ -1,5 +1,7 @@
+import { Lessor } from 'src/modules/lessor/entities/lessor.entity';
+import { Room } from 'src/modules/rooms/entities/room.entity';
 import { BaseObject } from 'src/shared/entities/base-object.entity';
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, ManyToOne } from 'typeorm';
 
 @Entity()
 export class Review extends BaseObject {
@@ -9,7 +11,9 @@ export class Review extends BaseObject {
 	@Column()
 	comment: string;
 
-	// roomingHouseID: string;
+	@ManyToOne(() => Room, (room: Room) => room.Utilities)
+	room: Room;
 
-	// lessorID: string
+	@ManyToOne(() => Lessor, (lessor: Lessor) => lessor.reviews)
+	lessor: Lessor;
 }

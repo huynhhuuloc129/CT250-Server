@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CommnueController } from './commnue.controller';
-import { CommnueService } from './commnue.service';
+import { CommnueController } from './ward';
+import { CommnueService } from './ward.service';
 
 describe('CommnueController', () => {
 	let controller: CommnueController;

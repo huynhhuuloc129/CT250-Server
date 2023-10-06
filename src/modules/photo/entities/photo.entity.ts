@@ -9,5 +9,12 @@ export class Photo extends BaseObject {
 	@Column()
 	url: string;
 
-	// ownerID: string;
+	@Column()
+	ownerID: string;
+
+	@Column()
+	type: string;
+
+	@Column('bytea')
+	data: Buffer;
 }

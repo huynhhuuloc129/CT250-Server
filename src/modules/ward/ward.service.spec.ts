@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CommnueService } from './commnue.service';
+import { CommnueService } from './ward.service';
 
 describe('CommnueService', () => {
 	let service: CommnueService;

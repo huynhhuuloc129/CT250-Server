@@ -12,7 +12,7 @@ import { LessorModule } from './modules/lessor/lessor.module';
 import { ReviewModule } from './modules/review/review.module';
 import { UtilityModule } from './modules/utility/utility.module';
 import { PhotoModule } from './modules/photo/photo.module';
-import { CommnueModule } from './modules/commnue/commnue.module';
+import { WardModule } from './modules/ward/ward.module';
 import { DistrictModule } from './modules/district/district.module';
 import { ProvinceModule } from './modules/province/province.module';
 import { TenantModule } from './modules/tenant/tenant.module';
@@ -25,6 +25,8 @@ import { RoomingSubscriptionRequestsModule } from './modules/rooming-subscriptio
 import { CategoriesModule } from './modules/categories/categories.module';
 import { RoomDescriptionsModule } from './modules/room-descriptions/room-descriptions.module';
 import { TemporaryLessorsModule } from './modules/temporary-lessors/temporary-lessors.module';
+import { AdministrativeUnitModule } from './modules/administrative-unit/administrative-unit.module';
+import { AdministrativeRegionModule } from './modules/administrative-region/administrative-region.module';
 @Module({
 	imports: [
 		TypeOrmModule.forRootAsync({
@@ -73,7 +75,7 @@ import { TemporaryLessorsModule } from './modules/temporary-lessors/temporary-le
 		TenantModule,
 		ProvinceModule,
 		DistrictModule,
-		CommnueModule,
+		WardModule,
 		PhotoModule,
 		UtilityModule,
 		ReviewModule,
@@ -86,6 +88,8 @@ import { TemporaryLessorsModule } from './modules/temporary-lessors/temporary-le
 		CategoriesModule,
 		RoomDescriptionsModule,
 		TemporaryLessorsModule,
+		AdministrativeUnitModule,
+		AdministrativeRegionModule,
 	],
 	controllers: [],
 	providers: [],

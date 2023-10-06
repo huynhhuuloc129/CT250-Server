@@ -1,5 +1,7 @@
+import { Lessor } from 'src/modules/lessor/entities/lessor.entity';
+import { Tenant } from 'src/modules/tenant/entities/tenant.entity';
 import { BaseObject } from 'src/shared/entities/base-object.entity';
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, OneToOne } from 'typeorm';
 
 export enum USER_ROLE {
 	USER = 'user',
@@ -19,8 +21,8 @@ export class User extends BaseObject {
 	@Column({ unique: true })
 	email: string;
 
-	// @Column()
-	// username: string;
+	@Column()
+	username: string;
 
 	@Column()
 	password: string;
@@ -30,6 +32,15 @@ export class User extends BaseObject {
 
 	@Column()
 	fullName: string;
+
+	@Column()
+	firstName: string;
+
+	@Column()
+	lastName: string;
+
+	@Column()
+	citizenID: string;
 
 	@Column()
 	dob: Date;
@@ -51,4 +62,10 @@ export class User extends BaseObject {
 		enum: USER_ROLE,
 	})
 	role: USER_ROLE;
+
+	@OneToOne(() => Tenant, (tenant: Tenant) => tenant.user)
+	tentant: Tenant;
+
+	@OneToOne(() => Lessor, (lessor: Lessor) => lessor.user)
+	lessor: Lessor;
 }

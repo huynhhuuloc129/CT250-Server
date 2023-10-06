@@ -1,10 +1,13 @@
 import { Notification } from 'src/modules/notifications/entities/notification.entity';
+import { Review } from 'src/modules/review/entities/review.entity';
 import { RoomingHouse } from 'src/modules/rooming-houses/entities/romming-house.entity';
 import { RoomingSubscriptionRequest } from 'src/modules/rooming-subscription-requests/entities/rooming-subscription-request.entity';
 import { RoomingSubscription } from 'src/modules/rooming-subscriptions/entities/rooming-subscription.entity';
+import { Tenant } from 'src/modules/tenant/entities/tenant.entity';
+import { Utility } from 'src/modules/utility/entities/utility.entity';
 import { BaseObject } from 'src/shared/entities/base-object.entity';
 import { ROOM_STATE } from 'src/shared/enums/common.enum';
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity()
 export class Room extends BaseObject {
@@ -44,8 +47,8 @@ export class Room extends BaseObject {
 	})
 	state: ROOM_STATE;
 
-	// @ManyToOne(() => Tenant)
-	// tenant: Tenant;
+	@ManyToOne(() => Tenant, (tenant: Tenant) => tenant.room)
+	tenant: Tenant;
 
 	@ManyToOne(() => RoomingHouse)
 	roomingHouse: RoomingHouse;
@@ -59,8 +62,8 @@ export class Room extends BaseObject {
 	// @OneToMany(() => Description, (assign: Description) => assign.room)
 	// descriptions: Description[];
 
-	// @OneToMany(() => Review, (assign: Review) => assign.room)
-	// reviews: Review[];
+	@OneToMany(() => Review, (assign: Review) => assign.roomID)
+	reviews: Review[];
 
 	@OneToMany(
 		() => RoomingSubscriptionRequest,
@@ -74,16 +77,6 @@ export class Room extends BaseObject {
 	)
 	roomingSubscriptions: RoomingSubscription[];
 
-	// @ManyToMany(() => Utility, (assign: Utility) => assign.room)
-	// @JoinTable({
-	// 	name: 'room_subscription_request',
-	// 	joinColumn: {
-	// 		name: 'roomID',
-	// 		referencedColumnName: 'id',
-	// 	},
-	// 	inverseJoinColumn: {
-	// 		name: 'utilityID',
-	// 	},
-	// })
-	// Utilities?: Utility[];
+	@ManyToMany(() => Utility, (assign: Utility) => assign.rooms)
+	Utilities?: Utility[];
 }
