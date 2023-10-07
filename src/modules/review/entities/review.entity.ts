@@ -11,7 +11,7 @@ export class Review extends BaseObject {
 	@Column()
 	comment: string;
 
-	@ManyToOne(() => Room, (room: Room) => room.Utilities)
+	@ManyToOne(() => Room, (room: Room) => room.reviews)
 	room: Room;
 
 	@ManyToOne(() => Lessor, (lessor: Lessor) => lessor.reviews)
