@@ -3,18 +3,18 @@ import { Province } from 'src/modules/province/entities/province.entity';
 import {
 	Entity,
 	Column,
-	PrimaryGeneratedColumn,
 	CreateDateColumn,
 	UpdateDateColumn,
 	DeleteDateColumn,
 	JoinColumn,
 	ManyToOne,
+	PrimaryColumn,
 } from 'typeorm';
 
 @Entity({ name: 'districts' })
 export class District {
-	@PrimaryGeneratedColumn()
-	code: number;
+	@PrimaryColumn()
+	code: string;
 
 	@CreateDateColumn()
 	createdAt: Date;

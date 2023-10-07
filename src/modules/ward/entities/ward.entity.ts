@@ -3,18 +3,18 @@ import { District } from 'src/modules/district/entities/district.entity';
 import {
 	Entity,
 	Column,
-	PrimaryGeneratedColumn,
 	CreateDateColumn,
 	UpdateDateColumn,
 	DeleteDateColumn,
 	JoinColumn,
 	ManyToOne,
+	PrimaryColumn,
 } from 'typeorm';
 
 @Entity({ name: 'wards' })
 export class Ward {
-	@PrimaryGeneratedColumn()
-	code: number;
+	@PrimaryColumn()
+	code: string;
 
 	@CreateDateColumn()
 	createdAt: Date;

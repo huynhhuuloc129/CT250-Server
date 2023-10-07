@@ -3,18 +3,18 @@ import { AdministrativeUnit } from 'src/modules/administrative-unit/entities/adm
 import {
 	Entity,
 	Column,
-	PrimaryGeneratedColumn,
 	CreateDateColumn,
 	UpdateDateColumn,
 	DeleteDateColumn,
 	ManyToOne,
 	JoinColumn,
+	PrimaryColumn,
 } from 'typeorm';
 
 @Entity({ name: 'provinces' })
 export class Province {
-	@PrimaryGeneratedColumn()
-	code: number;
+	@PrimaryColumn()
+	code: string;
 
 	@CreateDateColumn()
 	createdAt: Date;

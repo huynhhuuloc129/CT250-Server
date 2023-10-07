@@ -1,8 +1,26 @@
-import { BaseObject } from 'src/shared/entities/base-object.entity';
-import { Column, Entity } from 'typeorm';
+import {
+	Column,
+	CreateDateColumn,
+	DeleteDateColumn,
+	Entity,
+	PrimaryColumn,
+	UpdateDateColumn,
+} from 'typeorm';
 
 @Entity({ name: 'administrative_regions' })
-export class AdministrativeRegion extends BaseObject {
+export class AdministrativeRegion {
+	@PrimaryColumn()
+	id: number;
+
+	@CreateDateColumn()
+	createdAt: Date;
+
+	@UpdateDateColumn()
+	updatedAt: Date;
+
+	@DeleteDateColumn()
+	deletedAt: Date;
+
 	@Column()
 	name: string;
 
