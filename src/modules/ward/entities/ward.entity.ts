@@ -46,5 +46,5 @@ export class Ward {
 
 	@ManyToOne(() => AdministrativeUnit)
 	@JoinColumn({ name: 'administrative_unit_id' })
-	adminitrativeUnitID: string;
+	administrativeUnitID: string;
 }

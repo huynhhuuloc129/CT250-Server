@@ -42,7 +42,7 @@ export class Province {
 
 	@ManyToOne(() => AdministrativeUnit)
 	@JoinColumn({ name: 'administrative_unit_id' })
-	adminitrativeUnitID: string;
+	administrativeUnitID: string;
 
 	@ManyToOne(() => AdministrativeRegion)
 	@JoinColumn({ name: 'administrative_region_id' })

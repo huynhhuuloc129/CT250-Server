@@ -46,5 +46,5 @@ export class District {
 
 	@ManyToOne(() => AdministrativeUnit)
 	@JoinColumn({ name: 'administrative_unit_id' })
-	adminitrativeUnitID: string;
+	administrativeUnitID: string;
 }
