@@ -6,8 +6,8 @@ export class Photo extends BaseObject {
 	@Column({ nullable: true })
 	name?: string;
 
-	@Column()
-	url: string;
+	@Column({ nullable: true })
+	url?: string;
 
 	@Column()
 	ownerID: string;
