@@ -14,10 +14,14 @@ import { Public } from '../auth/utils';
 import { CreateRoomingHouseDto } from './dto/create-rooming-house.dto';
 import { UpdateRoomingHouseDto } from './dto/update-rooming-house.dto';
 import { GetRoomingHouseDto } from './dto/get-rooming-house.dto';
+import { CreateRoomDto } from '../rooms/dto/create-room.dto';
+import { RoomingHousesService } from './rooming-houses.service';
 
 @Controller('rooming-houses')
 @ApiTags('rooming-houses')
 export class RoomingHousesController {
+	constructor(private readonly roomingHousesService: RoomingHousesService) {}
+
 	@Public()
 	@Get()
 	findAll(@Query() filter: GetRoomingHouseDto) {
@@ -26,15 +30,26 @@ export class RoomingHousesController {
 
 	@Public()
 	@Get(':id')
-	findOne(@Param('id', ParseIntPipe) id: number) {
-		return id;
+	async findOne(@Param('id', ParseIntPipe) id: number) {
+		return await this.roomingHousesService.findOne({ id });
 	}
 
 	@Public()
 	@Post()
 	@ApiBody({ type: CreateRoomingHouseDto })
-	create(@Body() input: CreateRoomingHouseDto) {
-		return input;
+	async create(@Body() input: CreateRoomingHouseDto) {
+		return await this.roomingHousesService.createOne(input);
+	}
+
+	@Public()
+	@Post(':id/rooms')
+	@ApiBody({ type: CreateRoomDto })
+	async createRoom(
+		@Body() input: CreateRoomDto,
+		@Param('id', ParseIntPipe) id: number,
+	) {
+		input.roomingHouseID = id;
+		return await this.roomingHousesService.createRoom(input);
 	}
 
 	@Public()

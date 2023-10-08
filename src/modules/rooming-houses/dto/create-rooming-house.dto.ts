@@ -20,10 +20,10 @@ export class CreateRoomingHouseDto {
 	@IsOptional()
 	availableRoomNumber?: number;
 
-	@ApiProperty({ default: 1 })
-	@IsNumber()
-	@Min(1)
-	communeID: number;
+	// @ApiProperty({ default: 1 })
+	// @IsNumber()
+	// @Min(1)
+	// communeID: number;
 
 	@ApiProperty({ default: 1 })
 	@IsNumber()

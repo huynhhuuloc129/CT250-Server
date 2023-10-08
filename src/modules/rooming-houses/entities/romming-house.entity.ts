@@ -9,13 +9,13 @@ export class RoomingHouse extends BaseObject {
 	@Column()
 	name: string;
 
-	@Column()
+	@Column({ nullable: true })
 	categoryID: number;
 
 	@Column()
 	address: string;
 
-	@Column()
+	@Column({ nullable: true })
 	description: string;
 
 	@Column()
