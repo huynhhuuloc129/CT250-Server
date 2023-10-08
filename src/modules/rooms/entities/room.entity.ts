@@ -47,7 +47,7 @@ export class Room extends BaseObject {
 	})
 	state: ROOM_STATE;
 
-	@ManyToOne(() => Tenant, (tenant: Tenant) => tenant.room)
+	@ManyToOne(() => Tenant)
 	tenant: Tenant;
 
 	@ManyToOne(() => RoomingHouse)
@@ -62,7 +62,7 @@ export class Room extends BaseObject {
 	// @OneToMany(() => Description, (assign: Description) => assign.room)
 	// descriptions: Description[];
 
-	@OneToMany(() => Review, (assign: Review) => assign.roomID)
+	@OneToMany(() => Review, (assign: Review) => assign.room)
 	reviews: Review[];
 
 	@OneToMany(
