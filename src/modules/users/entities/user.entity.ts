@@ -21,7 +21,7 @@ export class User extends BaseObject {
 	@Column({ unique: true })
 	email: string;
 
-	@Column()
+	@Column({ unique: true })
 	username: string;
 
 	@Column()

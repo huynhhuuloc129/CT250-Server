@@ -4,7 +4,7 @@ import { Entity, Column, ManyToMany } from 'typeorm';
 
 @Entity()
 export class Utility extends BaseObject {
-	@Column()
+	@Column({ unique: true })
 	name: string;
 
 	@Column({ nullable: true })
