@@ -1,19 +1,31 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Patch, Delete, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { Public } from '../auth/utils';
 
 @Controller('users')
 @ApiTags('users')
 export class UsersController {
-	@Public()
-	@Get('')
-	getListUsers() {
+	@Get()
+	getMany() {
 		return 'get list user';
 	}
 
-	@Public()
-	@Get(':id')
-	getUser() {
+	@Get(':userID')
+	getOneByID() {
 		return 'get user by id';
+	}
+
+	@Post()
+	createOne() {
+		return 'createOne';
+	}
+
+	@Patch(':userID')
+	updateOneByID() {
+		return 'updateOne';
+	}
+
+	@Delete(':userID')
+	deleteOneByID() {
+		return 'updateOne';
 	}
 }
