@@ -42,9 +42,9 @@ export class Ward {
 
 	@ManyToOne(() => District)
 	@JoinColumn({ name: 'district_code' })
-	districtCode: string;
+	districtCode: District;
 
 	@ManyToOne(() => AdministrativeUnit)
 	@JoinColumn({ name: 'administrative_unit_id' })
-	administrativeUnitID: string;
+	administrativeUnitID: AdministrativeUnit;
 }
