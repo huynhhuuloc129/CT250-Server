@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { USER_GENDER } from '../entities/user.entity';
+import { USER_GENDER, USER_ROLE } from '../entities/user.entity';
 import {
 	IsOptional,
 	IsString,
@@ -21,13 +21,18 @@ export class CreateUserDto {
 
 	@ApiProperty()
 	@IsOptional()
-	@IsString()
-	email?: string;
+	@IsEnum(USER_ROLE)
+	role?: USER_ROLE;
 
 	@ApiProperty()
 	@IsOptional()
 	@IsString()
-	fullName?: string;
+	email?: string;
+
+	// @ApiProperty()
+	// @IsOptional()
+	// @IsString()
+	// fullName?: string;
 
 	@ApiProperty()
 	@IsOptional()

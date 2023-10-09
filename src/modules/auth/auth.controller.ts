@@ -9,8 +9,18 @@ export class AuthController {
 		return 'login here';
 	}
 
-	@Post('signup')
-	signup() {
+	@Post('signup-user')
+	signupUser() {
+		return 'signup here';
+	}
+
+	@Post('signup-tenant')
+	signupTenant() {
+		return 'signup here';
+	}
+
+	@Post('signup-lessor')
+	signupLessor() {
 		return 'signup here';
 	}
 
