@@ -19,6 +19,6 @@ export class RoomingHousesService extends BaseService<RoomingHouse> {
 
 	async createRoom(input: CreateRoomDto) {
 		input.state = ROOM_STATE.AVAILABLE;
-		return await this.roomService.createOne(input);
+		return true;
 	}
 }

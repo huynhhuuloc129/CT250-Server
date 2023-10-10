@@ -74,9 +74,10 @@ export class CreateRoomDto {
 			},
 		] as CreateRoomDescriptionDto[],
 	})
+	@IsOptional()
 	@Type(() => CreateRoomDescriptionDto)
 	@ValidateNested({ each: true })
 	@IsArray()
 	@ArrayMinSize(0)
-	descriptions: CreateRoomDescriptionDto[];
+	descriptions?: CreateRoomDescriptionDto[];
 }
