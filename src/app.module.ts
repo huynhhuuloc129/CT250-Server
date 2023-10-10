@@ -7,6 +7,15 @@ import { appConfig } from './app.config';
 import { BullModule } from '@nestjs/bull';
 import { CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-store';
+import { AdminModule } from './modules/admin/admin.module';
+import { LessorModule } from './modules/lessor/lessor.module';
+import { ReviewModule } from './modules/review/review.module';
+import { UtilityModule } from './modules/utility/utility.module';
+import { PhotoModule } from './modules/photo/photo.module';
+import { WardModule } from './modules/ward/ward.module';
+import { DistrictModule } from './modules/district/district.module';
+import { ProvinceModule } from './modules/province/province.module';
+import { TenantModule } from './modules/tenant/tenant.module';
 import { RoomingHousesModule } from './modules/rooming-houses/rooming-houses.module';
 import { RoomsModule } from './modules/rooms/rooms.module';
 import { RoomingSubscriptionsModule } from './modules/rooming-subscriptions/rooming-subscriptions.module';
@@ -16,6 +25,8 @@ import { RoomingSubscriptionRequestsModule } from './modules/rooming-subscriptio
 import { CategoriesModule } from './modules/categories/categories.module';
 import { RoomDescriptionsModule } from './modules/room-descriptions/room-descriptions.module';
 import { TemporaryLessorsModule } from './modules/temporary-lessors/temporary-lessors.module';
+import { AdministrativeUnitModule } from './modules/administrative-unit/administrative-unit.module';
+import { AdministrativeRegionModule } from './modules/administrative-region/administrative-region.module';
 @Module({
 	imports: [
 		TypeOrmModule.forRootAsync({
@@ -59,6 +70,15 @@ import { TemporaryLessorsModule } from './modules/temporary-lessors/temporary-le
 		}),
 		AuthModule,
 		UsersModule,
+		AdminModule,
+		LessorModule,
+		TenantModule,
+		ProvinceModule,
+		DistrictModule,
+		WardModule,
+		PhotoModule,
+		UtilityModule,
+		ReviewModule,
 		RoomingHousesModule,
 		RoomsModule,
 		RoomingSubscriptionsModule,
@@ -68,6 +88,8 @@ import { TemporaryLessorsModule } from './modules/temporary-lessors/temporary-le
 		CategoriesModule,
 		RoomDescriptionsModule,
 		TemporaryLessorsModule,
+		AdministrativeUnitModule,
+		AdministrativeRegionModule,
 	],
 	controllers: [],
 	providers: [],
