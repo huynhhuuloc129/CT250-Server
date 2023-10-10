@@ -1,7 +1,9 @@
 import { Category } from 'src/modules/categories/entities/category.entity';
 import { Notification } from 'src/modules/notifications/entities/notification.entity';
+import { Photo } from 'src/modules/photo/entities/photo.entity';
 import { Room } from 'src/modules/rooms/entities/room.entity';
 import { Tenant } from 'src/modules/tenant/entities/tenant.entity';
+import { Ward } from 'src/modules/ward/entities/ward.entity';
 import { BaseObject } from 'src/shared/entities/base-object.entity';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 
@@ -11,19 +13,10 @@ export class RoomingHouse extends BaseObject {
 	name: string;
 
 	@Column()
-	categoryID: number;
-
-	@Column()
 	address: string;
 
 	@Column()
 	description: string;
-
-	@Column()
-	tenantID: number;
-
-	@Column()
-	communeID: number;
 
 	@Column()
 	availableRoomNumber: number;
@@ -34,13 +27,13 @@ export class RoomingHouse extends BaseObject {
 	@Column()
 	paymentExpiresDate: Date;
 
-	@ManyToOne(() => Tenant)
+	@ManyToOne(() => Tenant, (assign: Tenant) => assign.roomingHouses)
 	tenant: Tenant;
 
-	// @ManyToOne(() => Commune)
-	// commune: Commune;
+	@ManyToOne(() => Ward)
+	ward: Ward;
 
-	@ManyToOne(() => Category)
+	@ManyToOne(() => Category, (assign: Category) => assign.roomingHouses)
 	category: Category;
 
 	@OneToMany(() => Notification, (assign: Notification) => assign.roomingHouse)
@@ -49,6 +42,6 @@ export class RoomingHouse extends BaseObject {
 	@OneToMany(() => Room, (assign: Room) => assign.roomingHouse)
 	rooms: Room[];
 
-	// @OneToMany(() => Photo, (assign: Photo) => assign.roomingHouse)
-	// photos: Photo[];
+	@OneToMany(() => Photo, (assign: Photo) => assign.ownerID, {})
+	photos: Photo[];
 }
