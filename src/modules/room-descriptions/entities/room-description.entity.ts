@@ -5,14 +5,11 @@ import { Column, Entity, ManyToOne } from 'typeorm';
 @Entity()
 export class RoomDescription extends BaseObject {
 	@Column()
-	roomID: number;
-
-	@Column()
 	title: string;
 
 	@Column()
 	content: string;
 
-	@ManyToOne(() => Room)
+	@ManyToOne(() => Room, (assign: Room) => assign.descriptions)
 	room: Room;
 }

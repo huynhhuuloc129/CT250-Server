@@ -5,9 +5,6 @@ import { Column, Entity, ManyToOne } from 'typeorm';
 @Entity()
 export class TemporaryLessor extends BaseObject {
 	@Column()
-	roomingSubscriptionID: number;
-
-	@Column()
 	fullName: string;
 
 	@Column()
@@ -19,6 +16,9 @@ export class TemporaryLessor extends BaseObject {
 	@Column()
 	endDate: Date;
 
-	@ManyToOne(() => RoomingSubscription)
+	@ManyToOne(
+		() => RoomingSubscription,
+		(assign: RoomingSubscription) => assign.temporaryLessors,
+	)
 	roomingSubscription: RoomingSubscription;
 }

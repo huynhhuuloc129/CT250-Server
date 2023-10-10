@@ -1,6 +1,7 @@
 import { Notification } from 'src/modules/notifications/entities/notification.entity';
-import { RoomDescription } from 'src/modules/room-descriptions/entities/room-description.entity';
+import { Photo } from 'src/modules/photo/entities/photo.entity';
 import { Review } from 'src/modules/review/entities/review.entity';
+import { RoomDescription } from 'src/modules/room-descriptions/entities/room-description.entity';
 import { RoomingHouse } from 'src/modules/rooming-houses/entities/romming-house.entity';
 import { RoomingSubscriptionRequest } from 'src/modules/rooming-subscription-requests/entities/rooming-subscription-request.entity';
 import { RoomingSubscription } from 'src/modules/rooming-subscriptions/entities/rooming-subscription.entity';
@@ -21,12 +22,6 @@ import {
 export class Room extends BaseObject {
 	@Column()
 	name: string;
-
-	@Column()
-	tenantID: number;
-
-	@Column()
-	roomingHouseID: number;
 
 	@Column()
 	width: number;
@@ -66,8 +61,8 @@ export class Room extends BaseObject {
 	@OneToMany(() => Notification, (assign: Notification) => assign.room)
 	notifications: Notification[];
 
-	// @OneToMany(() => Photo, (assign: Photo) => assign.room)
-	// photos: Photo[];
+	@OneToMany(() => Photo, (assign: Photo) => assign.ownerID)
+	photos: Photo[];
 
 	@OneToMany(() => RoomDescription, (assign: RoomDescription) => assign.room)
 	descriptions: RoomDescription[];

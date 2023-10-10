@@ -6,21 +6,18 @@ import { Column, Entity, ManyToOne } from 'typeorm';
 
 @Entity()
 export class RoomingSubscriptionRequest extends BaseObject {
-	@Column()
-	lessorID: number;
-
-	@Column()
-	roomID: number;
-
 	@Column({
 		type: 'enum',
 		enum: ROOMING_SUBSCRIPTION_REQUEST_STATE,
 	})
 	state: ROOMING_SUBSCRIPTION_REQUEST_STATE;
 
-	@ManyToOne(() => Lessor, (assign) => assign.roomingSubscriptionRequests)
+	@ManyToOne(
+		() => Lessor,
+		(assign: Lessor) => assign.roomingSubscriptionRequests,
+	)
 	lessor: Lessor;
 
-	@ManyToOne(() => Room)
+	@ManyToOne(() => Room, (assign: Room) => assign.roomingSubscriptionRequests)
 	room: Room;
 }
