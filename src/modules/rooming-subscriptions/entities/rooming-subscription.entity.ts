@@ -1,3 +1,4 @@
+import { Lessor } from 'src/modules/lessor/entities/lessor.entity';
 import { PaymentRecord } from 'src/modules/payment-records/entities/payment-record.entity';
 import { Room } from 'src/modules/rooms/entities/room.entity';
 import { TemporaryLessor } from 'src/modules/temporary-lessors/entities/temporary-lessor.entity';
@@ -31,8 +32,8 @@ export class RoomingSubscription extends BaseObject {
 	})
 	state: ROOMING_SUBSCRIPTION_STATE;
 
-	// @ManyToOne(() => Tenant)
-	// tenant: Tenant;
+	@ManyToOne(() => Lessor, (assign: Lessor) => assign.roomingSubscriptions)
+	lessor: Lessor;
 
 	@ManyToOne(() => Room)
 	room: Room;
