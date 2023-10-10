@@ -10,7 +10,7 @@ export class GetTemporaryLessorDto extends DefaultListDto {
 	@IsOptional()
 	@Type(() => Number)
 	@IsNumber()
-	roomingSubscriptionID?: number;
+	roomingSubscriptionId?: number;
 
 	@ApiProperty({
 		required: false,
@@ -26,7 +26,7 @@ export class GetTemporaryLessorDto extends DefaultListDto {
 	@IsOptional()
 	@Type(() => String)
 	@IsString()
-	citizenID?: string;
+	citizenId?: string;
 
 	@ApiProperty({
 		required: false,

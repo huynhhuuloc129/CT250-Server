@@ -5,7 +5,7 @@ import { ROOMING_SUBSCRIPTION_STATE } from 'src/shared/enums/common.enum';
 export class CreateRoomingSubscriptionDto {
 	@ApiHideProperty()
 	@IsOptional()
-	lessorID: number;
+	lessorId: number;
 
 	@ApiHideProperty()
 	@IsOptional()
@@ -17,7 +17,7 @@ export class CreateRoomingSubscriptionDto {
 
 	@ApiHideProperty()
 	@IsOptional()
-	roomID: number;
+	roomId: number;
 
 	@ApiProperty()
 	@IsDateString()

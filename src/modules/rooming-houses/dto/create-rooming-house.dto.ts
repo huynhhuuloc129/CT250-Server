@@ -10,7 +10,7 @@ import {
 export class CreateRoomingHouseDto {
 	@ApiHideProperty()
 	@IsOptional()
-	tenantID?: number;
+	tenantId?: number;
 
 	@ApiHideProperty()
 	@IsOptional()
@@ -20,15 +20,16 @@ export class CreateRoomingHouseDto {
 	@IsOptional()
 	availableRoomNumber?: number;
 
+	//NOTE: wardCode
 	// @ApiProperty({ default: 1 })
 	// @IsNumber()
 	// @Min(1)
-	// communeID: number;
+	// wardcode: number;
 
 	@ApiProperty({ default: 1 })
 	@IsNumber()
 	@Min(1)
-	categoryID: number;
+	categoryId: number;
 
 	@ApiProperty()
 	@IsString()

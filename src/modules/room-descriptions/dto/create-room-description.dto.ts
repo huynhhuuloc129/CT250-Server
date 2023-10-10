@@ -4,7 +4,7 @@ import { IsOptional, IsString } from 'class-validator';
 export class CreateRoomDescriptionDto {
 	@ApiHideProperty()
 	@IsOptional()
-	roomID?: string;
+	roomId?: string;
 
 	@ApiProperty()
 	@IsString()

@@ -11,7 +11,7 @@ export class GetRoomingSubscriptionRequestDto extends DefaultListDto {
 	@IsOptional()
 	@Type(() => Number)
 	@IsNumber()
-	roomID?: number;
+	roomId?: number;
 
 	@ApiProperty({
 		required: false,

@@ -11,7 +11,7 @@ export class GetNotificationDto extends DefaultListDto {
 	@IsOptional()
 	@Type(() => Number)
 	@IsNumber()
-	roomingHouseID?: number;
+	roomingHouseId?: number;
 
 	@ApiProperty({
 		required: false,
@@ -19,7 +19,7 @@ export class GetNotificationDto extends DefaultListDto {
 	@IsOptional()
 	@Type(() => Number)
 	@IsNumber()
-	roomID?: number;
+	roomId?: number;
 
 	@ApiProperty({
 		required: false,

@@ -4,7 +4,7 @@ import { IsDateString, IsOptional, IsString, MaxLength } from 'class-validator';
 export class CreateTemporaryLessorDto {
 	@ApiHideProperty()
 	@IsOptional()
-	roomingSubscriptionID: number;
+	roomingSubscriptionId: number;
 
 	@ApiProperty()
 	@IsString()
@@ -14,7 +14,7 @@ export class CreateTemporaryLessorDto {
 	@ApiProperty()
 	@IsString()
 	@MaxLength(12)
-	citizenID: string;
+	citizenId: string;
 
 	@ApiProperty()
 	@IsDateString()

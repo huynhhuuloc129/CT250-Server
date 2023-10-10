@@ -11,31 +11,30 @@ import { PAYMENT_STATE } from 'src/shared/enums/common.enum';
 export class CreatePaymentRecordDto {
 	@ApiHideProperty()
 	@IsOptional()
-	@IsNumber()
-	@Min(1)
-	roomingSubscriptionID?: number;
+	roomingSubscriptionId?: number;
 
 	@ApiHideProperty()
 	@IsOptional()
-	@IsNumber()
 	month?: number;
 
 	@ApiHideProperty()
 	@IsOptional()
-	@IsNumber()
 	year?: number;
 
 	@ApiProperty()
 	@IsNumber()
+	@Min(0)
 	waterAmount: number;
 
 	@ApiProperty()
 	@IsNumber()
+	@Min(0)
 	electricityAmount: number;
 
 	@ApiProperty()
 	@IsOptional()
 	@IsNumber()
+	@Min(0)
 	surcharge?: number;
 
 	@ApiProperty()

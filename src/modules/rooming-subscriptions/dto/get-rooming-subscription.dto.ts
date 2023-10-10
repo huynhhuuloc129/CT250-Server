@@ -11,7 +11,15 @@ export class GetNotificationDto extends DefaultListDto {
 	@IsOptional()
 	@Type(() => Number)
 	@IsNumber()
-	roomID?: number;
+	lessorId?: number;
+
+	@ApiProperty({
+		required: false,
+	})
+	@IsOptional()
+	@Type(() => Number)
+	@IsNumber()
+	roomId?: number;
 
 	@ApiProperty({
 		required: false,

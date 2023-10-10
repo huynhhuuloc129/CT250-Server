@@ -1,17 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsNumber, IsString, Min } from 'class-validator';
+import { IsEnum, IsNumber, IsOptional, IsString, Min } from 'class-validator';
 import { NOTIFICATION_TYPE } from 'src/shared/enums/common.enum';
 
 export class CreateNotificationDto {
 	@ApiProperty()
 	@IsNumber()
 	@Min(1)
-	roomingHouseID: number;
+	roomingHouseId: number;
 
 	@ApiProperty()
+	@IsOptional()
 	@IsNumber()
 	@Min(1)
-	roomID: number;
+	roomId?: number;
 
 	@ApiProperty()
 	@IsString()

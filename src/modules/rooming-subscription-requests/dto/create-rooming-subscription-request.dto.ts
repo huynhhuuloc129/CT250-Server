@@ -5,11 +5,11 @@ import { ROOMING_SUBSCRIPTION_REQUEST_STATE } from 'src/shared/enums/common.enum
 export class CreateRoomingSubscriptionRequestDto {
 	@ApiHideProperty()
 	@IsOptional()
-	lessorID: number;
+	lessorId: number;
 
 	@ApiHideProperty()
 	@IsOptional()
-	roomID: number;
+	roomId: number;
 
 	@ApiProperty({
 		enum: ROOMING_SUBSCRIPTION_REQUEST_STATE,

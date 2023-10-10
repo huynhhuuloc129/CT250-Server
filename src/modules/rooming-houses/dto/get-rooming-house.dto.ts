@@ -10,7 +10,7 @@ export class GetRoomingHouseDto extends DefaultListDto {
 	@IsOptional()
 	@Type(() => String)
 	@IsString()
-	categoryID?: string;
+	categoryId?: string;
 
 	@ApiProperty({
 		required: false,
@@ -18,13 +18,13 @@ export class GetRoomingHouseDto extends DefaultListDto {
 	@IsOptional()
 	@Type(() => String)
 	@IsString()
-	tenantID?: string;
+	tenantId?: string;
 
-	@ApiProperty({
-		required: false,
-	})
-	@IsOptional()
-	@Type(() => String)
-	@IsString()
-	communeID?: string;
+	// @ApiProperty({
+	// 	required: false,
+	// })
+	// @IsOptional()
+	// @Type(() => String)
+	// @IsString()
+	// communeId?: string;
 }
