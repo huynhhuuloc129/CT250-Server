@@ -7,48 +7,49 @@ import {
 	ParseIntPipe,
 	Patch,
 	Post,
-	Query,
 } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { Public } from '../auth/utils';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
-import { DefaultListDto } from 'src/shared/dtos/default-list.dto';
+import { CategoriesService } from './categories.service';
 
 @Controller('categories')
 @ApiTags('categories')
 export class CategoriesController {
+	constructor(private readonly categoryService: CategoriesService) {}
+
 	@Public()
 	@Get()
-	findAll(@Query() filter: DefaultListDto) {
-		return filter;
+	async findAllData() {
+		return await this.categoryService.findAllData({});
 	}
 
 	@Public()
 	@Get(':id')
-	findOne(@Param('id', ParseIntPipe) id: number) {
-		return id;
+	async findOne(@Param('id', ParseIntPipe) id: number) {
+		return await this.categoryService.findOne({ id });
 	}
 
 	@Public()
 	@Post()
 	@ApiBody({ type: CreateCategoryDto })
-	create(@Body() input: CreateCategoryDto) {
-		return input;
+	async create(@Body() input: CreateCategoryDto) {
+		return await this.categoryService.createOne(input);
 	}
 
 	@Public()
 	@Patch(':id')
-	update(
+	async update(
 		@Param('id', ParseIntPipe) id: number,
-		@Body() updateCategoryDto: UpdateCategoryDto,
+		@Body() input: UpdateCategoryDto,
 	) {
-		return updateCategoryDto;
+		return await this.categoryService.updateOne({ id }, input);
 	}
 
 	@Public()
 	@Delete(':id')
-	remove(@Param('id', ParseIntPipe) id: number) {
-		return id;
+	async remove(@Param('id', ParseIntPipe) id: number) {
+		return await this.categoryService.deleteOne({ id });
 	}
 }

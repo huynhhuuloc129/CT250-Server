@@ -4,7 +4,7 @@ import { IsEnum, IsNumber, IsOptional } from 'class-validator';
 import { DefaultListDto } from 'src/shared/dtos/default-list.dto';
 import { ROOM_STATE } from 'src/shared/enums/common.enum';
 
-export class RoomDto extends DefaultListDto {
+export class GetRoomDto extends DefaultListDto {
 	@ApiProperty({
 		required: false,
 	})

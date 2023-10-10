@@ -16,6 +16,7 @@ import { UpdateRoomingHouseDto } from './dto/update-rooming-house.dto';
 import { GetRoomingHouseDto } from './dto/get-rooming-house.dto';
 import { CreateRoomDto } from '../rooms/dto/create-room.dto';
 import { RoomingHousesService } from './rooming-houses.service';
+import { GetRoomDto } from '../rooms/dto/get-room.dto';
 
 @Controller('rooming-houses')
 @ApiTags('rooming-houses')
@@ -24,8 +25,8 @@ export class RoomingHousesController {
 
 	@Public()
 	@Get()
-	findAll(@Query() filter: GetRoomingHouseDto) {
-		return filter;
+	async findAll(@Query() filter: GetRoomingHouseDto) {
+		return await this.roomingHousesService.findAll(filter);
 	}
 
 	@Public()
@@ -38,32 +39,43 @@ export class RoomingHousesController {
 	@Post()
 	@ApiBody({ type: CreateRoomingHouseDto })
 	async create(@Body() input: CreateRoomingHouseDto) {
+		//TODO: add tenant
 		return await this.roomingHousesService.createOne(input);
 	}
 
 	@Public()
-	@Post(':id/rooms')
-	@ApiBody({ type: CreateRoomDto })
-	async createRoom(
-		@Body() input: CreateRoomDto,
-		@Param('id', ParseIntPipe) id: number,
-	) {
-		input.roomingHouseID = id;
-		return await this.roomingHousesService.createRoom(input);
-	}
-
-	@Public()
 	@Patch(':id')
-	update(
+	async update(
 		@Param('id', ParseIntPipe) id: number,
-		@Body() updateCategoryDto: UpdateRoomingHouseDto,
+		@Body() input: UpdateRoomingHouseDto,
 	) {
-		return updateCategoryDto;
+		return await this.roomingHousesService.updateOne({ id }, input);
 	}
 
 	@Public()
 	@Delete(':id')
-	remove(@Param('id', ParseIntPipe) id: number) {
+	async remove(@Param('id', ParseIntPipe) id: number) {
+		//TODO: delete room before deleting roomingHouse
 		return id;
+	}
+
+	//NOTE: ROOM
+	@Public()
+	@Post(':roomingHouseId/rooms')
+	@ApiBody({ type: CreateRoomDto })
+	async createRoom(
+		@Param('roomingHouseId', ParseIntPipe) roomingHouseId: number,
+		@Body() input: CreateRoomDto,
+	) {
+		return await this.roomingHousesService.createRoom(roomingHouseId, input);
+	}
+
+	@Public()
+	@Get(':roomingHouseId/rooms')
+	async findManyRoom(
+		@Param('roomingHouseId', ParseIntPipe) roomingHouseId: number,
+		@Query() filter: GetRoomDto,
+	) {
+		return await this.roomingHousesService.findManyRoom(roomingHouseId, filter);
 	}
 }

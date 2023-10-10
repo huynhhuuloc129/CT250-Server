@@ -5,22 +5,24 @@ import {
 	Param,
 	ParseIntPipe,
 	Patch,
+	Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Public } from '../auth/utils';
 import { UpdateRoomDto } from './dto/update-room.dto';
 import { RoomsService } from './rooms.service';
+import { GetRoomDto } from './dto/get-room.dto';
 
 @Controller('rooms')
 @ApiTags('rooms')
 export class RoomsController {
 	constructor(private readonly roomService: RoomsService) {}
 
-	// @Public()
-	// @Get()
-	// findAll(@Query() filter: GetRoomingHouseDto) {
-	// 	return filter;
-	// }
+	@Public()
+	@Get()
+	async findAll(@Query() filter: GetRoomDto) {
+		return await this.roomService.findAll(filter);
+	}
 
 	@Public()
 	@Get(':id')
@@ -30,29 +32,6 @@ export class RoomsController {
 			relations: { roomingHouse: true },
 		});
 	}
-
-	@Public()
-	@Get(':id/secondDescriptionOfRoom')
-	async secondDescriptionOfRoom(@Param('id', ParseIntPipe) id: number) {
-		return await this.roomService.secondDescriptionOfRoom(id);
-	}
-
-	// @Public()
-	// @Post()
-	// @ApiBody({ type: CreateRoomingHouseDto })
-	// create(@Body() input: CreateRoomingHouseDto) {
-	// 	return input;
-	// }
-
-	// @Public()
-	// @Post(':id/rooms')
-	// @ApiBody({ type: CreateRoomDto })
-	// createRoom(
-	// 	@Body() input: CreateRoomDto,
-	// 	@Param('id', ParseIntPipe) id: number,
-	// ) {
-	// 	return { id, input };
-	// }
 
 	@Public()
 	@Patch(':id')
