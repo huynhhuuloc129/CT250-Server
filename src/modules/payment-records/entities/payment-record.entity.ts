@@ -12,9 +12,6 @@ export class PaymentRecord extends BaseObject {
 	year: number;
 
 	@Column()
-	roomingSubscriptionID: number;
-
-	@Column()
 	waterAmount: number;
 
 	@Column()
@@ -44,6 +41,9 @@ export class PaymentRecord extends BaseObject {
 	})
 	state: PAYMENT_STATE;
 
-	@ManyToOne(() => RoomingSubscription)
+	@ManyToOne(
+		() => RoomingSubscription,
+		(assign: RoomingSubscription) => assign.paymentRecords,
+	)
 	roomingSubscription: RoomingSubscription;
 }
