@@ -12,21 +12,15 @@ export class Notification extends BaseObject {
 	@Column()
 	content: string;
 
-	@Column()
-	roomingHouseID: number;
-
-	@Column({ nullable: true })
-	roomID: number;
-
 	@Column({
 		type: 'enum',
 		enum: NOTIFICATION_TYPE,
 	})
 	type: NOTIFICATION_TYPE;
 
-	@ManyToOne(() => RoomingHouse)
+	@ManyToOne(() => RoomingHouse, (assign: RoomingHouse) => assign.notifications)
 	roomingHouse: RoomingHouse;
 
-	@ManyToOne(() => Room)
+	@ManyToOne(() => Room, (assign: Room) => assign.notifications)
 	room: Room;
 }
