@@ -27,7 +27,7 @@ export class GetPaymentRecordDto extends DefaultListDto {
 	@IsOptional()
 	@Type(() => Number)
 	@IsNumber()
-	roomId?: number;
+	roomingSubscriptionId?: number;
 
 	@ApiProperty({
 		required: false,

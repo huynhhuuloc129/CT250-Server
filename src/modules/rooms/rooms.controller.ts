@@ -1,6 +1,7 @@
 import {
 	Body,
 	Controller,
+	Delete,
 	Get,
 	Param,
 	ParseIntPipe,
@@ -35,16 +36,16 @@ export class RoomsController {
 
 	@Public()
 	@Patch(':id')
-	update(
+	async update(
 		@Param('id', ParseIntPipe) id: number,
-		@Body() updateRoomDto: UpdateRoomDto,
+		@Body() input: UpdateRoomDto,
 	) {
-		return { id, updateRoomDto };
+		return await this.roomService.updateOne({ id }, input);
 	}
 
-	// @Public()
-	// @Delete(':id')
-	// remove(@Param('id', ParseIntPipe) id: number) {
-	// 	return id;
-	// }
+	@Public()
+	@Delete(':id')
+	async remove(@Param('id', ParseIntPipe) id: number) {
+		return await this.roomService.deleteOne({ id });
+	}
 }

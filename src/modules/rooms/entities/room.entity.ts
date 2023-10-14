@@ -9,17 +9,16 @@ import { Tenant } from 'src/modules/tenant/entities/tenant.entity';
 import { Utility } from 'src/modules/utility/entities/utility.entity';
 import { BaseObject } from 'src/shared/entities/base-object.entity';
 import { ROOM_STATE } from 'src/shared/enums/common.enum';
-import {
-	Column,
-	Entity,
-	JoinColumn,
-	ManyToMany,
-	ManyToOne,
-	OneToMany,
-} from 'typeorm';
+import { Column, Entity, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity()
 export class Room extends BaseObject {
+	@Column()
+	tenantId: number;
+
+	@Column()
+	roomingHouseId: number;
+
 	@Column()
 	name: string;
 
@@ -51,11 +50,9 @@ export class Room extends BaseObject {
 	state: ROOM_STATE;
 
 	@ManyToOne(() => Tenant)
-	@JoinColumn({ name: 'tenantID' })
 	tenant: Tenant;
 
 	@ManyToOne(() => RoomingHouse)
-	@JoinColumn({ name: 'roomingHouseID' })
 	roomingHouse: RoomingHouse;
 
 	@OneToMany(() => Notification, (assign: Notification) => assign.room)

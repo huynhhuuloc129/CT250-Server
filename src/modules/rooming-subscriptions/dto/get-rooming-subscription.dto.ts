@@ -4,7 +4,7 @@ import { IsDate, IsEnum, IsNumber, IsOptional } from 'class-validator';
 import { DefaultListDto } from 'src/shared/dtos/default-list.dto';
 import { ROOMING_SUBSCRIPTION_STATE } from 'src/shared/enums/common.enum';
 
-export class GetNotificationDto extends DefaultListDto {
+export class GetRoomingSubscriptionDto extends DefaultListDto {
 	@ApiProperty({
 		required: false,
 	})

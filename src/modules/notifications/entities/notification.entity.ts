@@ -7,6 +7,12 @@ import { Column, Entity, ManyToOne } from 'typeorm';
 @Entity()
 export class Notification extends BaseObject {
 	@Column()
+	roomingHouseId: number;
+
+	@Column({ nullable: true })
+	roomId: number;
+
+	@Column()
 	title: string;
 
 	@Column()

@@ -56,7 +56,7 @@ export class RoomingHousesController {
 	@Delete(':id')
 	async remove(@Param('id', ParseIntPipe) id: number) {
 		//TODO: delete room before deleting roomingHouse
-		return id;
+		return await this.roomingHousesService.deleteOne({ id });
 	}
 
 	//NOTE: ROOM
@@ -67,6 +67,7 @@ export class RoomingHousesController {
 		@Param('roomingHouseId', ParseIntPipe) roomingHouseId: number,
 		@Body() input: CreateRoomDto,
 	) {
+		//TODO: create many room description
 		return await this.roomingHousesService.createRoom(roomingHouseId, input);
 	}
 

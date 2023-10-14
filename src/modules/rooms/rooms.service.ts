@@ -9,9 +9,9 @@ import { GetRoomDto } from './dto/get-room.dto';
 export class RoomsService extends BaseService<Room> {
 	constructor(
 		@InjectRepository(Room)
-		private RoomRepository: Repository<Room>,
+		private roomRepository: Repository<Room>,
 	) {
-		super(RoomRepository);
+		super(roomRepository);
 	}
 
 	async findManyRoom(roomingHouseId: number, filter: GetRoomDto) {
@@ -38,10 +38,10 @@ export class RoomsService extends BaseService<Room> {
 			where['roomingHouseId'] = roomingHouseId;
 
 			const [count, data] = await Promise.all([
-				this.RoomRepository.count({
+				this.roomRepository.count({
 					where,
 				}),
-				this.RoomRepository.find({
+				this.roomRepository.find({
 					where,
 					order,
 					take: limit ? (limit <= 100 ? limit : 100) : 10,

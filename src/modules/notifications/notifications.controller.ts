@@ -14,41 +14,44 @@ import { Public } from '../auth/utils';
 import { GetNotificationDto } from './dto/get-notification.dto';
 import { CreateNotificationDto } from './dto/create-notification.dto';
 import { UpdateNotificationDto } from './dto/update-notification.dto';
+import { NotificationsService } from './notification.service';
 
 @Controller('notifications')
 @ApiTags('notifications')
 export class NotificationsController {
+	constructor(private readonly notificationService: NotificationsService) {}
+
 	@Public()
 	@Get()
-	findAll(@Query() filter: GetNotificationDto) {
-		return filter;
+	async findAll(@Query() filter: GetNotificationDto) {
+		return await this.notificationService.findAll(filter);
 	}
 
 	@Public()
 	@Get(':id')
-	findOne(@Param('id', ParseIntPipe) id: number) {
-		return id;
+	async findOne(@Param('id', ParseIntPipe) id: number) {
+		return await this.notificationService.findOne({ id });
 	}
 
 	@Public()
 	@Post()
 	@ApiBody({ type: CreateNotificationDto })
-	create(@Body() input: CreateNotificationDto) {
-		return input;
+	async create(@Body() input: CreateNotificationDto) {
+		return await this.notificationService.createOne(input);
 	}
 
 	@Public()
 	@Patch(':id')
-	update(
+	async update(
 		@Param('id', ParseIntPipe) id: number,
-		@Body() updateCategoryDto: UpdateNotificationDto,
+		@Body() input: UpdateNotificationDto,
 	) {
-		return updateCategoryDto;
+		return await this.notificationService.updateOne({ id }, input);
 	}
 
 	@Public()
 	@Delete(':id')
-	remove(@Param('id', ParseIntPipe) id: number) {
-		return id;
+	async remove(@Param('id', ParseIntPipe) id: number) {
+		return await this.notificationService.deleteOne({ id });
 	}
 }

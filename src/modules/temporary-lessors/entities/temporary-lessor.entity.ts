@@ -5,6 +5,9 @@ import { Column, Entity, ManyToOne } from 'typeorm';
 @Entity()
 export class TemporaryLessor extends BaseObject {
 	@Column()
+	roomingSubscriptionId: number;
+
+	@Column()
 	fullName: string;
 
 	@Column()

@@ -9,8 +9,8 @@ import {
 	Min,
 	ValidateNested,
 } from 'class-validator';
-import { CreateRoomDescriptionDto } from 'src/modules/room-descriptions/dto/create-room-description.dto';
 import { ROOM_STATE } from 'src/shared/enums/common.enum';
+import { RoomDescriptionDto } from './room-description.dto';
 
 export class CreateRoomDto {
 	@ApiHideProperty()
@@ -63,7 +63,7 @@ export class CreateRoomDto {
 	summary: string;
 
 	@ApiProperty({
-		type: [CreateRoomDescriptionDto],
+		type: [RoomDescriptionDto],
 		example: [
 			{
 				title: 'Trọ không ngập nước',
@@ -72,12 +72,12 @@ export class CreateRoomDto {
 				title: 'Phòng có gác',
 				content: 'Phòng có gác lửng với diện tích bằng nửa diện tích sàn',
 			},
-		] as CreateRoomDescriptionDto[],
+		] as RoomDescriptionDto[],
 	})
 	@IsOptional()
-	@Type(() => CreateRoomDescriptionDto)
+	@Type(() => RoomDescriptionDto)
 	@ValidateNested({ each: true })
 	@IsArray()
 	@ArrayMinSize(0)
-	descriptions?: CreateRoomDescriptionDto[];
+	descriptions?: RoomDescriptionDto[];
 }

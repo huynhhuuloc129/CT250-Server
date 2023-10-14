@@ -1,11 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional, IsString } from 'class-validator';
 
-export class CreateRoomDescriptionDto {
-	@ApiProperty()
-	@IsString()
-	roomId: number;
-
+export class RoomDescriptionDto {
 	@ApiProperty()
 	@IsString()
 	title: string;

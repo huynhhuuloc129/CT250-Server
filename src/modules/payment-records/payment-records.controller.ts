@@ -6,49 +6,43 @@ import {
 	Param,
 	ParseIntPipe,
 	Patch,
-	Post,
 	Query,
 } from '@nestjs/common';
-import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { Public } from '../auth/utils';
-import { CreatePaymentRecordDto } from './dto/create-payment-record.dto';
 import { UpdatePaymentRecordDto } from './dto/update-payment-record.dto';
 import { GetPaymentRecordDto } from './dto/get-payment-record.dto';
+import { PaymentRecordsService } from './payment-records.service';
 
 @Controller('payment-records')
 @ApiTags('payment-records')
 export class PaymentRecordsController {
+	constructor(private readonly paymentRecordsService: PaymentRecordsService) {}
+
 	@Public()
 	@Get()
-	findAll(@Query() filter: GetPaymentRecordDto) {
-		return filter;
+	async findAll(@Query() filter: GetPaymentRecordDto) {
+		return await this.paymentRecordsService.findAll(filter);
 	}
 
 	@Public()
 	@Get(':id')
-	findOne(@Param('id', ParseIntPipe) id: number) {
-		return id;
-	}
-
-	@Public()
-	@Post()
-	@ApiBody({ type: CreatePaymentRecordDto })
-	create(@Body() input: CreatePaymentRecordDto) {
-		return input;
+	async findOne(@Param('id', ParseIntPipe) id: number) {
+		return await this.paymentRecordsService.findOne({ id });
 	}
 
 	@Public()
 	@Patch(':id')
-	update(
+	async update(
 		@Param('id', ParseIntPipe) id: number,
-		@Body() updateCategoryDto: UpdatePaymentRecordDto,
+		@Body() input: UpdatePaymentRecordDto,
 	) {
-		return updateCategoryDto;
+		return await this.paymentRecordsService.updateOne({ id }, input);
 	}
 
 	@Public()
 	@Delete(':id')
-	remove(@Param('id', ParseIntPipe) id: number) {
-		return id;
+	async remove(@Param('id', ParseIntPipe) id: number) {
+		return await this.paymentRecordsService.deleteOne({ id });
 	}
 }
