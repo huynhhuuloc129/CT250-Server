@@ -1,6 +1,7 @@
-import { PartialType } from '@nestjs/swagger';
+import { PickType } from '@nestjs/swagger';
 import { CreateRoomDescriptionDto } from './create-room-description.dto';
 
-export class UpdateRoomDescriptionDto extends PartialType(
+export class UpdateRoomDescriptionDto extends PickType(
 	CreateRoomDescriptionDto,
+	['title', 'content'],
 ) {}

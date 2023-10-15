@@ -22,8 +22,8 @@ import { CreatePaymentRecordDto } from '../payment-records/dto/create-payment-re
 import { PaymentRecordsService } from '../payment-records/payment-records.service';
 import { GetPaymentRecordDto } from '../payment-records/dto/get-payment-record.dto';
 
-@Controller('rooming-subcriptions')
-@ApiTags('rooming-subcriptions')
+@Controller('rooming-subscriptions')
+@ApiTags('rooming-subscriptions')
 export class RoomingSubscriptionController {
 	constructor(
 		private readonly roomingSubscriptionService: RoomingSubscriptionService,

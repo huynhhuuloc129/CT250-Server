@@ -6,11 +6,6 @@ export class UpdateRoomingSubscriptionDto {
 	@ApiProperty()
 	@IsOptional()
 	@IsDateString()
-	startDate?: Date;
-
-	@ApiProperty()
-	@IsOptional()
-	@IsDateString()
 	endDate?: Date;
 
 	@ApiProperty({
