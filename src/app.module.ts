@@ -27,6 +27,9 @@ import { RoomDescriptionsModule } from './modules/room-descriptions/room-descrip
 import { TemporaryLessorsModule } from './modules/temporary-lessors/temporary-lessors.module';
 import { AdministrativeUnitModule } from './modules/administrative-unit/administrative-unit.module';
 import { AdministrativeRegionModule } from './modules/administrative-region/administrative-region.module';
+import { APP_GUARD } from '@nestjs/core';
+import { AccessTokenGuard } from './modules/auth/guards/access-token.guard';
+import { RolesGuard } from './modules/auth/guards/roles.guard';
 @Module({
 	imports: [
 		TypeOrmModule.forRootAsync({
@@ -92,6 +95,15 @@ import { AdministrativeRegionModule } from './modules/administrative-region/admi
 		AdministrativeRegionModule,
 	],
 	controllers: [],
-	providers: [],
+	providers: [
+		{
+			provide: APP_GUARD,
+			useClass: AccessTokenGuard,
+		},
+		{
+			provide: APP_GUARD,
+			useClass: RolesGuard,
+		},
+	],
 })
 export class AppModule {}

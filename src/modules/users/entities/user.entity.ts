@@ -1,7 +1,7 @@
 import { Lessor } from 'src/modules/lessor/entities/lessor.entity';
 import { Tenant } from 'src/modules/tenant/entities/tenant.entity';
 import { BaseObject } from 'src/shared/entities/base-object.entity';
-import { Entity, Column, OneToOne } from 'typeorm';
+import { Entity, Column, OneToOne, AfterLoad } from 'typeorm';
 
 export enum USER_ROLE {
 	USER = 'user',
@@ -27,22 +27,22 @@ export class User extends BaseObject {
 	@Column()
 	password: string;
 
-	@Column()
+	@Column({ nullable: true })
 	refreshToken: string;
 
-	@Column()
+	@Column({ nullable: true })
 	fullName: string;
 
-	@Column()
+	@Column({ nullable: true })
 	firstName: string;
 
-	@Column()
+	@Column({ nullable: true })
 	lastName: string;
 
-	@Column()
+	@Column({ nullable: true })
 	citizenID: string;
 
-	@Column()
+	@Column({ nullable: true })
 	dob: Date;
 
 	@Column({
@@ -51,10 +51,10 @@ export class User extends BaseObject {
 	})
 	gender: USER_GENDER;
 
-	@Column()
+	@Column({ nullable: true })
 	address: string;
 
-	@Column()
+	@Column({ nullable: true })
 	tel: string;
 
 	@Column({
@@ -68,4 +68,9 @@ export class User extends BaseObject {
 
 	@OneToOne(() => Lessor, (lessor: Lessor) => lessor.user)
 	lessor: Lessor;
+
+	@AfterLoad()
+	updateFullName() {
+		this.fullName = `${this.lastName} ${this.firstName}`;
+	}
 }

@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import { USER_GENDER, USER_ROLE } from '../entities/user.entity';
 import {
 	IsOptional,
@@ -6,10 +6,12 @@ import {
 	IsNotEmpty,
 	IsDate,
 	IsEnum,
+	IsEmail,
 } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class CreateUserDto {
-	@ApiProperty()
+	@ApiProperty({ default: 'user_1' })
 	@IsNotEmpty()
 	@IsString()
 	username: string;
@@ -21,49 +23,51 @@ export class CreateUserDto {
 
 	@ApiProperty()
 	@IsOptional()
-	@IsEnum(USER_ROLE)
-	role?: USER_ROLE;
+	@IsString()
+	refreshToken?: string;
 
-	@ApiProperty()
+	@ApiHideProperty()
+	@IsNotEmpty()
+	@IsEnum(USER_ROLE)
+	role: USER_ROLE;
+
+	@ApiProperty({ required: false })
 	@IsOptional()
 	@IsString()
+	@IsEmail()
 	email?: string;
 
-	// @ApiProperty()
-	// @IsOptional()
-	// @IsString()
-	// fullName?: string;
-
-	@ApiProperty()
+	@ApiProperty({ required: false })
 	@IsOptional()
 	@IsString()
 	firstName?: string;
 
-	@ApiProperty()
+	@ApiProperty({ required: false })
 	@IsOptional()
 	@IsString()
 	lastName?: string;
 
-	@ApiProperty()
+	@ApiProperty({ required: false })
 	@IsOptional()
 	@IsString()
 	citizenID?: string;
 
-	@ApiProperty()
+	@ApiProperty({ required: false })
 	@IsOptional()
+	@Type(() => Date)
 	@IsDate()
 	dob?: Date;
 
-	@ApiProperty()
+	@ApiProperty({ default: USER_GENDER.M })
 	@IsOptional()
 	@IsEnum(USER_GENDER)
 	gender?: USER_GENDER;
 
-	@ApiProperty()
+	@ApiProperty({ required: false })
 	@IsOptional()
 	address?: string;
 
-	@ApiProperty()
+	@ApiProperty({ required: false })
 	@IsOptional()
 	tel?: string;
 }
