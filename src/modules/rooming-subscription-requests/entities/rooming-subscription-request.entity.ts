@@ -6,6 +6,12 @@ import { Column, Entity, ManyToOne } from 'typeorm';
 
 @Entity()
 export class RoomingSubscriptionRequest extends BaseObject {
+	@Column()
+	lessorId: number;
+
+	@Column()
+	roomId: number;
+
 	@Column({
 		type: 'enum',
 		enum: ROOMING_SUBSCRIPTION_REQUEST_STATE,
