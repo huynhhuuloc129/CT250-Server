@@ -39,6 +39,7 @@ export class AuthController {
 	}
 
 	@Post('signup-lessor')
+	@Public()
 	@ApiOperation({ summary: 'Sign up lessor account' })
 	async signupLessor(
 		@Body() createDto: CreateLessorDto,
