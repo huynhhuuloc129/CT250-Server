@@ -52,7 +52,7 @@ export class Room extends BaseObject {
 	@OneToMany(() => Notification, (assign: Notification) => assign.room)
 	notifications: Notification[];
 
-	@OneToMany(() => Photo, (assign: Photo) => assign.ownerID)
+	@OneToMany(() => Photo, (assign: Photo) => assign.room)
 	photos: Photo[];
 
 	@OneToMany(() => RoomDescription, (assign: RoomDescription) => assign.room)

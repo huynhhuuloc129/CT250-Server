@@ -1,7 +1,8 @@
 import { Lessor } from 'src/modules/lessor/entities/lessor.entity';
+import { Photo } from 'src/modules/photo/entities/photo.entity';
 import { Tenant } from 'src/modules/tenant/entities/tenant.entity';
 import { BaseObject } from 'src/shared/entities/base-object.entity';
-import { Entity, Column, OneToOne, AfterLoad } from 'typeorm';
+import { Entity, Column, OneToOne, AfterLoad, JoinColumn } from 'typeorm';
 
 export enum USER_ROLE {
 	USER = 'user',
@@ -68,6 +69,10 @@ export class User extends BaseObject {
 
 	@OneToOne(() => Lessor, (lessor: Lessor) => lessor.user)
 	lessor: Lessor;
+
+	@OneToOne(() => Photo, (photo: Photo) => photo.user)
+	@JoinColumn()
+	photo: Photo;
 
 	@AfterLoad()
 	updateFullName() {

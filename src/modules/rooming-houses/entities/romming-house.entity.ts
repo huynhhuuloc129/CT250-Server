@@ -42,6 +42,6 @@ export class RoomingHouse extends BaseObject {
 	@OneToMany(() => Room, (assign: Room) => assign.roomingHouse)
 	rooms: Room[];
 
-	@OneToMany(() => Photo, (assign: Photo) => assign.ownerID, {})
+	@OneToMany(() => Photo, (assign: Photo) => assign.roomingHouse, {})
 	photos: Photo[];
 }
