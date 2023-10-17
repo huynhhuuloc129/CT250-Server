@@ -11,11 +11,11 @@ import { GetCurrentUser } from './decorators/get-current-user.decorator';
 
 @Controller('auth')
 @ApiTags('auth')
-@ApiBearerAuth('bearer')
 export class AuthController {
 	constructor(private authService: AuthService) {}
 	@Post('login')
 	@Public()
+	@ApiBearerAuth('bearer')
 	@ApiOperation({ summary: 'Login account' })
 	@ApiBody({
 		type: Object,
@@ -40,6 +40,7 @@ export class AuthController {
 
 	@Post('signup-lessor')
 	@Public()
+	@ApiBearerAuth('bearer')
 	@ApiOperation({ summary: 'Sign up lessor account' })
 	async signupLessor(
 		@Body() createDto: CreateLessorDto,
@@ -49,6 +50,7 @@ export class AuthController {
 
 	@Post('signup-tenant')
 	@Public()
+	@ApiBearerAuth('bearer')
 	@ApiOperation({ summary: 'Sign up tenant account' })
 	async signupTenant(
 		@Body() createDto: CreateTenantDto,
@@ -57,6 +59,7 @@ export class AuthController {
 	}
 
 	@Post('logout')
+	@ApiBearerAuth('bearer')
 	@ApiOperation({ summary: 'Logout current account' })
 	async logout(@GetCurrentUser('id') userId: number) {
 		return await this.authService.logout(userId);
