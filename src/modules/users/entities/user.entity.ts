@@ -72,7 +72,7 @@ export class User extends BaseObject {
 
 	@OneToOne(() => Photo, (photo: Photo) => photo.user)
 	@JoinColumn()
-	photo: Photo;
+	photo?: Photo;
 
 	@AfterLoad()
 	updateFullName() {
