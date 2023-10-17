@@ -3,6 +3,7 @@ import { AdminService } from './admin.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { Public } from '../auth/utils';
+import { User } from '../users/entities/user.entity';
 
 @Controller('admin')
 @ApiTags('admin')
