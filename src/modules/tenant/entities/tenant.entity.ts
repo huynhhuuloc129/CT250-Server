@@ -6,7 +6,7 @@ import { Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
 
 @Entity()
 export class Tenant extends BaseObject {
-	@OneToOne(() => User, (user: User) => user.tentant)
+	@OneToOne(() => User, (user: User) => user.tentant, { onDelete: 'CASCADE' })
 	@JoinColumn()
 	user: User;
 

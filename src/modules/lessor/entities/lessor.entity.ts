@@ -3,11 +3,18 @@ import { RoomingSubscriptionRequest } from 'src/modules/rooming-subscription-req
 import { RoomingSubscription } from 'src/modules/rooming-subscriptions/entities/rooming-subscription.entity';
 import { User } from 'src/modules/users/entities/user.entity';
 import { BaseObject } from 'src/shared/entities/base-object.entity';
-import { Entity, Column, OneToOne, JoinColumn, OneToMany } from 'typeorm';
+import {
+	Entity,
+	Column,
+	OneToOne,
+	JoinColumn,
+	OneToMany,
+	BeforeInsert,
+} from 'typeorm';
 
 @Entity()
 export class Lessor extends BaseObject {
-	@OneToOne(() => User, (user: User) => user.lessor)
+	@OneToOne(() => User, (user: User) => user.lessor, { onDelete: 'CASCADE' })
 	@JoinColumn()
 	user: User;
 
@@ -31,4 +38,11 @@ export class Lessor extends BaseObject {
 			roomingSubscriptionRequest.lessor,
 	)
 	roomingSubscriptionRequests: RoomingSubscriptionRequest[];
+
+	@BeforeInsert()
+	updateStatus() {
+		if (!this.isRegistered) {
+			this.isRegistered = false;
+		}
+	}
 }
