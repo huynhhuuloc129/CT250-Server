@@ -5,19 +5,27 @@ import { Utility } from 'src/modules/utility/entities/utility.entity';
 import { BaseObject } from 'src/shared/entities/base-object.entity';
 import { Entity, Column, ManyToOne, OneToOne } from 'typeorm';
 
+export enum PHOTO_TYPE {
+	USER = 'user',
+	ROOMING_HOUSE = 'rooming house',
+	ROOM = 'room',
+}
+
 @Entity()
 export class Photo extends BaseObject {
 	@Column({ nullable: true })
-	name?: string;
+	fileName: string;
+
+	@Column()
+	path: string;
+
+	@Column({ type: 'enum', enum: PHOTO_TYPE })
+	type: PHOTO_TYPE;
 
 	@Column({ nullable: true })
 	url?: string;
 
-	@Column()
-	type: string;
-
-	@Column('bytea')
-	data: Buffer;
+	// reference
 
 	@OneToOne(() => Utility, (utility: Utility) => utility.photo)
 	utility: Utility;
