@@ -1,4 +1,5 @@
 import { Category } from 'src/modules/categories/entities/category.entity';
+import { Lessor } from 'src/modules/lessor/entities/lessor.entity';
 import { Notification } from 'src/modules/notifications/entities/notification.entity';
 import { Photo } from 'src/modules/photo/entities/photo.entity';
 import { Room } from 'src/modules/rooms/entities/room.entity';
@@ -26,8 +27,8 @@ export class RoomingHouse extends BaseObject {
 	@Column()
 	paymentExpiresDate: Date;
 
-	// @ManyToOne(() => Lessor, (assign: Lessor) => assign.roomingHouses)
-	// lessor: Lessor;
+	@ManyToOne(() => Lessor, (assign: Lessor) => assign.roomingHouses)
+	lessor: Lessor;
 
 	@ManyToOne(() => Ward)
 	ward: Ward;

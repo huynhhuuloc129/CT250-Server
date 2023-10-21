@@ -1,4 +1,5 @@
 import { Room } from 'src/modules/rooms/entities/room.entity';
+import { Tenant } from 'src/modules/tenant/entities/tenant.entity';
 import { BaseObject } from 'src/shared/entities/base-object.entity';
 import { ROOMING_SUBSCRIPTION_REQUEST_STATE } from 'src/shared/enums/common.enum';
 import { Column, Entity, ManyToOne } from 'typeorm';
@@ -14,11 +15,11 @@ export class RoomingSubscriptionRequest extends BaseObject {
 	})
 	state: ROOMING_SUBSCRIPTION_REQUEST_STATE;
 
-	// @ManyToOne(
-	// 	() => Tenant,
-	// 	(assign: Tenant) => assign.roomingSubscriptionRequests,
-	// )
-	// tenant: Tenant;
+	@ManyToOne(
+		() => Tenant,
+		(assign: Tenant) => assign.roomingSubscriptionRequests,
+	)
+	tenant: Tenant;
 
 	@ManyToOne(() => Room, (assign: Room) => assign.roomingSubscriptionRequests)
 	room: Room;
