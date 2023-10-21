@@ -25,11 +25,6 @@ export const appConfig = {
 		database: process.env.POSTGRES_DB,
 		synchronize: true,
 	},
-	canvasConfig: {
-		host: process.env.LTI_HOST,
-		token: process.env.LMS_TOKEN,
-		account: process.env.LMS_ACCOUNT,
-	},
 	redis: {
 		host: process.env.REDIS_HOST,
 		port: process.env.REDIS_PORT as unknown as number,

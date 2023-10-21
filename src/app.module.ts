@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -30,6 +30,7 @@ import { AdministrativeRegionModule } from './modules/administrative-region/admi
 import { APP_GUARD } from '@nestjs/core';
 import { AccessTokenGuard } from './modules/auth/guards/access-token.guard';
 import { RolesGuard } from './modules/auth/guards/roles.guard';
+import { AppLoggerMiddleware } from './middlewares/logging.middleware';
 @Module({
 	imports: [
 		TypeOrmModule.forRootAsync({
@@ -106,4 +107,12 @@ import { RolesGuard } from './modules/auth/guards/roles.guard';
 		},
 	],
 })
-export class AppModule {}
+export class AppModule {
+	configure(consumer: MiddlewareConsumer): void {
+		consumer.apply(AppLoggerMiddleware).forRoutes('*');
+	}
+
+	constructor() {
+		console.log({ appConfig });
+	}
+}
