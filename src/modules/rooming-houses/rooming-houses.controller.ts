@@ -9,7 +9,7 @@ import {
 	Post,
 	Query,
 } from '@nestjs/common';
-import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Public } from '../auth/utils';
 import { CreateRoomingHouseDto } from './dto/create-rooming-house.dto';
 import { UpdateRoomingHouseDto } from './dto/update-rooming-house.dto';
@@ -17,6 +17,9 @@ import { GetRoomingHouseDto } from './dto/get-rooming-house.dto';
 import { CreateRoomDto } from '../rooms/dto/create-room.dto';
 import { RoomingHousesService } from './rooming-houses.service';
 import { GetRoomDto } from '../rooms/dto/get-room.dto';
+import { GetCurrentUser } from '../auth/decorators/get-current-user.decorator';
+import { USER_ROLE, User } from '../users/entities/user.entity';
+import { RequiredRoles } from '../auth/decorators/required-roles.decorator';
 
 @Controller('rooming-houses')
 @ApiTags('rooming-houses')
@@ -35,39 +38,53 @@ export class RoomingHousesController {
 		return await this.roomingHousesService.findOne({ id });
 	}
 
-	@Public()
 	@Post()
-	@ApiBody({ type: CreateRoomingHouseDto })
-	async create(@Body() input: CreateRoomingHouseDto) {
+	@ApiBearerAuth('bearer')
+	@RequiredRoles(USER_ROLE.lessor)
+	async create(
+		@Body() input: CreateRoomingHouseDto,
+		@GetCurrentUser() user: User,
+	) {
 		//TODO: add tenant
+		input.tenantId = user.id;
 		return await this.roomingHousesService.createOne(input);
 	}
 
-	@Public()
 	@Patch(':id')
+	@ApiBearerAuth('bearer')
+	@RequiredRoles(USER_ROLE.lessor)
 	async update(
 		@Param('id', ParseIntPipe) id: number,
 		@Body() input: UpdateRoomingHouseDto,
+		@GetCurrentUser() user: User,
 	) {
+		console.log(user);
 		return await this.roomingHousesService.updateOne({ id }, input);
 	}
 
-	@Public()
 	@Delete(':id')
-	async remove(@Param('id', ParseIntPipe) id: number) {
+	@ApiBearerAuth('bearer')
+	@RequiredRoles(USER_ROLE.lessor)
+	async remove(
+		@Param('id', ParseIntPipe) id: number,
+		@GetCurrentUser() user: User,
+	) {
 		//TODO: delete room before deleting roomingHouse
+		console.log(user);
 		return await this.roomingHousesService.deleteOne({ id });
 	}
 
 	//NOTE: ROOM
-	@Public()
 	@Post(':roomingHouseId/rooms')
-	@ApiBody({ type: CreateRoomDto })
+	@ApiBearerAuth('bearer')
+	@RequiredRoles(USER_ROLE.lessor)
 	async createRoom(
 		@Param('roomingHouseId', ParseIntPipe) roomingHouseId: number,
 		@Body() input: CreateRoomDto,
+		@GetCurrentUser() user: User,
 	) {
 		//TODO: create many room description
+		console.log(user);
 		return await this.roomingHousesService.createRoom(roomingHouseId, input);
 	}
 

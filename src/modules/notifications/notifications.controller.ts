@@ -1,3 +1,4 @@
+import { Public } from './../auth/utils';
 import {
 	Body,
 	Controller,
@@ -9,49 +10,65 @@ import {
 	Post,
 	Query,
 } from '@nestjs/common';
-import { ApiBody, ApiTags } from '@nestjs/swagger';
-import { Public } from '../auth/utils';
+import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
 import { GetNotificationDto } from './dto/get-notification.dto';
 import { CreateNotificationDto } from './dto/create-notification.dto';
 import { UpdateNotificationDto } from './dto/update-notification.dto';
-import { NotificationsService } from './notification.service';
+import { NotificationsService } from './notifications.service';
+import { RequiredRoles } from '../auth/decorators/required-roles.decorator';
+import { USER_ROLE, User } from '../users/entities/user.entity';
+import { GetCurrentUser } from '../auth/decorators/get-current-user.decorator';
 
 @Controller('notifications')
 @ApiTags('notifications')
 export class NotificationsController {
 	constructor(private readonly notificationService: NotificationsService) {}
 
-	@Public()
 	@Get()
+	@Public()
 	async findAll(@Query() filter: GetNotificationDto) {
 		return await this.notificationService.findAll(filter);
 	}
 
-	@Public()
 	@Get(':id')
+	@Public()
 	async findOne(@Param('id', ParseIntPipe) id: number) {
 		return await this.notificationService.findOne({ id });
 	}
 
-	@Public()
 	@Post()
+	@ApiBearerAuth('bearer')
+	@RequiredRoles(USER_ROLE.lessor)
 	@ApiBody({ type: CreateNotificationDto })
-	async create(@Body() input: CreateNotificationDto) {
+	async create(
+		@Body() input: CreateNotificationDto,
+		@GetCurrentUser() user: User,
+	) {
+		console.log(user);
 		return await this.notificationService.createOne(input);
 	}
 
-	@Public()
 	@Patch(':id')
+	@ApiBearerAuth('bearer')
+	@RequiredRoles(USER_ROLE.lessor)
 	async update(
 		@Param('id', ParseIntPipe) id: number,
 		@Body() input: UpdateNotificationDto,
+		@GetCurrentUser() user: User,
 	) {
+		console.log(user);
 		return await this.notificationService.updateOne({ id }, input);
 	}
 
 	@Public()
+	@ApiBearerAuth('bearer')
+	@RequiredRoles(USER_ROLE.lessor)
 	@Delete(':id')
-	async remove(@Param('id', ParseIntPipe) id: number) {
+	async remove(
+		@Param('id', ParseIntPipe) id: number,
+		@GetCurrentUser() user: User,
+	) {
+		console.log(user);
 		return await this.notificationService.deleteOne({ id });
 	}
 }
