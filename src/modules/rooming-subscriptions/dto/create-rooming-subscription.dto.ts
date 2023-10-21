@@ -5,7 +5,7 @@ import { ROOMING_SUBSCRIPTION_STATE } from 'src/shared/enums/common.enum';
 export class CreateRoomingSubscriptionDto {
 	@ApiProperty()
 	@IsNumber()
-	lessorId: number;
+	ternantId: number;
 
 	@ApiProperty()
 	@IsNumber()

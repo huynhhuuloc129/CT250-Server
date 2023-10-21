@@ -1,3 +1,4 @@
+import { Lessor } from 'src/modules/lessor/entities/lessor.entity';
 import { Notification } from 'src/modules/notifications/entities/notification.entity';
 import { Photo } from 'src/modules/photo/entities/photo.entity';
 import { Review } from 'src/modules/review/entities/review.entity';
@@ -5,7 +6,6 @@ import { RoomDescription } from 'src/modules/room-descriptions/entities/room-des
 import { RoomingHouse } from 'src/modules/rooming-houses/entities/romming-house.entity';
 import { RoomingSubscriptionRequest } from 'src/modules/rooming-subscription-requests/entities/rooming-subscription-request.entity';
 import { RoomingSubscription } from 'src/modules/rooming-subscriptions/entities/rooming-subscription.entity';
-import { Tenant } from 'src/modules/tenant/entities/tenant.entity';
 import { Utility } from 'src/modules/utility/entities/utility.entity';
 import { BaseObject } from 'src/shared/entities/base-object.entity';
 import { ROOM_STATE } from 'src/shared/enums/common.enum';
@@ -43,8 +43,8 @@ export class Room extends BaseObject {
 	})
 	state: ROOM_STATE;
 
-	@ManyToOne(() => Tenant)
-	tenant: Tenant;
+	@ManyToOne(() => Lessor)
+	lessor: Lessor;
 
 	@ManyToOne(() => RoomingHouse)
 	roomingHouse: RoomingHouse;

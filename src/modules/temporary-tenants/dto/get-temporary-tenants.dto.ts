@@ -3,7 +3,7 @@ import { Type } from 'class-transformer';
 import { IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
 import { DefaultListDto } from 'src/shared/dtos/default-list.dto';
 
-export class GetTemporaryLessorDto extends DefaultListDto {
+export class GetTemporaryTenantDto extends DefaultListDto {
 	@ApiProperty({
 		required: false,
 	})

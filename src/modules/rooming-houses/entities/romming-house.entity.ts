@@ -2,7 +2,6 @@ import { Category } from 'src/modules/categories/entities/category.entity';
 import { Notification } from 'src/modules/notifications/entities/notification.entity';
 import { Photo } from 'src/modules/photo/entities/photo.entity';
 import { Room } from 'src/modules/rooms/entities/room.entity';
-import { Tenant } from 'src/modules/tenant/entities/tenant.entity';
 import { Ward } from 'src/modules/ward/entities/ward.entity';
 import { BaseObject } from 'src/shared/entities/base-object.entity';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
@@ -27,8 +26,8 @@ export class RoomingHouse extends BaseObject {
 	@Column()
 	paymentExpiresDate: Date;
 
-	@ManyToOne(() => Tenant, (assign: Tenant) => assign.roomingHouses)
-	tenant: Tenant;
+	// @ManyToOne(() => Lessor, (assign: Lessor) => assign.roomingHouses)
+	// lessor: Lessor;
 
 	@ManyToOne(() => Ward)
 	ward: Ward;
