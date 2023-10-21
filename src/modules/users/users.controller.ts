@@ -13,27 +13,29 @@ import { USER_ROLE, User } from './entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { GetCurrentUser } from '../auth/decorators/get-current-user.decorator';
 import { RequiredRoles } from '../auth/decorators/required-roles.decorator';
+import { Public } from '../auth/utils';
 
 @Controller('users')
 @ApiTags('users')
-@ApiBearerAuth('bearer')
 export class UsersController {
 	constructor(private usersService: UsersService) {}
 	@Get()
 	@RequiredRoles(USER_ROLE.ADMIN)
+	@ApiBearerAuth('bearer')
 	@ApiOperation({ summary: 'Find many user' })
 	async findMany(): Promise<User[]> {
 		return await this.usersService.findMany();
 	}
 
 	@Get('me')
+	@ApiBearerAuth('bearer')
 	@ApiOperation({ summary: 'Get current user' })
 	findMe(@GetCurrentUser() user: User) {
 		return user;
 	}
 
 	@Get(':userId')
-	@RequiredRoles(USER_ROLE.ADMIN)
+	@Public()
 	@ApiOperation({ summary: 'Find one user' })
 	async findOneById(
 		@Param('userId', ParseIntPipe) userId: number,
@@ -43,6 +45,7 @@ export class UsersController {
 
 	@Patch(':userId')
 	@RequiredRoles(USER_ROLE.ADMIN)
+	@ApiBearerAuth('bearer')
 	@ApiOperation({ summary: 'Upate one user' })
 	async updateOneByID(
 		@Param('userId', ParseIntPipe) userId: number,

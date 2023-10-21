@@ -1,13 +1,11 @@
 import {
+	BadRequestException,
 	Body,
 	Controller,
-	FileTypeValidator,
 	Get,
-	Header,
-	MaxFileSizeValidator,
-	ParseFilePipe,
+	Param,
 	Post,
-	StreamableFile,
+	Res,
 	UploadedFile,
 	UseInterceptors,
 } from '@nestjs/common';
@@ -16,53 +14,56 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { UploadPhotoDto } from './dto/upload-photo.dto';
 import { ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { Public } from '../auth/utils';
-import { storage } from './config/storage.config';
-import { createReadStream } from 'fs';
-import { join } from 'path';
+import { diskStorage } from 'multer';
+import { Response } from 'express';
 
-@Controller('photo')
-@ApiTags('photo')
+@Controller('photos')
+@ApiTags('photos')
 export class PhotoController {
 	constructor(private readonly photoService: PhotoService) {}
 
-	@Post('upload')
+	@Post('upload-photo')
 	@Public()
 	@ApiConsumes('multipart/form-data')
-	@UseInterceptors(FileInterceptor('file', { storage }))
-	uploadFile(
-		@Body() dto: UploadPhotoDto,
-		@UploadedFile(
-			new ParseFilePipe({
-				validators: [
-					new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 4 }),
-					new FileTypeValidator({ fileType: '.(png|jpeg|jpg)' }),
-				],
+	@UseInterceptors(
+		FileInterceptor('file', {
+			storage: diskStorage({
+				destination: './src/modules/photo/storage',
+				filename: (req, file, cb) => {
+					const name = file.originalname.split('.')[0];
+					const fileExtension = file.originalname.split('.')[1];
+					const newFileName =
+						name.split(' ').join('_') + '_' + Date.now() + '.' + fileExtension;
+
+					cb(null, newFileName);
+				},
 			}),
-		)
+			fileFilter(req, file, cb) {
+				if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+					return cb(null, false);
+				}
+				cb(null, true);
+			},
+		}),
+	)
+	uploadPhoto(
+		@Body() dto: UploadPhotoDto,
+		@UploadedFile()
 		file: Express.Multer.File,
 	) {
-		//  |   dto: { name: 'name' },
-		//  |   data: {
-		//  |     fieldname: 'data',
-		//  |     originalname: 'pexels-ryan-horn-2318005.jpg',
-		//  |     encoding: '7bit',
-		//  |     mimetype: 'image/jpeg',
-		//  |     buffer: <Buffer ff d8 ff e0 00 10 4a 46 49 46 00 01 01 01 00 48 00 48 00 00 ff e2 0c 58 49 43 43 5f 50 52 4f 46 49 4c 45 00 01 01 00 00 0c 48 4c 69 6e 6f 02 10 00 00 ...
-		//  3047002 more bytes>,
-		//  |     size: 3047052
-		//  |   }
-		//  | }
-		console.log({ dto, file });
-		return 'success';
+		if (!file) {
+			throw new BadRequestException('File is not an image');
+		} else {
+			const response = {
+				filePath: `http://localhost:3000/api/photos/${file.filename}`,
+			};
+			return response;
+		}
 	}
 
-	@Get()
+	@Get(':filename')
 	@Public()
-	@Header('Content-Disposition', 'attachment; filename="package.json"')
-	getFile() {
-		const file = createReadStream(
-			join(process.cwd(), './uploads/1697685477353..jpg'),
-		);
-		return new StreamableFile(file);
+	getPicture(@Param('filename') filename: string, @Res() res: Response) {
+		res.sendFile(filename, { root: './src/modules/photo/storage' });
 	}
 }

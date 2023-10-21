@@ -13,22 +13,23 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateTenantDto } from './dto/create-tenant.dto';
 import { RequiredRoles } from '../auth/decorators/required-roles.decorator';
 import { USER_ROLE } from '../users/entities/user.entity';
+import { Public } from '../auth/utils';
 
 @Controller('tenants')
 @ApiTags('tenants')
-@ApiBearerAuth('bearer')
 export class TenantController {
 	constructor(private readonly tenantService: TenantService) {}
 
 	@Get()
 	@RequiredRoles(USER_ROLE.ADMIN)
+	@ApiBearerAuth('bearer')
 	@ApiOperation({ summary: 'Find many tenant' })
 	async findMany(): Promise<Tenant[]> {
 		return await this.tenantService.findMany();
 	}
 
 	@Get(':tenantId')
-	@RequiredRoles(USER_ROLE.ADMIN)
+	@Public()
 	@ApiOperation({ summary: 'Find one tenant' })
 	async findOneById(
 		@Param('tenantId', ParseIntPipe) tenantId: number,
@@ -38,6 +39,7 @@ export class TenantController {
 
 	@Post()
 	@RequiredRoles(USER_ROLE.ADMIN)
+	@ApiBearerAuth('bearer')
 	@ApiOperation({ summary: 'Create one tenant' })
 	async createOne(@Body() createDto: CreateTenantDto): Promise<Tenant> {
 		return await this.tenantService.createOne(createDto);
@@ -45,6 +47,7 @@ export class TenantController {
 
 	@Delete(':tenantId')
 	@RequiredRoles(USER_ROLE.ADMIN)
+	@ApiBearerAuth('bearer')
 	@ApiOperation({ summary: 'Delete one tenant' })
 	deleteOneByID(
 		@Param('tenantId', ParseIntPipe) tenantId: number,
