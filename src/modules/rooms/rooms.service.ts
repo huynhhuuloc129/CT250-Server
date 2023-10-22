@@ -14,7 +14,10 @@ export class RoomsService extends BaseService<Room> {
 		super(roomRepository);
 	}
 
-	async findManyRoom(roomingHouseId: number, filter: GetRoomDto) {
+	async findManyRoomWithRommingHouse(
+		roomingHouseId: number,
+		filter: GetRoomDto,
+	) {
 		try {
 			const { limit, offset, sortField, sortOrder, ...condition } = filter;
 

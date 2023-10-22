@@ -33,7 +33,10 @@ export class NotificationsController {
 	@Get(':id')
 	@Public()
 	async findOne(@Param('id', ParseIntPipe) id: number) {
-		return await this.notificationService.findOne({ id });
+		return await this.notificationService.findOneWithRelation({
+			where: { id },
+			relations: { roomingHouse: true, room: true },
+		});
 	}
 
 	@Post()

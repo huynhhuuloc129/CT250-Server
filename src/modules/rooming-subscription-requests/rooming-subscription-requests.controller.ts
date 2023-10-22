@@ -28,13 +28,13 @@ export class RoomingSubscriptionRequestController {
 
 	@Post()
 	@ApiBearerAuth('bearer')
-	@RequiredRoles(USER_ROLE.lessor)
+	@RequiredRoles(USER_ROLE.tenant)
 	@ApiBody({ type: CreateRoomingSubscriptionRequestDto })
 	async create(
 		@Body() input: CreateRoomingSubscriptionRequestDto,
 		@GetCurrentUser() user: User,
 	) {
-		input.lessorId = user.id;
+		input.tenantId = user.id;
 		return await this.roomingSubscriptionRequestService.createOne(input);
 	}
 
@@ -47,10 +47,9 @@ export class RoomingSubscriptionRequestController {
 	@Public()
 	@Get(':id')
 	async findOne(@Param('id', ParseIntPipe) id: number) {
-		// relations: { room: true, tenant: true },
 		return await this.roomingSubscriptionRequestService.findOneWithRelation({
 			where: { id },
-			relations: { room: true },
+			relations: { room: true, tenant: true },
 		});
 	}
 

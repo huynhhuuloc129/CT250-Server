@@ -42,8 +42,10 @@ export class RoomingSubscriptionController {
 
 	@Public()
 	@Get()
-	async findAll(@Query() filter: GetRoomingSubscriptionDto) {
-		return await this.roomingSubscriptionService.findAll(filter);
+	async findMany(@Query() filter: GetRoomingSubscriptionDto) {
+		return await this.roomingSubscriptionService.findManyRoomingSubscription(
+			filter,
+		);
 	}
 
 	@Public()

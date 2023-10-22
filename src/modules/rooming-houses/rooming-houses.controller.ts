@@ -35,7 +35,16 @@ export class RoomingHousesController {
 	@Public()
 	@Get(':id')
 	async findOne(@Param('id', ParseIntPipe) id: number) {
-		return await this.roomingHousesService.findOne({ id });
+		return await this.roomingHousesService.findOneWithRelation({
+			where: { id },
+			relations: {
+				category: true,
+				lessor: true,
+				photos: true,
+				rooms: true,
+				ward: { districtCode: { provinceCode: true } },
+			},
+		});
 	}
 
 	@Post()

@@ -30,7 +30,10 @@ export class PaymentRecordsController {
 	@Get(':id')
 	@Public()
 	async findOne(@Param('id', ParseIntPipe) id: number) {
-		return await this.paymentRecordsService.findOne({ id });
+		return await this.paymentRecordsService.findOneWithRelation({
+			where: { id },
+			relations: { roomingSubscription: { room: true } },
+		});
 	}
 
 	@Patch(':id')

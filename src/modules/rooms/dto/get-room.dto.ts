@@ -13,13 +13,13 @@ export class GetRoomDto extends DefaultListDto {
 	@IsNumber()
 	lessorId?: number;
 
-	@ApiProperty({
-		required: false,
-	})
-	@IsOptional()
-	@Type(() => Number)
-	@IsNumber()
-	roomingHouseId?: number;
+	// @ApiProperty({
+	// 	required: false,
+	// })
+	// @IsOptional()
+	// @Type(() => Number)
+	// @IsNumber()
+	// roomingHouseId?: number;
 
 	@ApiProperty({
 		required: false,

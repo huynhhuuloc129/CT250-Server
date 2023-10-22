@@ -44,7 +44,10 @@ export class RoomingHousesService extends BaseService<RoomingHouse> {
 				throw new NotFoundException('Rooming House not found!');
 			}
 
-			return await this.roomService.findManyRoom(roomingHouseId, filter);
+			return await this.roomService.findManyRoomWithRommingHouse(
+				roomingHouseId,
+				filter,
+			);
 		} catch (err) {
 			throw new BadRequestException(err);
 		}

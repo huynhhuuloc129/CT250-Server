@@ -33,7 +33,7 @@ export class RoomsController {
 	async findOne(@Param('id', ParseIntPipe) id: number) {
 		return await this.roomService.findOneWithRelation({
 			where: { id },
-			relations: { roomingHouse: true },
+			relations: { roomingHouse: true, lessor: true },
 		});
 	}
 
