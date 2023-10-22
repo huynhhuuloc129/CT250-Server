@@ -8,13 +8,12 @@ import {
 	ParseIntPipe,
 } from '@nestjs/common';
 import { LessorService } from './lessor.service';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateLessorDto } from './dto/create-lessor.dto';
 import { Lessor } from './entities/lessor.entity';
 
 @Controller('lessors')
 @ApiTags('lessors')
-@ApiBearerAuth('bearer')
 export class LessorController {
 	constructor(private readonly lessorService: LessorService) {}
 	@Get()

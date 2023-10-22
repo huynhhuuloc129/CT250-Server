@@ -15,7 +15,6 @@ import { GetCurrentUser } from '../auth/decorators/get-current-user.decorator';
 
 @Controller('users')
 @ApiTags('users')
-@ApiBearerAuth('bearer')
 export class UsersController {
 	constructor(private usersService: UsersService) {}
 	@Get()
@@ -25,6 +24,7 @@ export class UsersController {
 	}
 
 	@Get('me')
+	@ApiBearerAuth('bearer')
 	@ApiOperation({ summary: 'Get current user' })
 	findMe(@GetCurrentUser() user: User) {
 		return user;
