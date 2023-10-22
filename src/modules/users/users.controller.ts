@@ -9,10 +9,9 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UsersService } from './users.service';
-import { USER_ROLE, User } from './entities/user.entity';
+import { User } from './entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { GetCurrentUser } from '../auth/decorators/get-current-user.decorator';
-import { RequiredRoles } from '../auth/decorators/required-roles.decorator';
 
 @Controller('users')
 @ApiTags('users')
@@ -20,7 +19,6 @@ import { RequiredRoles } from '../auth/decorators/required-roles.decorator';
 export class UsersController {
 	constructor(private usersService: UsersService) {}
 	@Get()
-	@RequiredRoles(USER_ROLE.ADMIN)
 	@ApiOperation({ summary: 'Find many user' })
 	async findMany(): Promise<User[]> {
 		return await this.usersService.findMany();
@@ -33,7 +31,6 @@ export class UsersController {
 	}
 
 	@Get(':userId')
-	@RequiredRoles(USER_ROLE.ADMIN)
 	@ApiOperation({ summary: 'Find one user' })
 	async findOneById(
 		@Param('userId', ParseIntPipe) userId: number,
@@ -42,7 +39,6 @@ export class UsersController {
 	}
 
 	@Patch(':userId')
-	@RequiredRoles(USER_ROLE.ADMIN)
 	@ApiOperation({ summary: 'Upate one user' })
 	async updateOneByID(
 		@Param('userId', ParseIntPipe) userId: number,
@@ -55,7 +51,6 @@ export class UsersController {
 	}
 
 	@Delete(':userId')
-	@RequiredRoles(USER_ROLE.ADMIN)
 	@ApiOperation({ summary: 'Delete one user' })
 	deleteOneByID(
 		@Param('userId', ParseIntPipe) userId: number,
