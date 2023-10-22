@@ -39,7 +39,7 @@ export class RoomingHousesController {
 			where: { id },
 			relations: {
 				category: true,
-				lessor: true,
+				lessor: { user: true },
 				photos: true,
 				rooms: true,
 				ward: { districtCode: { provinceCode: true } },
