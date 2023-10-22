@@ -53,7 +53,7 @@ export class RoomingSubscriptionController {
 	async findOne(@Param('id', ParseIntPipe) id: number) {
 		return await this.roomingSubscriptionService.findOneWithRelation({
 			where: { id },
-			relations: { room: true, tenant: true },
+			relations: { room: true, tenant: { user: true } },
 		});
 	}
 

@@ -49,6 +49,8 @@ export class RoomsService extends BaseService<Room> {
 					order,
 					take: limit ? (limit <= 100 ? limit : 100) : 10,
 					skip: offset ? offset : 0,
+					//TODO: delete later
+					relations: { lessor: { user: true } },
 				}),
 			]);
 
