@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { BaseService } from 'src/shared/bases/service.base';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { TemporaryLessor } from './entities/temporary-lessor.entity';
+import { TemporaryTenant } from './entities/temporary-tenants.entity';
 
 @Injectable()
-export class TemporaryLessorService extends BaseService<TemporaryLessor> {
+export class TemporaryTenantService extends BaseService<TemporaryTenant> {
 	constructor(
-		@InjectRepository(TemporaryLessor)
-		private temporaryLessorRepository: Repository<TemporaryLessor>,
+		@InjectRepository(TemporaryTenant)
+		private temporaryLessorRepository: Repository<TemporaryTenant>,
 	) {
 		super(temporaryLessorRepository);
 	}

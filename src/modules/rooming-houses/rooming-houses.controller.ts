@@ -39,7 +39,7 @@ export class RoomingHousesController {
 	@Post()
 	@ApiBody({ type: CreateRoomingHouseDto })
 	async create(@Body() input: CreateRoomingHouseDto) {
-		//TODO: add tenant
+		//TODO: add lessor
 		return await this.roomingHousesService.createOne(input);
 	}
 

@@ -15,7 +15,7 @@ import { RoomDescriptionDto } from './room-description.dto';
 export class CreateRoomDto {
 	@ApiHideProperty()
 	@IsOptional()
-	tenantID?: number;
+	lessorId?: number;
 
 	@ApiHideProperty()
 	@IsOptional()
