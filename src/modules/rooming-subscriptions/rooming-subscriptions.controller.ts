@@ -15,19 +15,19 @@ import { RoomingSubscriptionService } from './rooming-subscriptions.service';
 import { CreateRoomingSubscriptionDto } from './dto/create-rooming-subscription.dto';
 import { UpdateRoomingSubscriptionDto } from './dto/update-rooming-subscription.dto';
 import { GetRoomingSubscriptionDto } from './dto/get-rooming-subscription.dto';
-import { CreateTemporaryLessorDto } from '../temporary-tenants/dto/create-temporary-tenants.dto';
-import { GetTemporaryLessorDto } from '../temporary-tenants/dto/get-temporary-tenants.dto';
-import { TemporaryLessorService } from '../temporary-tenants/temporary-tenants.service';
 import { CreatePaymentRecordDto } from '../payment-records/dto/create-payment-record.dto';
 import { PaymentRecordsService } from '../payment-records/payment-records.service';
 import { GetPaymentRecordDto } from '../payment-records/dto/get-payment-record.dto';
+import { TemporaryTenantService } from '../temporary-tenants/temporary-tenants.service';
+import { CreateTemporaryTenantDto } from '../temporary-tenants/dto/create-temporary-tenants.dto';
+import { GetTemporaryTenantDto } from '../temporary-tenants/dto/get-temporary-tenants.dto';
 
 @Controller('rooming-subscriptions')
 @ApiTags('rooming-subscriptions')
 export class RoomingSubscriptionController {
 	constructor(
 		private readonly roomingSubscriptionService: RoomingSubscriptionService,
-		private temporaryLessorService: TemporaryLessorService,
+		private temporaryTenantService: TemporaryTenantService,
 		private paymentRecordService: PaymentRecordsService,
 	) {}
 
@@ -49,7 +49,7 @@ export class RoomingSubscriptionController {
 	async findOne(@Param('id', ParseIntPipe) id: number) {
 		return await this.roomingSubscriptionService.findOneWithRelation({
 			where: { id },
-			relations: { room: true, lessor: true },
+			relations: { room: true, tenant: true },
 		});
 	}
 
@@ -71,23 +71,22 @@ export class RoomingSubscriptionController {
 	// NOTE: Temporary Lessor
 	@Public()
 	@Post(':id/temporary-lessors')
-	@ApiBody({ type: CreateTemporaryLessorDto })
 	async createTemporaryLessor(
 		@Param('id', ParseIntPipe) id: number,
-		@Body() input: CreateTemporaryLessorDto,
+		@Body() input: CreateTemporaryTenantDto,
 	) {
 		input.roomingSubscriptionId = id;
-		return await this.temporaryLessorService.createOne(input);
+		return await this.temporaryTenantService.createOne(input);
 	}
 
 	@Public()
 	@Get(':id/temporary-lessors')
 	async findManyTemporaryLessor(
 		@Param('id', ParseIntPipe) id: number,
-		@Query() filter: GetTemporaryLessorDto,
+		@Query() filter: GetTemporaryTenantDto,
 	) {
 		filter.roomingSubscriptionId = id;
-		return await this.temporaryLessorService.findAll(filter);
+		return await this.temporaryTenantService.findAll(filter);
 	}
 
 	//NOTE: Payment Record
