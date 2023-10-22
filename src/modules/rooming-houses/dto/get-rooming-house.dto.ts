@@ -18,7 +18,7 @@ export class GetRoomingHouseDto extends DefaultListDto {
 	@IsOptional()
 	@Type(() => String)
 	@IsString()
-	tenantId?: string;
+	lessorId?: string;
 
 	// @ApiProperty({
 	// 	required: false,

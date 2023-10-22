@@ -11,7 +11,7 @@ export class GetRoomDto extends DefaultListDto {
 	@IsOptional()
 	@Type(() => Number)
 	@IsNumber()
-	tenantID?: number;
+	lessorId?: number;
 
 	@ApiProperty({
 		required: false,
@@ -19,7 +19,7 @@ export class GetRoomDto extends DefaultListDto {
 	@IsOptional()
 	@Type(() => Number)
 	@IsNumber()
-	roomingHouseID?: number;
+	roomingHouseId?: number;
 
 	@ApiProperty({
 		required: false,

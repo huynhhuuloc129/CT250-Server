@@ -56,7 +56,7 @@ export class UsersService {
 		return await this.usersRepository.findOne({
 			where: { id },
 			relations: {
-				tentant: true,
+				tenant: true,
 				lessor: true,
 			},
 		});
@@ -66,7 +66,7 @@ export class UsersService {
 		return await this.usersRepository.findOne({
 			where: filter,
 			relations: {
-				tentant: true,
+				tenant: true,
 				lessor: true,
 			},
 		});
@@ -75,7 +75,7 @@ export class UsersService {
 	async findMany(): Promise<User[]> {
 		return this.usersRepository.find({
 			relations: {
-				tentant: true,
+				tenant: true,
 				lessor: true,
 			},
 		});

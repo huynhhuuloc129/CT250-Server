@@ -8,27 +8,27 @@ import {
 	Post,
 	Query,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Public } from '../auth/utils';
 import { RoomingSubscriptionService } from './rooming-subscriptions.service';
 import { UpdateRoomingSubscriptionDto } from './dto/update-rooming-subscription.dto';
 import { GetRoomingSubscriptionDto } from './dto/get-rooming-subscription.dto';
-import { CreateTemporaryLessorDto } from '../temporary-lessors/dto/create-temporary-lessors.dto';
-import { GetTemporaryLessorDto } from '../temporary-lessors/dto/get-temporary-lessors.dto';
-import { TemporaryLessorService } from '../temporary-lessors/temporary-lessors.service';
 import { CreatePaymentRecordDto } from '../payment-records/dto/create-payment-record.dto';
 import { PaymentRecordsService } from '../payment-records/payment-records.service';
 import { GetPaymentRecordDto } from '../payment-records/dto/get-payment-record.dto';
 import { RequiredRoles } from '../auth/decorators/required-roles.decorator';
 import { USER_ROLE, User } from '../users/entities/user.entity';
 import { GetCurrentUser } from '../auth/decorators/get-current-user.decorator';
+import { TemporaryTenantService } from '../temporary-tenants/temporary-tenants.service';
+import { GetTemporaryTenantDto } from '../temporary-tenants/dto/get-temporary-tenants.dto';
+import { CreateTemporaryTenantDto } from '../temporary-tenants/dto/create-temporary-tenants.dto';
 
 @Controller('rooming-subscriptions')
 @ApiTags('rooming-subscriptions')
 export class RoomingSubscriptionController {
 	constructor(
 		private readonly roomingSubscriptionService: RoomingSubscriptionService,
-		private temporaryLessorService: TemporaryLessorService,
+		private temporaryTenantService: TemporaryTenantService,
 		private paymentRecordService: PaymentRecordsService,
 	) {}
 
@@ -51,7 +51,7 @@ export class RoomingSubscriptionController {
 	async findOne(@Param('id', ParseIntPipe) id: number) {
 		return await this.roomingSubscriptionService.findOneWithRelation({
 			where: { id },
-			relations: { room: true, lessor: true },
+			relations: { room: true, tenant: true },
 		});
 	}
 
@@ -77,28 +77,27 @@ export class RoomingSubscriptionController {
 	// }
 
 	// NOTE: Temporary Lessor
-	@Post(':id/temporary-lessors')
+	@Post(':id/temporary-tenant')
 	@ApiBearerAuth('bearer')
 	@RequiredRoles(USER_ROLE.lessor)
-	@ApiBody({ type: CreateTemporaryLessorDto })
 	async createTemporaryLessor(
 		@Param('id', ParseIntPipe) id: number,
-		@Body() input: CreateTemporaryLessorDto,
+		@Body() input: CreateTemporaryTenantDto,
 		@GetCurrentUser() user: User,
 	) {
 		console.log(user);
 		input.roomingSubscriptionId = id;
-		return await this.temporaryLessorService.createOne(input);
+		return await this.temporaryTenantService.createOne(input);
 	}
 
 	@Public()
-	@Get(':id/temporary-lessors')
+	@Get(':id/temporary-tenant')
 	async findManyTemporaryLessor(
 		@Param('id', ParseIntPipe) id: number,
-		@Query() filter: GetTemporaryLessorDto,
+		@Query() filter: GetTemporaryTenantDto,
 	) {
 		filter.roomingSubscriptionId = id;
-		return await this.temporaryLessorService.findAll(filter);
+		return await this.temporaryTenantService.findAll(filter);
 	}
 
 	//NOTE: Payment Record

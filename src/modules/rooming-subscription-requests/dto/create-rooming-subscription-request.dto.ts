@@ -5,7 +5,7 @@ import { ROOMING_SUBSCRIPTION_REQUEST_STATE } from 'src/shared/enums/common.enum
 export class CreateRoomingSubscriptionRequestDto {
 	@ApiHideProperty()
 	@IsOptional()
-	lessorId?: number;
+	tenantId?: number;
 
 	@ApiProperty()
 	@IsNumber()

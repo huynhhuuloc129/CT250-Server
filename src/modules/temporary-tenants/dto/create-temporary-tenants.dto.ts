@@ -1,7 +1,7 @@
 import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import { IsDateString, IsOptional, IsString, MaxLength } from 'class-validator';
 
-export class CreateTemporaryLessorDto {
+export class CreateTemporaryTenantDto {
 	@ApiHideProperty()
 	@IsOptional()
 	roomingSubscriptionId: number;

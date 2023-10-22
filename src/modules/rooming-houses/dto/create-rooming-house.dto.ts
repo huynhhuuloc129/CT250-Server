@@ -10,7 +10,7 @@ import {
 export class CreateRoomingHouseDto {
 	@ApiHideProperty()
 	@IsOptional()
-	tenantId?: number;
+	lessorId?: number;
 
 	@ApiHideProperty()
 	@IsOptional()

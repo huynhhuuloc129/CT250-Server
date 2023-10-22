@@ -39,14 +39,8 @@ export class RoomingHousesController {
 	}
 
 	@Post()
-	@ApiBearerAuth('bearer')
-	@RequiredRoles(USER_ROLE.lessor)
-	async create(
-		@Body() input: CreateRoomingHouseDto,
-		@GetCurrentUser() user: User,
-	) {
-		//TODO: add tenant
-		input.tenantId = user.id;
+	async create(@Body() input: CreateRoomingHouseDto) {
+		//TODO: add lessor
 		return await this.roomingHousesService.createOne(input);
 	}
 

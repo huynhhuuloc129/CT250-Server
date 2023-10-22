@@ -31,8 +31,8 @@ export class RoomsService extends BaseService<Room> {
 			if (filter.state) {
 				where['state'] = filter.state;
 			}
-			if (filter.tenantID) {
-				where['tenantID'] = filter.tenantID;
+			if (filter.lessorId) {
+				where['tenantId'] = filter.lessorId;
 			}
 
 			where['roomingHouseId'] = roomingHouseId;
