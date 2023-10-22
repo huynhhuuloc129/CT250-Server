@@ -6,6 +6,9 @@ import { Column, Entity, ManyToOne } from 'typeorm';
 @Entity()
 export class PaymentRecord extends BaseObject {
 	@Column()
+	roomingSubscriptionId: number;
+
+	@Column()
 	month: number;
 
 	@Column()

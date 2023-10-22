@@ -5,6 +5,9 @@ import { Column, Entity, ManyToOne } from 'typeorm';
 @Entity()
 export class TemporaryTenant extends BaseObject {
 	@Column()
+	roomingSubscriptionId: number;
+
+	@Column()
 	fullName: string;
 
 	@Column()

@@ -6,6 +6,12 @@ import { Column, Entity, ManyToOne } from 'typeorm';
 @Entity()
 export class Review extends BaseObject {
 	@Column()
+	roomId: number;
+
+	@Column()
+	tenantId: number;
+
+	@Column()
 	rating: number;
 
 	@Column()

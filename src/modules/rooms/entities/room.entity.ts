@@ -14,6 +14,12 @@ import { Column, Entity, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 @Entity()
 export class Room extends BaseObject {
 	@Column()
+	lessorId: number;
+
+	@Column()
+	roomingHouseId: number;
+
+	@Column()
 	name: string;
 
 	@Column()

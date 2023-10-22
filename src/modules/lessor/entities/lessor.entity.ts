@@ -2,10 +2,13 @@ import { RoomingHouse } from 'src/modules/rooming-houses/entities/romming-house.
 import { Room } from 'src/modules/rooms/entities/room.entity';
 import { User } from 'src/modules/users/entities/user.entity';
 import { BaseObject } from 'src/shared/entities/base-object.entity';
-import { Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
 
 @Entity()
 export class Lessor extends BaseObject {
+	@Column()
+	userId: number;
+
 	@OneToOne(() => User, (user: User) => user.lessor, { onDelete: 'CASCADE' })
 	@JoinColumn()
 	user: User;
