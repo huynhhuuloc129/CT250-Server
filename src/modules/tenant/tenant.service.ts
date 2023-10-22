@@ -5,7 +5,7 @@ import { Tenant } from './entities/tenant.entity';
 import { USER_ROLE } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
 import { CreateTenantDto } from './dto/create-tenant.dto';
-import { UpdateTenantDto } from './dto/update-lessor.dto';
+import { UpdateTenantDto } from './dto/update-tenant.dto';
 
 @Injectable()
 export class TenantService {
