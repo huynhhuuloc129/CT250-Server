@@ -44,8 +44,9 @@ export class TenantService {
 		});
 	}
 
-	async findMany(): Promise<Tenant[]> {
+	async findMany(filter: object | object[] = {}): Promise<Tenant[]> {
 		return this.tenantsRepository.find({
+			where: filter,
 			relations: {
 				user: true,
 			},

@@ -20,8 +20,7 @@ import { Public } from '../auth/utils';
 export class LessorController {
 	constructor(private readonly lessorService: LessorService) {}
 	@Get()
-	@RequiredRoles(USER_ROLE.ADMIN)
-	@ApiBearerAuth('bearer')
+	@Public()
 	@ApiOperation({ summary: 'Find many lessor' })
 	async findMany(): Promise<Lessor[]> {
 		return await this.lessorService.findMany();

@@ -43,8 +43,9 @@ export class LessorService {
 		});
 	}
 
-	async findMany(): Promise<Lessor[]> {
+	async findMany(filter: object | object[] = {}): Promise<Lessor[]> {
 		return this.lessorsRepository.find({
+			where: filter,
 			relations: {
 				user: true,
 			},

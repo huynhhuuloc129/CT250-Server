@@ -21,8 +21,7 @@ export class TenantController {
 	constructor(private readonly tenantService: TenantService) {}
 
 	@Get()
-	@RequiredRoles(USER_ROLE.ADMIN)
-	@ApiBearerAuth('bearer')
+	@Public()
 	@ApiOperation({ summary: 'Find many tenant' })
 	async findMany(): Promise<Tenant[]> {
 		return await this.tenantService.findMany();
