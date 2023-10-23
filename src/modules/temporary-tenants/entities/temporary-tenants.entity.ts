@@ -3,7 +3,7 @@ import { BaseObject } from 'src/shared/entities/base-object.entity';
 import { Column, Entity, ManyToOne } from 'typeorm';
 
 @Entity()
-export class TemporaryLessor extends BaseObject {
+export class TemporaryTenant extends BaseObject {
 	@Column()
 	fullName: string;
 
@@ -18,7 +18,7 @@ export class TemporaryLessor extends BaseObject {
 
 	@ManyToOne(
 		() => RoomingSubscription,
-		(assign: RoomingSubscription) => assign.temporaryLessors,
+		(assign: RoomingSubscription) => assign.temporaryTenants,
 	)
 	roomingSubscription: RoomingSubscription;
 }

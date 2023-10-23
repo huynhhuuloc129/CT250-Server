@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -24,12 +24,13 @@ import { PaymentRecordsModule } from './modules/payment-records/payment-records.
 import { RoomingSubscriptionRequestsModule } from './modules/rooming-subscription-requests/rooming-subscription-requests.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { RoomDescriptionsModule } from './modules/room-descriptions/room-descriptions.module';
-import { TemporaryLessorsModule } from './modules/temporary-lessors/temporary-lessors.module';
 import { AdministrativeUnitModule } from './modules/administrative-unit/administrative-unit.module';
 import { AdministrativeRegionModule } from './modules/administrative-region/administrative-region.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AccessTokenGuard } from './modules/auth/guards/access-token.guard';
 import { RolesGuard } from './modules/auth/guards/roles.guard';
+import { AppLoggerMiddleware } from './middlewares/logging.middleware';
+import { TemporaryTenantsModule } from './modules/temporary-tenants/temporary-tenants.module';
 @Module({
 	imports: [
 		TypeOrmModule.forRootAsync({
@@ -90,9 +91,9 @@ import { RolesGuard } from './modules/auth/guards/roles.guard';
 		RoomingSubscriptionRequestsModule,
 		CategoriesModule,
 		RoomDescriptionsModule,
-		TemporaryLessorsModule,
 		AdministrativeUnitModule,
 		AdministrativeRegionModule,
+		TemporaryTenantsModule,
 	],
 	controllers: [],
 	providers: [
@@ -106,4 +107,12 @@ import { RolesGuard } from './modules/auth/guards/roles.guard';
 		},
 	],
 })
-export class AppModule {}
+export class AppModule {
+	configure(consumer: MiddlewareConsumer): void {
+		consumer.apply(AppLoggerMiddleware).forRoutes('*');
+	}
+
+	constructor() {
+		console.log({ appConfig });
+	}
+}

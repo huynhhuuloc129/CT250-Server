@@ -65,7 +65,7 @@ export class User extends BaseObject {
 	role: USER_ROLE;
 
 	@OneToOne(() => Tenant, (tenant: Tenant) => tenant.user)
-	tentant: Tenant;
+	tenant: Tenant;
 
 	@OneToOne(() => Lessor, (lessor: Lessor) => lessor.user)
 	lessor: Lessor;

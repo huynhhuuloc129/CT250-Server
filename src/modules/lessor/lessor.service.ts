@@ -1,11 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { USER_ROLE } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
 import { CreateLessorDto } from './dto/create-lessor.dto';
 import { Lessor } from './entities/lessor.entity';
-import { UpdateLessorDto } from './dto/update-lessor.dto';
 
 @Injectable()
 export class LessorService {
@@ -49,22 +48,6 @@ export class LessorService {
 			relations: {
 				user: true,
 			},
-		});
-	}
-
-	async updateOneByCondititon(
-		filter: object | object[],
-		updateDto: UpdateLessorDto,
-	): Promise<Lessor> {
-		const entity = await this.lessorsRepository.findOne({ where: filter });
-
-		if (!entity) {
-			throw new NotFoundException(`Not found user`);
-		}
-
-		return await this.lessorsRepository.save({
-			...entity,
-			...updateDto,
 		});
 	}
 

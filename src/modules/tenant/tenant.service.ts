@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Tenant } from './entities/tenant.entity';
 import { USER_ROLE } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
 import { CreateTenantDto } from './dto/create-tenant.dto';
+import { UpdateTenantDto } from './dto/update-tenant.dto';
 
 @Injectable()
 export class TenantService {
@@ -48,6 +49,22 @@ export class TenantService {
 			relations: {
 				user: true,
 			},
+		});
+	}
+
+	async updateOneByCondititon(
+		filter: object | object[],
+		updateDto: UpdateTenantDto,
+	): Promise<Tenant> {
+		const entity = await this.tenantsRepository.findOne({ where: filter });
+
+		if (!entity) {
+			throw new NotFoundException(`Not found user`);
+		}
+
+		return await this.tenantsRepository.save({
+			...entity,
+			...updateDto,
 		});
 	}
 
