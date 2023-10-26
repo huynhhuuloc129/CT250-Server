@@ -29,7 +29,9 @@ export class LessorService {
 		return await this.lessorsRepository.findOne({
 			where: { id },
 			relations: {
-				user: true,
+				user: {
+					photo: true,
+				},
 			},
 		});
 	}
@@ -38,7 +40,9 @@ export class LessorService {
 		return await this.lessorsRepository.findOne({
 			where: filter,
 			relations: {
-				user: true,
+				user: {
+					photo: true,
+				},
 			},
 		});
 	}
@@ -47,7 +51,9 @@ export class LessorService {
 		return this.lessorsRepository.find({
 			where: filter,
 			relations: {
-				user: true,
+				user: {
+					photo: true,
+				},
 			},
 		});
 	}

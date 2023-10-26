@@ -62,7 +62,7 @@ export class ReviewController {
 	@Post('rooms/:roomId/me')
 	@ApiBearerAuth('bearer')
 	@RequiredRoles(USER_ROLE.tenant)
-	@ApiOperation({ summary: 'Current user create one their review' })
+	@ApiOperation({ summary: 'Current tenant create one their review' })
 	async currentUserCreateOne(
 		@GetCurrentUser() user: User,
 		@Param('roomId', ParseIntPipe) roomId: number,
@@ -78,7 +78,7 @@ export class ReviewController {
 	@Patch(':reviewId/me')
 	@RequiredRoles(USER_ROLE.tenant)
 	@ApiBearerAuth('bearer')
-	@ApiOperation({ summary: 'Current user update one their review' })
+	@ApiOperation({ summary: 'Current tenant update one their review' })
 	async currentUserUpdateOne(
 		@GetCurrentUser('id', ParseIntPipe) userId: number,
 		@Param('reviewId', ParseIntPipe) reviewId: number,
@@ -94,7 +94,7 @@ export class ReviewController {
 	@Delete(':reviewId/me')
 	@RequiredRoles(USER_ROLE.tenant)
 	@ApiBearerAuth('bearer')
-	@ApiOperation({ summary: 'Current user delete one their review' })
+	@ApiOperation({ summary: 'Current tenant delete one their review' })
 	async currentUserDeleteOne(
 		@GetCurrentUser('id', ParseIntPipe) userId: number,
 		@Param('reviewId', ParseIntPipe) reviewId: number,

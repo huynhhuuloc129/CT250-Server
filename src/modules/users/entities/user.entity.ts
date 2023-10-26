@@ -70,9 +70,9 @@ export class User extends BaseObject {
 	@OneToOne(() => Lessor, (lessor: Lessor) => lessor.user)
 	lessor: Lessor;
 
-	@OneToOne(() => Photo, (photo: Photo) => photo.user)
+	@OneToOne(() => Photo, (photo: Photo) => photo.user, { onDelete: 'SET NULL' })
 	@JoinColumn()
-	photo?: Photo;
+	photo?: Photo | number;
 
 	@AfterLoad()
 	updateFullName() {

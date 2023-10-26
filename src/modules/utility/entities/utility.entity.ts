@@ -14,7 +14,9 @@ export class Utility extends BaseObject {
 	@ManyToMany(() => Room, (room: Room) => room.Utilities)
 	rooms: Room[];
 
-	@OneToOne(() => Photo, (assign: Photo) => assign.utility)
+	@OneToOne(() => Photo, (assign: Photo) => assign.utility, {
+		onDelete: 'SET NULL',
+	})
 	@JoinColumn()
-	photo: Photo;
+	photo?: Photo | number;
 }

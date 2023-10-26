@@ -30,7 +30,9 @@ export class TenantService {
 		return await this.tenantsRepository.findOne({
 			where: { id },
 			relations: {
-				user: true,
+				user: {
+					photo: true,
+				},
 			},
 		});
 	}
@@ -39,7 +41,9 @@ export class TenantService {
 		return await this.tenantsRepository.findOne({
 			where: filter,
 			relations: {
-				user: true,
+				user: {
+					photo: true,
+				},
 			},
 		});
 	}
@@ -48,7 +52,9 @@ export class TenantService {
 		return this.tenantsRepository.find({
 			where: filter,
 			relations: {
-				user: true,
+				user: {
+					photo: true,
+				},
 			},
 		});
 	}

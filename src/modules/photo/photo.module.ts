@@ -1,17 +1,13 @@
 import { Module } from '@nestjs/common';
-import { PhotoService } from './photo.service';
-import { PhotoController } from './photo.controller';
-import { Photo } from './entities/photo.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RoomsModule } from '../rooms/rooms.module';
-import { RoomingHousesModule } from '../rooming-houses/rooming-houses.module';
+import { UsersModule } from '../users/users.module';
+import { Photo } from './entities/photo.entity';
+import { PhotoController } from './photo.controller';
+import { PhotoService } from './photo.service';
+import { UtilityModule } from '../utility/utility.module';
 
 @Module({
-	imports: [
-		TypeOrmModule.forFeature([Photo]),
-		RoomsModule,
-		RoomingHousesModule,
-	],
+	imports: [TypeOrmModule.forFeature([Photo]), UsersModule, UtilityModule],
 	controllers: [PhotoController],
 	providers: [PhotoService],
 	exports: [PhotoService],

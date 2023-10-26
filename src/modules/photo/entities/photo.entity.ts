@@ -9,6 +9,7 @@ export enum PHOTO_TYPE {
 	USER = 'user',
 	ROOMING_HOUSE = 'rooming house',
 	ROOM = 'room',
+	UTILITY = 'utility',
 }
 
 @Entity()
@@ -16,30 +17,30 @@ export class Photo extends BaseObject {
 	@Column({ nullable: true })
 	fileName: string;
 
-	@Column()
+	@Column({ select: false })
 	path: string;
+
+	@Column()
+	url: string;
 
 	@Column({ type: 'enum', enum: PHOTO_TYPE })
 	type: PHOTO_TYPE;
 
-	@Column({ nullable: true })
-	url?: string;
-
 	// reference
 
 	@OneToOne(() => Utility, (utility: Utility) => utility.photo)
-	utility: Utility;
+	utility: Utility | number;
 
 	@OneToOne(() => User, (user: User) => user.photo)
-	user: User;
+	user: User | number;
 
 	@ManyToOne(() => Room, (room: Room) => room.photos, { onDelete: 'CASCADE' })
-	room: Room;
+	room: Room | number;
 
 	@ManyToOne(
 		() => RoomingHouse,
 		(roomingHouse: RoomingHouse) => roomingHouse.photos,
 		{ onDelete: 'CASCADE' },
 	)
-	roomingHouse: RoomingHouse;
+	roomingHouse: RoomingHouse | number;
 }
