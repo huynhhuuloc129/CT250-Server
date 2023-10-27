@@ -16,13 +16,13 @@ export class Ward {
 	@PrimaryColumn()
 	code: string;
 
-	@CreateDateColumn()
+	@CreateDateColumn({ select: false })
 	createdAt: Date;
 
-	@UpdateDateColumn()
+	@UpdateDateColumn({ select: false })
 	updatedAt: Date;
 
-	@DeleteDateColumn()
+	@DeleteDateColumn({ select: false })
 	deletedAt: Date;
 
 	@Column()
@@ -40,7 +40,7 @@ export class Ward {
 	@Column({ name: 'code_name' })
 	codeName: string;
 
-	@ManyToOne(() => District)
+	@ManyToOne(() => District, (district: District) => district.wards)
 	@JoinColumn({ name: 'district_code' })
 	districtCode: District;
 

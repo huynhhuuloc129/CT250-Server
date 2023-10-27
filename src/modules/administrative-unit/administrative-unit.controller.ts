@@ -1,7 +1,9 @@
 import { Controller } from '@nestjs/common';
 import { AdministrativeUnitService } from './administrative-unit.service';
 
-@Controller('administrative-unit')
+@Controller('administrative-units')
 export class AdministrativeUnitController {
-  constructor(private readonly administrativeUnitService: AdministrativeUnitService) {}
+	constructor(
+		private readonly administrativeUnitService: AdministrativeUnitService,
+	) {}
 }
