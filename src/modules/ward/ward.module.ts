@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
-import { CommnueService } from './ward.service';
-import { CommnueController } from './ward';
 import { Ward } from './entities/ward.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { WardController } from './ward.controller';
+import { WardService } from './ward.service';
 
 @Module({
 	imports: [TypeOrmModule.forFeature([Ward])],
-	controllers: [CommnueController],
-	providers: [CommnueService],
+	controllers: [WardController],
+	providers: [WardService],
+	exports: [WardService],
 })
 export class WardModule {}

@@ -12,13 +12,13 @@ export class AdministrativeRegion {
 	@PrimaryColumn()
 	id: number;
 
-	@CreateDateColumn()
+	@CreateDateColumn({ select: false })
 	createdAt: Date;
 
-	@UpdateDateColumn()
+	@UpdateDateColumn({ select: false })
 	updatedAt: Date;
 
-	@DeleteDateColumn()
+	@DeleteDateColumn({ select: false })
 	deletedAt: Date;
 
 	@Column()

@@ -15,7 +15,6 @@ export class AuthController {
 	constructor(private authService: AuthService) {}
 	@Post('login')
 	@Public()
-	@ApiBearerAuth('bearer')
 	@ApiOperation({ summary: 'Login account' })
 	@ApiBody({
 		type: Object,
@@ -40,7 +39,6 @@ export class AuthController {
 
 	@Post('signup-lessor')
 	@Public()
-	@ApiBearerAuth('bearer')
 	@ApiOperation({ summary: 'Sign up lessor account' })
 	async signupLessor(
 		@Body() createDto: CreateLessorDto,
@@ -50,7 +48,6 @@ export class AuthController {
 
 	@Post('signup-tenant')
 	@Public()
-	@ApiBearerAuth('bearer')
 	@ApiOperation({ summary: 'Sign up tenant account' })
 	async signupTenant(
 		@Body() createDto: CreateTenantDto,
@@ -67,7 +64,7 @@ export class AuthController {
 
 	@Post('refresh')
 	@UseGuards(RefreshTokenGuard)
-	@Public()
+	@ApiBearerAuth('bearer')
 	@ApiOperation({ summary: 'Refresh Tokens' })
 	async refreshTokens(
 		@GetCurrentUser('sub') userId: number,

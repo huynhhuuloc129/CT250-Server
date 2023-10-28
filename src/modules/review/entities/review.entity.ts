@@ -5,15 +5,15 @@ import { Column, Entity, ManyToOne } from 'typeorm';
 
 @Entity()
 export class Review extends BaseObject {
-	@Column()
+	@Column({ type: 'float' })
 	rating: number;
 
 	@Column()
 	comment: string;
 
 	@ManyToOne(() => Room, (room: Room) => room.reviews)
-	room: Room;
+	room: Room | number;
 
 	@ManyToOne(() => Tenant, (lessor: Tenant) => lessor.reviews)
-	tenant: Tenant;
+	tenant: Tenant | number;
 }

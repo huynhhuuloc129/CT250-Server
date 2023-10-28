@@ -1,5 +1,6 @@
 import { AdministrativeUnit } from 'src/modules/administrative-unit/entities/administrative-unit.entity';
 import { Province } from 'src/modules/province/entities/province.entity';
+import { Ward } from 'src/modules/ward/entities/ward.entity';
 import {
 	Entity,
 	Column,
@@ -9,6 +10,7 @@ import {
 	JoinColumn,
 	ManyToOne,
 	PrimaryColumn,
+	OneToMany,
 } from 'typeorm';
 
 @Entity({ name: 'districts' })
@@ -16,13 +18,13 @@ export class District {
 	@PrimaryColumn()
 	code: string;
 
-	@CreateDateColumn()
+	@CreateDateColumn({ select: false })
 	createdAt: Date;
 
-	@UpdateDateColumn()
+	@UpdateDateColumn({ select: false })
 	updatedAt: Date;
 
-	@DeleteDateColumn()
+	@DeleteDateColumn({ select: false })
 	deletedAt: Date;
 
 	@Column()
@@ -40,11 +42,14 @@ export class District {
 	@Column({ name: 'code_name' })
 	codeName: string;
 
-	@ManyToOne(() => Province)
+	@ManyToOne(() => Province, (province: Province) => province.districts)
 	@JoinColumn({ name: 'province_code' })
 	provinceCode: Province;
 
 	@ManyToOne(() => AdministrativeUnit)
 	@JoinColumn({ name: 'administrative_unit_id' })
 	administrativeUnitID: AdministrativeUnit;
+
+	@OneToMany(() => Ward, (ward: Ward) => ward.districtCode)
+	wards: Ward[];
 }

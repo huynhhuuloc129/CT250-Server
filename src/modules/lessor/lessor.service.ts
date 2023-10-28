@@ -29,7 +29,9 @@ export class LessorService {
 		return await this.lessorsRepository.findOne({
 			where: { id },
 			relations: {
-				user: true,
+				user: {
+					photo: true,
+				},
 			},
 		});
 	}
@@ -38,15 +40,20 @@ export class LessorService {
 		return await this.lessorsRepository.findOne({
 			where: filter,
 			relations: {
-				user: true,
+				user: {
+					photo: true,
+				},
 			},
 		});
 	}
 
-	async findMany(): Promise<Lessor[]> {
+	async findMany(filter: object | object[] = {}): Promise<Lessor[]> {
 		return this.lessorsRepository.find({
+			where: filter,
 			relations: {
-				user: true,
+				user: {
+					photo: true,
+				},
 			},
 		});
 	}

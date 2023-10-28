@@ -8,6 +8,7 @@ import { CreateTenantDto } from '../tenant/dto/create-tenant.dto';
 import { CreateAdminDto } from '../admin/dto/create-admin.dto';
 import { randomBytes, scrypt, timingSafeEqual } from 'crypto';
 import { promisify } from 'util';
+import { UpdatePhoto } from '../photo/type/update-photo.type';
 
 @Injectable()
 export class UsersService {
@@ -58,6 +59,7 @@ export class UsersService {
 			relations: {
 				tenant: true,
 				lessor: true,
+				photo: true,
 			},
 		});
 	}
@@ -68,22 +70,35 @@ export class UsersService {
 			relations: {
 				tenant: true,
 				lessor: true,
+				photo: true,
 			},
 		});
 	}
 
-	async findMany(): Promise<User[]> {
+	async findOneByCondititonWithRelation(
+		filter: object | object[],
+		relations: object,
+	): Promise<User> {
+		return await this.usersRepository.findOne({
+			where: filter,
+			relations,
+		});
+	}
+
+	async findMany(filter: object | object[] = {}): Promise<User[]> {
 		return this.usersRepository.find({
+			where: filter,
 			relations: {
 				tenant: true,
 				lessor: true,
+				photo: true,
 			},
 		});
 	}
 
 	async updateOneByCondititon(
 		filter: object | object[],
-		updateDto: UpdateUserDto,
+		updateDto: UpdateUserDto | UpdatePhoto,
 	): Promise<User> {
 		const entity = await this.usersRepository.findOne({ where: filter });
 

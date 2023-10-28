@@ -5,33 +5,42 @@ import { Utility } from 'src/modules/utility/entities/utility.entity';
 import { BaseObject } from 'src/shared/entities/base-object.entity';
 import { Entity, Column, ManyToOne, OneToOne } from 'typeorm';
 
+export enum PHOTO_TYPE {
+	USER = 'user',
+	ROOMING_HOUSE = 'rooming house',
+	ROOM = 'room',
+	UTILITY = 'utility',
+}
+
 @Entity()
 export class Photo extends BaseObject {
 	@Column({ nullable: true })
-	name?: string;
+	fileName: string;
 
-	@Column({ nullable: true })
-	url?: string;
+	@Column({ select: false })
+	path: string;
 
 	@Column()
-	type: string;
+	url: string;
 
-	@Column('bytea')
-	data: Buffer;
+	@Column({ type: 'enum', enum: PHOTO_TYPE })
+	type: PHOTO_TYPE;
+
+	// reference
 
 	@OneToOne(() => Utility, (utility: Utility) => utility.photo)
-	utility: Utility;
+	utility: Utility | number;
 
 	@OneToOne(() => User, (user: User) => user.photo)
-	user: User;
+	user: User | number;
 
 	@ManyToOne(() => Room, (room: Room) => room.photos, { onDelete: 'CASCADE' })
-	room: Room;
+	room: Room | number;
 
 	@ManyToOne(
 		() => RoomingHouse,
 		(roomingHouse: RoomingHouse) => roomingHouse.photos,
 		{ onDelete: 'CASCADE' },
 	)
-	roomingHouse: RoomingHouse;
+	roomingHouse: RoomingHouse | number;
 }
