@@ -19,7 +19,7 @@ export class CreateRoomDto {
 
 	@ApiHideProperty()
 	@IsOptional()
-	roomingHouseID?: number;
+	roomingHouseId?: number;
 
 	@ApiHideProperty()
 	@IsOptional()

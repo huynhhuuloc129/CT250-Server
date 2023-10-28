@@ -28,8 +28,8 @@ export class RoomingHousesController {
 
 	@Public()
 	@Get()
-	async findAll(@Query() filter: GetRoomingHouseDto) {
-		return await this.roomingHousesService.findAll(filter);
+	async findMany(@Query() filter: GetRoomingHouseDto) {
+		return await this.roomingHousesService.findManyRoomingHouse(filter);
 	}
 
 	@Public()
@@ -39,7 +39,7 @@ export class RoomingHousesController {
 			where: { id },
 			relations: {
 				category: true,
-				lessor: true,
+				lessor: { user: true },
 				photos: true,
 				rooms: true,
 				ward: { districtCode: { provinceCode: true } },
@@ -48,9 +48,14 @@ export class RoomingHousesController {
 	}
 
 	@Post()
-	async create(@Body() input: CreateRoomingHouseDto) {
-		//TODO: add lessor
-		return await this.roomingHousesService.createOne(input);
+	@ApiBearerAuth('bearer')
+	@RequiredRoles(USER_ROLE.lessor)
+	async create(
+		@Body() input: CreateRoomingHouseDto,
+		@GetCurrentUser() user: User,
+	) {
+		input.lessorId = user.id;
+		return await this.roomingHousesService.createRoomingHouse(input);
 	}
 
 	@Patch(':id')
@@ -72,9 +77,8 @@ export class RoomingHousesController {
 		@Param('id', ParseIntPipe) id: number,
 		@GetCurrentUser() user: User,
 	) {
-		//TODO: delete room before deleting roomingHouse
 		console.log(user);
-		return await this.roomingHousesService.deleteOne({ id });
+		return await this.roomingHousesService.deleteRoomingHouse(id);
 	}
 
 	//NOTE: ROOM
@@ -86,8 +90,7 @@ export class RoomingHousesController {
 		@Body() input: CreateRoomDto,
 		@GetCurrentUser() user: User,
 	) {
-		//TODO: create many room description
-		console.log(user);
+		input.lessorId = user.id;
 		return await this.roomingHousesService.createRoom(roomingHouseId, input);
 	}
 

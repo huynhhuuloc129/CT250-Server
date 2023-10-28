@@ -10,6 +10,12 @@ import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 @Entity()
 export class RoomingHouse extends BaseObject {
 	@Column()
+	categoryId: number;
+
+	@Column()
+	lessorId: number;
+
+	@Column()
 	name: string;
 
 	@Column()
@@ -25,7 +31,7 @@ export class RoomingHouse extends BaseObject {
 	totalRoomNumber: number;
 
 	@Column()
-	paymentExpiresDate: Date;
+	paymentExpiresDay: number;
 
 	@ManyToOne(() => Lessor, (assign: Lessor) => assign.roomingHouses)
 	lessor: Lessor;
@@ -40,7 +46,7 @@ export class RoomingHouse extends BaseObject {
 	notifications: Notification[];
 
 	@OneToMany(() => Room, (assign: Room) => assign.roomingHouse)
-	rooms: Room[];
+	rooms?: Room[];
 
 	@OneToMany(() => Photo, (assign: Photo) => assign.roomingHouse, {})
 	photos: Photo[];

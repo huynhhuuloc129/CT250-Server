@@ -41,7 +41,7 @@ export class RoomDescriptionController {
 	@Public()
 	@Get()
 	async findAll(@Query() filter: DefaultListDto) {
-		return await this.roomDescriptionService.findAll(filter);
+		return await this.roomDescriptionService.findManyRoomDescription(filter);
 	}
 
 	@Public()

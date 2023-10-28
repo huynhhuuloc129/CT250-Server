@@ -25,7 +25,7 @@ export class RoomsController {
 	@Public()
 	@Get()
 	async findAll(@Query() filter: GetRoomDto) {
-		return await this.roomService.findAll(filter);
+		return await this.roomService.findManyRoom(filter);
 	}
 
 	@Public()
@@ -33,7 +33,12 @@ export class RoomsController {
 	async findOne(@Param('id', ParseIntPipe) id: number) {
 		return await this.roomService.findOneWithRelation({
 			where: { id },
-			relations: { roomingHouse: true, lessor: true },
+			relations: {
+				roomingHouse: true,
+				lessor: { user: true },
+				descriptions: true,
+				reviews: true,
+			},
 		});
 	}
 
