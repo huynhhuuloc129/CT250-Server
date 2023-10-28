@@ -41,7 +41,7 @@ export class RoomsService extends BaseService<Room> {
 				where['lessorId'] = filter.lessorId;
 			}
 
-			if (filter.lessorId) {
+			if (filter.roomingHouseId) {
 				where['roomingHouseId'] = filter.roomingHouseId;
 			}
 
@@ -91,6 +91,7 @@ export class RoomsService extends BaseService<Room> {
 		try {
 			const data = await this.roomRepository.softDelete({ id: roomId });
 			if (data.affected === 1) {
+				//NOTE: delete Rooming Subscription Request
 				await this.roomingSubscriptionRequestService.deleteMany({
 					roomId,
 				});

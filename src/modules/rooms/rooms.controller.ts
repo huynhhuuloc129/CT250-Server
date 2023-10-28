@@ -1,8 +1,8 @@
 import {
 	Body,
 	Controller,
-	Delete,
 	Get,
+	NotFoundException,
 	Param,
 	ParseIntPipe,
 	Patch,
@@ -31,7 +31,7 @@ export class RoomsController {
 	@Public()
 	@Get(':id')
 	async findOne(@Param('id', ParseIntPipe) id: number) {
-		return await this.roomService.findOneWithRelation({
+		const data = await this.roomService.findOneWithRelation({
 			where: { id },
 			relations: {
 				roomingHouse: true,
@@ -40,6 +40,10 @@ export class RoomsController {
 				reviews: true,
 			},
 		});
+		if (!data) {
+			throw new NotFoundException('room not found');
+		}
+		return data;
 	}
 
 	@Patch(':id')
@@ -52,16 +56,5 @@ export class RoomsController {
 	) {
 		console.log(user);
 		return await this.roomService.updateOne({ id }, input);
-	}
-
-	@Delete(':id')
-	@ApiBearerAuth('bearer')
-	@RequiredRoles(USER_ROLE.lessor)
-	async remove(
-		@Param('id', ParseIntPipe) id: number,
-		@GetCurrentUser() user: User,
-	) {
-		console.log(user);
-		return await this.roomService.deleteOne({ id });
 	}
 }

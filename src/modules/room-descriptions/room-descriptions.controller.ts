@@ -3,6 +3,7 @@ import {
 	Controller,
 	Delete,
 	Get,
+	NotFoundException,
 	Param,
 	ParseIntPipe,
 	Patch,
@@ -47,10 +48,14 @@ export class RoomDescriptionController {
 	@Public()
 	@Get(':id')
 	async findOne(@Param('id', ParseIntPipe) id: number) {
-		return await this.roomDescriptionService.findOneWithRelation({
+		const data = await this.roomDescriptionService.findOneWithRelation({
 			where: { id },
 			relations: { room: true },
 		});
+		if (!data) {
+			throw new NotFoundException('room description not found');
+		}
+		return data;
 	}
 
 	@Patch(':id')

@@ -114,6 +114,7 @@ export class RoomingHousesService extends BaseService<RoomingHouse> {
 			roomingHouse.totalRoomNumber += 1;
 			roomingHouse.availableRoomNumber += 1;
 
+			await this.roomingHouseRepository.save(roomingHouse);
 			return room;
 		} catch (err) {
 			throw new BadRequestException(err);
@@ -131,6 +132,28 @@ export class RoomingHousesService extends BaseService<RoomingHouse> {
 
 			filter.roomingHouseId = roomingHouseId;
 			return await this.roomService.findManyRoom(filter);
+		} catch (err) {
+			throw new BadRequestException(err);
+		}
+	}
+
+	async deleteRoom(roomingHouseId: number, roomId: number) {
+		try {
+			const room = await this.roomService.findOneWithRelation({
+				where: { id: roomId },
+				relations: { roomingHouse: true },
+			});
+			if (room.roomingHouseId !== roomingHouseId) {
+				throw new BadRequestException('roomingHouse and room not match');
+			}
+			await this.roomService.deleteRoom(roomId);
+			const roomingHouse = room.roomingHouse;
+			roomingHouse.totalRoomNumber -= 1;
+			if (room.state === ROOM_STATE.AVAILABLE) {
+				roomingHouse.availableRoomNumber -= 1;
+			}
+			await this.roomingHouseRepository.save(roomingHouse);
+			return { success: true };
 		} catch (err) {
 			throw new BadRequestException(err);
 		}

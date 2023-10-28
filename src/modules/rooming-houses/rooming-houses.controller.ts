@@ -3,6 +3,7 @@ import {
 	Controller,
 	Delete,
 	Get,
+	NotFoundException,
 	Param,
 	ParseIntPipe,
 	Patch,
@@ -35,7 +36,7 @@ export class RoomingHousesController {
 	@Public()
 	@Get(':id')
 	async findOne(@Param('id', ParseIntPipe) id: number) {
-		return await this.roomingHousesService.findOneWithRelation({
+		const data = await this.roomingHousesService.findOneWithRelation({
 			where: { id },
 			relations: {
 				category: true,
@@ -45,6 +46,10 @@ export class RoomingHousesController {
 				ward: { districtCode: { provinceCode: true } },
 			},
 		});
+		if (!data) {
+			throw new NotFoundException('roomingHouse not found');
+		}
+		return data;
 	}
 
 	@Post()
@@ -101,5 +106,17 @@ export class RoomingHousesController {
 		@Query() filter: GetRoomDto,
 	) {
 		return await this.roomingHousesService.findManyRoom(roomingHouseId, filter);
+	}
+
+	@Delete(':roomingHouseId/rooms:roomId')
+	@ApiBearerAuth('bearer')
+	@RequiredRoles(USER_ROLE.lessor)
+	async removeRoom(
+		@Param('roomingHouseId', ParseIntPipe) roomingHouseId: number,
+		@Param('roomId', ParseIntPipe) roomId: number,
+		@GetCurrentUser() user: User,
+	) {
+		console.log(user);
+		return await this.roomingHousesService.deleteRoom(roomingHouseId, roomId);
 	}
 }
