@@ -7,6 +7,12 @@ import { Column, Entity, ManyToOne } from 'typeorm';
 @Entity()
 export class Notification extends BaseObject {
 	@Column()
+	roomingHouseId: number;
+
+	@Column({ nullable: true })
+	roomId: number;
+
+	@Column()
 	title: string;
 
 	@Column()
@@ -21,6 +27,8 @@ export class Notification extends BaseObject {
 	@ManyToOne(() => RoomingHouse, (assign: RoomingHouse) => assign.notifications)
 	roomingHouse: RoomingHouse;
 
-	@ManyToOne(() => Room, (assign: Room) => assign.notifications)
-	room: Room;
+	@ManyToOne(() => Room, (assign: Room) => assign.notifications, {
+		nullable: true,
+	})
+	room?: Room;
 }

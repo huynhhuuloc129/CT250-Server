@@ -1,5 +1,6 @@
 import { Public } from './../auth/utils';
 import {
+	BadRequestException,
 	Body,
 	Controller,
 	Delete,
@@ -18,6 +19,7 @@ import { NotificationsService } from './notifications.service';
 import { RequiredRoles } from '../auth/decorators/required-roles.decorator';
 import { USER_ROLE, User } from '../users/entities/user.entity';
 import { GetCurrentUser } from '../auth/decorators/get-current-user.decorator';
+import { NOTIFICATION_TYPE } from 'src/shared/enums/common.enum';
 
 @Controller('notifications')
 @ApiTags('notifications')
@@ -27,7 +29,7 @@ export class NotificationsController {
 	@Get()
 	@Public()
 	async findAll(@Query() filter: GetNotificationDto) {
-		return await this.notificationService.findAll(filter);
+		return await this.notificationService.findManyNotification(filter);
 	}
 
 	@Get(':id')
@@ -48,7 +50,14 @@ export class NotificationsController {
 		@GetCurrentUser() user: User,
 	) {
 		console.log(user);
-		return await this.notificationService.createOne(input);
+		if (input.type == NOTIFICATION_TYPE.ROOMING_HOUSE) {
+			if (input.roomId) {
+				throw new BadRequestException('input invalid!');
+			}
+			return await this.notificationService.createManyNotification(input);
+		} else {
+			return await this.notificationService.createNotification(input);
+		}
 	}
 
 	@Patch(':id')
