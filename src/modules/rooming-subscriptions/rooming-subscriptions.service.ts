@@ -4,13 +4,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ILike, Repository } from 'typeorm';
 import { RoomingSubscription } from './entities/rooming-subscription.entity';
 import { GetRoomingSubscriptionDto } from './dto/get-rooming-subscription.dto';
-// import { CreateRoomingSubscriptionDto } from './dto/create-rooming-subscription.dto';
+import { CreatePaymentRecordDto } from '../payment-records/dto/create-payment-record.dto';
+import { PaymentRecordsService } from '../payment-records/payment-records.service';
 
 @Injectable()
 export class RoomingSubscriptionService extends BaseService<RoomingSubscription> {
 	constructor(
 		@InjectRepository(RoomingSubscription)
 		private roomingSubscriptionRepository: Repository<RoomingSubscription>,
+		private paymentRecordService: PaymentRecordsService,
 	) {
 		super(roomingSubscriptionRepository);
 	}
@@ -48,7 +50,6 @@ export class RoomingSubscriptionService extends BaseService<RoomingSubscription>
 					order,
 					take: limit ? (limit <= 100 ? limit : 100) : 10,
 					skip: offset ? offset : 0,
-					// TODO: Should not put relations in getAll
 					relations: { tenant: true, room: true },
 				}),
 			]);
@@ -63,12 +64,23 @@ export class RoomingSubscriptionService extends BaseService<RoomingSubscription>
 		}
 	}
 
-	// async createRoomingSubscription(input: CreateRoomingSubscriptionDto) {
-	// 	try {
-	// 		const data = await this.createOne(input);
-	// 		return data;
-	// 	} catch (err) {
-	// 		throw new BadRequestException(err);
-	// 	}
-	// }
+	async createPaymentRecord(input: CreatePaymentRecordDto) {
+		try {
+			const roomingSubscription =
+				await this.roomingSubscriptionRepository.findOne({
+					where: { id: input.roomingSubscriptionId },
+					relations: { room: true },
+				});
+			if (!roomingSubscription) {
+				throw new BadRequestException('rooming subscription not found');
+			}
+
+			return await this.paymentRecordService.createPaymentRecord(
+				input,
+				roomingSubscription,
+			);
+		} catch (err) {
+			throw new BadRequestException(err);
+		}
+	}
 }

@@ -24,7 +24,7 @@ export class PaymentRecordsController {
 	@Get()
 	@Public()
 	async findAll(@Query() filter: GetPaymentRecordDto) {
-		return await this.paymentRecordsService.findAll(filter);
+		return await this.paymentRecordsService.getManyPaymentRecord(filter);
 	}
 
 	@Get(':id')
@@ -32,7 +32,7 @@ export class PaymentRecordsController {
 	async findOne(@Param('id', ParseIntPipe) id: number) {
 		return await this.paymentRecordsService.findOneWithRelation({
 			where: { id },
-			relations: { roomingSubscription: { room: true } },
+			relations: { roomingSubscription: { room: { roomingHouse: true } } },
 		});
 	}
 

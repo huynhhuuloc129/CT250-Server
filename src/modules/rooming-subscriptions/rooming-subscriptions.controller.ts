@@ -105,7 +105,7 @@ export class RoomingSubscriptionController {
 	) {
 		console.log(user);
 		input.roomingSubscriptionId = id;
-		return await this.paymentRecordService.createOne(input);
+		return await this.roomingSubscriptionService.createPaymentRecord(input);
 	}
 
 	@Public()
@@ -115,6 +115,6 @@ export class RoomingSubscriptionController {
 		@Query() filter: GetPaymentRecordDto,
 	) {
 		filter.roomingSubscriptionId = id;
-		return await this.paymentRecordService.findAll(filter);
+		return await this.paymentRecordService.getManyPaymentRecord(filter);
 	}
 }
