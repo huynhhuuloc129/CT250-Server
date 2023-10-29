@@ -9,10 +9,16 @@ import { ILike, Repository } from 'typeorm';
 import { RoomingHouse } from './entities/romming-house.entity';
 import { CreateRoomDto } from '../rooms/dto/create-room.dto';
 import { RoomsService } from '../rooms/rooms.service';
-import { ROOM_STATE } from 'src/shared/enums/common.enum';
+import {
+	ROOMING_SUBSCRIPTION_REQUEST_STATE,
+	ROOMING_SUBSCRIPTION_STATE,
+	ROOM_STATE,
+} from 'src/shared/enums/common.enum';
 import { GetRoomDto } from '../rooms/dto/get-room.dto';
 import { CreateRoomingHouseDto } from './dto/create-rooming-house.dto';
 import { GetRoomingHouseDto } from './dto/get-rooming-house.dto';
+import { CreateRoomingSubscriptionRequestDto } from '../rooming-subscription-requests/dto/create-rooming-subscription-request.dto';
+import { UpdateRoomingSubscriptionDto } from '../rooming-subscriptions/dto/update-rooming-subscription.dto';
 
 @Injectable()
 export class RoomingHousesService extends BaseService<RoomingHouse> {
@@ -154,6 +160,82 @@ export class RoomingHousesService extends BaseService<RoomingHouse> {
 			}
 			await this.roomingHouseRepository.save(roomingHouse);
 			return { success: true };
+		} catch (err) {
+			throw new BadRequestException(err);
+		}
+	}
+
+	async createRoomingSubscriptionRequest(
+		roomingHouseId: number,
+		roomId: number,
+		input: CreateRoomingSubscriptionRequestDto,
+	) {
+		try {
+			return await this.roomService.createRoomingSubscriptionRequest(
+				roomingHouseId,
+				roomId,
+				input,
+			);
+		} catch (err) {
+			throw new BadRequestException(err);
+		}
+	}
+
+	async updateRoomingSubscriptionRequest(
+		roomingHouseId: number,
+		roomId: number,
+		rsrId: number,
+		input: CreateRoomingSubscriptionRequestDto,
+	) {
+		try {
+			const data = await this.roomService.updateRoomingSubscriptionRequest(
+				roomingHouseId,
+				roomId,
+				rsrId,
+				input,
+			);
+
+			if (data.state === ROOMING_SUBSCRIPTION_REQUEST_STATE.SUCCESS) {
+				const rHouse = await this.findOne({ id: roomingHouseId });
+
+				await this.updateOne(
+					{ id: rHouse.id },
+					{ availableRoomNumber: rHouse.availableRoomNumber - 1 },
+				);
+			}
+			return data;
+		} catch (err) {
+			throw new BadRequestException(err);
+		}
+	}
+
+	async updateRoomingSubscription(
+		roomingHouseId: number,
+		roomId: number,
+		rsId: number,
+		input: UpdateRoomingSubscriptionDto,
+	) {
+		try {
+			const data = await this.roomService.updateRoomingSubscription(
+				roomingHouseId,
+				roomId,
+				rsId,
+				input,
+			);
+
+			if (data.state === ROOMING_SUBSCRIPTION_STATE.STAYED) {
+				//NOTE: update roomingHouse availableRoomNumber
+				const roomingHouse = await this.findOne({ id: roomingHouseId });
+
+				await this.updateOne(
+					{
+						id: roomingHouse.id,
+					},
+					{ availableRoomNumber: roomingHouse.availableRoomNumber + 1 },
+				);
+			}
+
+			return data;
 		} catch (err) {
 			throw new BadRequestException(err);
 		}

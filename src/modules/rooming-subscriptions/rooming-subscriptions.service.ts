@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ILike, Repository } from 'typeorm';
 import { RoomingSubscription } from './entities/rooming-subscription.entity';
 import { GetRoomingSubscriptionDto } from './dto/get-rooming-subscription.dto';
+// import { CreateRoomingSubscriptionDto } from './dto/create-rooming-subscription.dto';
 
 @Injectable()
 export class RoomingSubscriptionService extends BaseService<RoomingSubscription> {
@@ -37,12 +38,6 @@ export class RoomingSubscriptionService extends BaseService<RoomingSubscription>
 			if (filter.roomId) {
 				where['roomId'] = filter.roomId;
 			}
-			if (filter.year) {
-				where['year'] = filter.year;
-			}
-			if (filter.month) {
-				where['month'] = filter.month;
-			}
 
 			const [count, data] = await Promise.all([
 				this.roomingSubscriptionRepository.count({
@@ -67,4 +62,13 @@ export class RoomingSubscriptionService extends BaseService<RoomingSubscription>
 			throw new BadRequestException(err);
 		}
 	}
+
+	// async createRoomingSubscription(input: CreateRoomingSubscriptionDto) {
+	// 	try {
+	// 		const data = await this.createOne(input);
+	// 		return data;
+	// 	} catch (err) {
+	// 		throw new BadRequestException(err);
+	// 	}
+	// }
 }

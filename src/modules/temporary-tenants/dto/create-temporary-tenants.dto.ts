@@ -19,8 +19,4 @@ export class CreateTemporaryTenantDto {
 	@ApiProperty()
 	@IsDateString()
 	startDate: Date;
-
-	@ApiProperty()
-	@IsDateString()
-	endDate: Date;
 }

@@ -1,31 +1,15 @@
-import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
-import { IsDateString, IsEnum, IsNumber, IsOptional } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsEnum, IsNumber } from 'class-validator';
 import { ROOMING_SUBSCRIPTION_STATE } from 'src/shared/enums/common.enum';
 
 export class CreateRoomingSubscriptionDto {
 	@ApiProperty()
 	@IsNumber()
-	ternantId: number;
+	tenantId: number;
 
 	@ApiProperty()
 	@IsNumber()
 	roomId: number;
-
-	@ApiHideProperty()
-	@IsOptional()
-	month: number;
-
-	@ApiHideProperty()
-	@IsOptional()
-	year: number;
-
-	@ApiProperty()
-	@IsDateString()
-	startDate: Date;
-
-	@ApiProperty()
-	@IsDateString()
-	endDate: Date;
 
 	@ApiProperty({
 		enum: ROOMING_SUBSCRIPTION_STATE,

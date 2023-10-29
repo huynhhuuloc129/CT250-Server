@@ -25,22 +25,6 @@ export class GetRoomingSubscriptionDto extends DefaultListDto {
 		required: false,
 	})
 	@IsOptional()
-	@Type(() => Number)
-	@IsNumber()
-	month?: number;
-
-	@ApiProperty({
-		required: false,
-	})
-	@IsOptional()
-	@Type(() => Number)
-	@IsNumber()
-	year?: number;
-
-	@ApiProperty({
-		required: false,
-	})
-	@IsOptional()
 	@Type(() => Date)
 	@IsDate()
 	startDate?: Date;

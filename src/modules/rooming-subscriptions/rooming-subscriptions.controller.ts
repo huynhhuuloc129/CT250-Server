@@ -32,14 +32,6 @@ export class RoomingSubscriptionController {
 		private paymentRecordService: PaymentRecordsService,
 	) {}
 
-	//NOTE: This will only be auto-created after sub_req is created
-	// @Post()
-	// @ApiBearerAuth('bearer')
-	// @ApiBody({ type: CreateRoomingSubscriptionDto })
-	// async create(@Body() input: CreateRoomingSubscriptionDto) {
-	// 	return await this.roomingSubscriptionService.createOne(input);
-	// }
-
 	@Public()
 	@Get()
 	async findMany(@Query() filter: GetRoomingSubscriptionDto) {
@@ -53,7 +45,7 @@ export class RoomingSubscriptionController {
 	async findOne(@Param('id', ParseIntPipe) id: number) {
 		return await this.roomingSubscriptionService.findOneWithRelation({
 			where: { id },
-			relations: { room: true, tenant: true },
+			relations: { room: true, tenant: { user: true } },
 		});
 	}
 
@@ -99,7 +91,7 @@ export class RoomingSubscriptionController {
 		@Query() filter: GetTemporaryTenantDto,
 	) {
 		filter.roomingSubscriptionId = id;
-		return await this.temporaryTenantService.findAll(filter);
+		return await this.temporaryTenantService.getManyTemporaryTenant(filter);
 	}
 
 	//NOTE: Payment Record
