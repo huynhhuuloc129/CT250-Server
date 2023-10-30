@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Utility } from './entities/utility.entity';
 import { UpdatePhoto } from '../photo/type/update-photo.type';
 import { UpdateUtilityDto } from './dto/update-utility.dto';
+import { CreateUtilityDto } from './dto/create-utility.dto';
 
 @Injectable()
 export class UtilityService {
@@ -35,6 +36,20 @@ export class UtilityService {
 			},
 		});
 	}
-	findMany() {}
-	deleteOne() {}
+
+	async findMany(filter: object | object[] = {}): Promise<Utility[]> {
+		return await this.utilitiesRepository.find({
+			where: filter,
+		});
+	}
+
+	async deleteOne(id: number): Promise<object> {
+		return await this.utilitiesRepository.delete(id);
+	}
+
+	async createOne(createDto: CreateUtilityDto): Promise<Utility> {
+		const utility = this.utilitiesRepository.create(createDto);
+
+		return this.utilitiesRepository.save(utility);
+	}
 }
