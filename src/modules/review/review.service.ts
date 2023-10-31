@@ -22,8 +22,6 @@ export class ReviewService {
 		createDto: CreateReviewDto,
 		roomId: number,
 	): Promise<Review> {
-		console.log(createDto);
-
 		const room = await this.roomsService.findOne({ id: roomId });
 
 		if (!room) {
