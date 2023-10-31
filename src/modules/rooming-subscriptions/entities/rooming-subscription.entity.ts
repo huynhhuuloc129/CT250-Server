@@ -9,15 +9,15 @@ import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 @Entity()
 export class RoomingSubscription extends BaseObject {
 	@Column()
-	month: number;
+	roomId: number;
 
 	@Column()
-	year: number;
+	tenantId: number;
 
-	@Column()
+	@Column({ nullable: true })
 	startDate: Date;
 
-	@Column()
+	@Column({ nullable: true })
 	endDate: Date;
 
 	@Column({

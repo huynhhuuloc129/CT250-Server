@@ -1,7 +1,6 @@
 import {
 	Body,
 	Controller,
-	Delete,
 	Get,
 	Param,
 	ParseIntPipe,
@@ -9,18 +8,20 @@ import {
 	Post,
 	Query,
 } from '@nestjs/common';
-import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Public } from '../auth/utils';
 import { RoomingSubscriptionService } from './rooming-subscriptions.service';
-import { CreateRoomingSubscriptionDto } from './dto/create-rooming-subscription.dto';
 import { UpdateRoomingSubscriptionDto } from './dto/update-rooming-subscription.dto';
 import { GetRoomingSubscriptionDto } from './dto/get-rooming-subscription.dto';
 import { CreatePaymentRecordDto } from '../payment-records/dto/create-payment-record.dto';
 import { PaymentRecordsService } from '../payment-records/payment-records.service';
 import { GetPaymentRecordDto } from '../payment-records/dto/get-payment-record.dto';
+import { RequiredRoles } from '../auth/decorators/required-roles.decorator';
+import { USER_ROLE, User } from '../users/entities/user.entity';
+import { GetCurrentUser } from '../auth/decorators/get-current-user.decorator';
 import { TemporaryTenantService } from '../temporary-tenants/temporary-tenants.service';
-import { CreateTemporaryTenantDto } from '../temporary-tenants/dto/create-temporary-tenants.dto';
 import { GetTemporaryTenantDto } from '../temporary-tenants/dto/get-temporary-tenants.dto';
+import { CreateTemporaryTenantDto } from '../temporary-tenants/dto/create-temporary-tenants.dto';
 
 @Controller('rooming-subscriptions')
 @ApiTags('rooming-subscriptions')
@@ -32,16 +33,11 @@ export class RoomingSubscriptionController {
 	) {}
 
 	@Public()
-	@Post()
-	@ApiBody({ type: CreateRoomingSubscriptionDto })
-	async create(@Body() input: CreateRoomingSubscriptionDto) {
-		return await this.roomingSubscriptionService.createOne(input);
-	}
-
-	@Public()
 	@Get()
-	async findAll(@Query() filter: GetRoomingSubscriptionDto) {
-		return await this.roomingSubscriptionService.findAll(filter);
+	async findMany(@Query() filter: GetRoomingSubscriptionDto) {
+		return await this.roomingSubscriptionService.findManyRoomingSubscription(
+			filter,
+		);
 	}
 
 	@Public()
@@ -49,56 +45,67 @@ export class RoomingSubscriptionController {
 	async findOne(@Param('id', ParseIntPipe) id: number) {
 		return await this.roomingSubscriptionService.findOneWithRelation({
 			where: { id },
-			relations: { room: true, tenant: true },
+			relations: { room: true, tenant: { user: true } },
 		});
 	}
 
-	@Public()
 	@Patch(':id')
+	@ApiBearerAuth('bearer')
+	@RequiredRoles(USER_ROLE.lessor)
 	async update(
 		@Param('id', ParseIntPipe) id: number,
 		@Body() input: UpdateRoomingSubscriptionDto,
+		@GetCurrentUser() user: User,
 	) {
+		console.log(user);
 		return await this.roomingSubscriptionService.updateOne({ id }, input);
 	}
 
-	@Public()
-	@Delete(':id')
-	async remove(@Param('id', ParseIntPipe) id: number) {
-		return await this.roomingSubscriptionService.deleteOne({ id });
-	}
+	//NOTE: API is currently not in use
+	// @Public()
+	// @Delete(':id')
+	// @ApiBearerAuth('bearer')
+	// @RequiredRoles(USER_ROLE.ADMIN)
+	// async remove(@Param('id', ParseIntPipe) id: number) {
+	// 	return await this.roomingSubscriptionService.deleteOne({ id });
+	// }
 
 	// NOTE: Temporary Lessor
-	@Public()
-	@Post(':id/temporary-lessors')
+	@Post(':id/temporary-tenant')
+	@ApiBearerAuth('bearer')
+	@RequiredRoles(USER_ROLE.lessor)
 	async createTemporaryLessor(
 		@Param('id', ParseIntPipe) id: number,
 		@Body() input: CreateTemporaryTenantDto,
+		@GetCurrentUser() user: User,
 	) {
+		console.log(user);
 		input.roomingSubscriptionId = id;
 		return await this.temporaryTenantService.createOne(input);
 	}
 
 	@Public()
-	@Get(':id/temporary-lessors')
+	@Get(':id/temporary-tenant')
 	async findManyTemporaryLessor(
 		@Param('id', ParseIntPipe) id: number,
 		@Query() filter: GetTemporaryTenantDto,
 	) {
 		filter.roomingSubscriptionId = id;
-		return await this.temporaryTenantService.findAll(filter);
+		return await this.temporaryTenantService.getManyTemporaryTenant(filter);
 	}
 
 	//NOTE: Payment Record
-	@Public()
 	@Post(':id/payment-records')
-	@ApiBody({ type: CreatePaymentRecordDto })
+	@ApiBearerAuth('bearer')
+	@RequiredRoles(USER_ROLE.lessor)
 	async createPaymentRecord(
 		@Param('id', ParseIntPipe) id: number,
 		@Body() input: CreatePaymentRecordDto,
+		@GetCurrentUser() user: User,
 	) {
+		console.log(user);
 		input.roomingSubscriptionId = id;
-		return await this.paymentRecordService.createOne(input);
+		return await this.roomingSubscriptionService.createPaymentRecord(input);
 	}
 
 	@Public()
@@ -108,6 +115,6 @@ export class RoomingSubscriptionController {
 		@Query() filter: GetPaymentRecordDto,
 	) {
 		filter.roomingSubscriptionId = id;
-		return await this.paymentRecordService.findAll(filter);
+		return await this.paymentRecordService.getManyPaymentRecord(filter);
 	}
 }

@@ -1,11 +1,5 @@
 import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
-import {
-	IsDateString,
-	IsNumber,
-	IsOptional,
-	IsString,
-	Min,
-} from 'class-validator';
+import { IsNumber, IsOptional, IsString, Max, Min } from 'class-validator';
 
 export class CreateRoomingHouseDto {
 	@ApiHideProperty()
@@ -44,6 +38,8 @@ export class CreateRoomingHouseDto {
 	address: string;
 
 	@ApiProperty()
-	@IsDateString()
-	paymentExpiresDate: Date;
+	@IsNumber()
+	@Min(1)
+	@Max(31)
+	paymentExpiresDay: number;
 }

@@ -6,19 +6,28 @@ import { Column, Entity, ManyToOne } from 'typeorm';
 @Entity()
 export class PaymentRecord extends BaseObject {
 	@Column()
+	roomingSubscriptionId: number;
+
+	@Column({ nullable: true })
 	month: number;
 
-	@Column()
+	@Column({ nullable: true })
 	year: number;
+
+	@Column()
+	waterPrice: number;
 
 	@Column()
 	waterAmount: number;
 
 	@Column()
-	electricityAmount: number;
+	monthWaterPrice: number;
 
 	@Column()
-	monthWaterPrice: number;
+	electricityPrice: number;
+
+	@Column()
+	electricityAmount: number;
 
 	@Column()
 	monthElectricityPrice: number;
@@ -26,13 +35,13 @@ export class PaymentRecord extends BaseObject {
 	@Column()
 	monthRoomPrice: number;
 
-	@Column()
+	@Column({ nullable: true })
 	surcharge: number;
 
 	@Column()
 	monthTotalPrice: number;
 
-	@Column()
+	@Column({ nullable: true })
 	paidDate: Date;
 
 	@Column({

@@ -26,11 +26,12 @@ import { CategoriesModule } from './modules/categories/categories.module';
 import { RoomDescriptionsModule } from './modules/room-descriptions/room-descriptions.module';
 import { AdministrativeUnitModule } from './modules/administrative-unit/administrative-unit.module';
 import { AdministrativeRegionModule } from './modules/administrative-region/administrative-region.module';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { AccessTokenGuard } from './modules/auth/guards/access-token.guard';
 import { RolesGuard } from './modules/auth/guards/roles.guard';
 import { AppLoggerMiddleware } from './middlewares/logging.middleware';
 import { TemporaryTenantsModule } from './modules/temporary-tenants/temporary-tenants.module';
+import { GlobalExceptionFilter } from './exception-filters/global-exception.filter';
 @Module({
 	imports: [
 		TypeOrmModule.forRootAsync({
@@ -104,6 +105,10 @@ import { TemporaryTenantsModule } from './modules/temporary-tenants/temporary-te
 		{
 			provide: APP_GUARD,
 			useClass: RolesGuard,
+		},
+		{
+			provide: APP_FILTER,
+			useClass: GlobalExceptionFilter,
 		},
 	],
 })

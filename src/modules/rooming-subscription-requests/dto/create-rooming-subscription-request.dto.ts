@@ -1,5 +1,5 @@
-import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsNumber, IsOptional } from 'class-validator';
+import { ApiHideProperty } from '@nestjs/swagger';
+import { IsOptional } from 'class-validator';
 import { ROOMING_SUBSCRIPTION_REQUEST_STATE } from 'src/shared/enums/common.enum';
 
 export class CreateRoomingSubscriptionRequestDto {
@@ -7,13 +7,10 @@ export class CreateRoomingSubscriptionRequestDto {
 	@IsOptional()
 	tenantId?: number;
 
-	@ApiProperty()
-	@IsNumber()
-	roomId: number;
+	@ApiHideProperty()
+	@IsOptional()
+	roomId?: number;
 
-	@ApiProperty({
-		enum: ROOMING_SUBSCRIPTION_REQUEST_STATE,
-	})
-	@IsEnum(ROOMING_SUBSCRIPTION_REQUEST_STATE)
+	@ApiHideProperty()
 	state: ROOMING_SUBSCRIPTION_REQUEST_STATE;
 }

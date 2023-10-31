@@ -17,6 +17,7 @@ export enum ROOMING_SUBSCRIPTION_REQUEST_STATE {
 }
 
 export enum PAYMENT_STATE {
+	CREATED = 'created',
 	EXPIRED = 'expired',
 }
 

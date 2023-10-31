@@ -8,11 +8,13 @@ import {
 	Patch,
 	Post,
 } from '@nestjs/common';
-import { ApiBody, ApiTags } from '@nestjs/swagger';
-import { Public } from '../auth/utils';
+import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { CategoriesService } from './categories.service';
+import { RequiredRoles } from '../auth/decorators/required-roles.decorator';
+import { USER_ROLE } from '../users/entities/user.entity';
+import { Public } from '../auth/utils';
 
 @Controller('categories')
 @ApiTags('categories')
@@ -31,15 +33,17 @@ export class CategoriesController {
 		return await this.categoryService.findOne({ id });
 	}
 
-	@Public()
 	@Post()
+	@ApiBearerAuth('bearer')
+	@RequiredRoles(USER_ROLE.ADMIN)
 	@ApiBody({ type: CreateCategoryDto })
 	async create(@Body() input: CreateCategoryDto) {
 		return await this.categoryService.createOne(input);
 	}
 
-	@Public()
 	@Patch(':id')
+	@ApiBearerAuth('bearer')
+	@RequiredRoles(USER_ROLE.ADMIN)
 	async update(
 		@Param('id', ParseIntPipe) id: number,
 		@Body() input: UpdateCategoryDto,
@@ -47,8 +51,9 @@ export class CategoriesController {
 		return await this.categoryService.updateOne({ id }, input);
 	}
 
-	@Public()
 	@Delete(':id')
+	@ApiBearerAuth('bearer')
+	@RequiredRoles(USER_ROLE.ADMIN)
 	async remove(@Param('id', ParseIntPipe) id: number) {
 		return await this.categoryService.deleteOne({ id });
 	}

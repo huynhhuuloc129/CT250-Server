@@ -3,18 +3,22 @@ import {
 	Controller,
 	Delete,
 	Get,
+	NotFoundException,
 	Param,
 	ParseIntPipe,
 	Patch,
 	Post,
 	Query,
 } from '@nestjs/common';
-import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
 import { Public } from '../auth/utils';
 import { RoomDescriptionService } from './room-descriptions.service';
 import { DefaultListDto } from 'src/shared/dtos/default-list.dto';
 import { UpdateRoomDescriptionDto } from './dto/update-room-description.dto';
 import { CreateRoomDescriptionDto } from './dto/create-room-description.dto';
+import { RequiredRoles } from '../auth/decorators/required-roles.decorator';
+import { USER_ROLE, User } from '../users/entities/user.entity';
+import { GetCurrentUser } from '../auth/decorators/get-current-user.decorator';
 
 @Controller('room-descriptions')
 @ApiTags('room-descriptions')
@@ -23,40 +27,57 @@ export class RoomDescriptionController {
 		private readonly roomDescriptionService: RoomDescriptionService,
 	) {}
 
-	@Public()
 	@Post()
+	@ApiBearerAuth('bearer')
+	@RequiredRoles(USER_ROLE.lessor)
 	@ApiBody({ type: CreateRoomDescriptionDto })
-	async create(@Body() input: CreateRoomDescriptionDto) {
+	async create(
+		@Body() input: CreateRoomDescriptionDto,
+		@GetCurrentUser() user: User,
+	) {
+		console.log(user);
 		return await this.roomDescriptionService.createOne(input);
 	}
 
 	@Public()
 	@Get()
 	async findAll(@Query() filter: DefaultListDto) {
-		return await this.roomDescriptionService.findAll(filter);
+		return await this.roomDescriptionService.findManyRoomDescription(filter);
 	}
 
 	@Public()
 	@Get(':id')
 	async findOne(@Param('id', ParseIntPipe) id: number) {
-		return await this.roomDescriptionService.findOneWithRelation({
+		const data = await this.roomDescriptionService.findOneWithRelation({
 			where: { id },
 			relations: { room: true },
 		});
+		if (!data) {
+			throw new NotFoundException('room description not found');
+		}
+		return data;
 	}
 
-	@Public()
 	@Patch(':id')
+	@ApiBearerAuth('bearer')
+	@RequiredRoles(USER_ROLE.lessor)
 	async update(
 		@Param('id', ParseIntPipe) id: number,
 		@Body() input: UpdateRoomDescriptionDto,
+		@GetCurrentUser() user: User,
 	) {
+		console.log(user);
 		return await this.roomDescriptionService.updateOne({ id }, input);
 	}
 
-	@Public()
 	@Delete(':id')
-	async remove(@Param('id', ParseIntPipe) id: number) {
+	@ApiBearerAuth('bearer')
+	@RequiredRoles(USER_ROLE.lessor)
+	async remove(
+		@Param('id', ParseIntPipe) id: number,
+		@GetCurrentUser() user: User,
+	) {
+		console.log(user);
 		return await this.roomDescriptionService.deleteOne({ id });
 	}
 }

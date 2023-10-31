@@ -5,15 +5,18 @@ import { Column, Entity, ManyToOne } from 'typeorm';
 @Entity()
 export class TemporaryTenant extends BaseObject {
 	@Column()
-	fullName: string;
+	roomingSubscriptionId: number;
 
 	@Column()
-	citizenID: string;
+	fullName: string;
+
+	@Column({ nullable: true })
+	citizenId: string;
 
 	@Column()
 	startDate: Date;
 
-	@Column()
+	@Column({ nullable: true })
 	endDate: Date;
 
 	@ManyToOne(

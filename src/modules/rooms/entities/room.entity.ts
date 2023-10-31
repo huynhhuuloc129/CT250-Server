@@ -14,6 +14,12 @@ import { Column, Entity, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 @Entity()
 export class Room extends BaseObject {
 	@Column()
+	roomingHouseId: number;
+
+	@Column()
+	lessorId: number;
+
+	@Column()
 	name: string;
 
 	@Column()
@@ -43,10 +49,10 @@ export class Room extends BaseObject {
 	})
 	state: ROOM_STATE;
 
-	@ManyToOne(() => Lessor)
+	@ManyToOne(() => Lessor, { onDelete: 'CASCADE' })
 	lessor: Lessor;
 
-	@ManyToOne(() => RoomingHouse)
+	@ManyToOne(() => RoomingHouse, (assign: RoomingHouse) => assign.rooms)
 	roomingHouse: RoomingHouse;
 
 	@OneToMany(() => Notification, (assign: Notification) => assign.room)

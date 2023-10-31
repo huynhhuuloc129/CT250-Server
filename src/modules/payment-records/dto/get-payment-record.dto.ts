@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsEnum, IsNumber, IsOptional } from 'class-validator';
 import { DefaultListDto } from 'src/shared/dtos/default-list.dto';
-import { NOTIFICATION_TYPE } from 'src/shared/enums/common.enum';
+import { PAYMENT_STATE } from 'src/shared/enums/common.enum';
 
 export class GetPaymentRecordDto extends DefaultListDto {
 	@ApiProperty({
@@ -31,9 +31,9 @@ export class GetPaymentRecordDto extends DefaultListDto {
 
 	@ApiProperty({
 		required: false,
-		enum: NOTIFICATION_TYPE,
+		enum: PAYMENT_STATE,
 	})
 	@IsOptional()
-	@IsEnum(NOTIFICATION_TYPE)
-	type?: NOTIFICATION_TYPE;
+	@IsEnum(PAYMENT_STATE)
+	state?: PAYMENT_STATE;
 }

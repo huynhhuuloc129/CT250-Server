@@ -55,7 +55,19 @@ export class CreatePaymentRecordDto {
 
 	@ApiHideProperty()
 	@IsOptional()
+	waterPrice?: number;
+
+	@ApiHideProperty()
+	@IsOptional()
+	electricityPrice?: number;
+
+	@ApiHideProperty()
+	@IsOptional()
 	monthElectricityPrice?: number;
+
+	@ApiHideProperty()
+	@IsOptional()
+	monthRoomPrice?: number;
 
 	@ApiHideProperty()
 	@IsOptional()
