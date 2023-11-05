@@ -177,7 +177,6 @@ export class RoomsService extends BaseService<Room> {
 					state: ROOMING_SUBSCRIPTION_STATE.STAYING,
 					tenantId: data.tenantId,
 				};
-				console.log(rSData);
 				await this.roomingSubscriptionService.createOne(rSData);
 
 				//NOTE: reject all other request

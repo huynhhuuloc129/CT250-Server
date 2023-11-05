@@ -4,14 +4,12 @@ import {
 	Get,
 	Param,
 	ParseIntPipe,
-	Patch,
 	Post,
 	Query,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Public } from '../auth/utils';
 import { RoomingSubscriptionService } from './rooming-subscriptions.service';
-import { UpdateRoomingSubscriptionDto } from './dto/update-rooming-subscription.dto';
 import { GetRoomingSubscriptionDto } from './dto/get-rooming-subscription.dto';
 import { CreatePaymentRecordDto } from '../payment-records/dto/create-payment-record.dto';
 import { PaymentRecordsService } from '../payment-records/payment-records.service';
@@ -49,17 +47,17 @@ export class RoomingSubscriptionController {
 		});
 	}
 
-	@Patch(':id')
-	@ApiBearerAuth('bearer')
-	@RequiredRoles(USER_ROLE.lessor)
-	async update(
-		@Param('id', ParseIntPipe) id: number,
-		@Body() input: UpdateRoomingSubscriptionDto,
-		@GetCurrentUser() user: User,
-	) {
-		console.log(user);
-		return await this.roomingSubscriptionService.updateOne({ id }, input);
-	}
+	// @Patch(':id')
+	// @ApiBearerAuth('bearer')
+	// @RequiredRoles(USER_ROLE.lessor)
+	// async update(
+	// 	@Param('id', ParseIntPipe) id: number,
+	// 	@Body() input: UpdateRoomingSubscriptionDto,
+	// 	@GetCurrentUser() user: User,
+	// ) {
+	// 	console.log(user);
+	// 	return await this.roomingSubscriptionService.updateOne({ id }, input);
+	// }
 
 	//NOTE: API is currently not in use
 	// @Public()
