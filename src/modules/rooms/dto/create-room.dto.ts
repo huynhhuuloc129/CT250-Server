@@ -23,10 +23,6 @@ export class CreateRoomDto {
 
 	@ApiHideProperty()
 	@IsOptional()
-	dimensions?: number;
-
-	@ApiHideProperty()
-	@IsOptional()
 	state?: ROOM_STATE;
 
 	@ApiProperty()

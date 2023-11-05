@@ -10,6 +10,7 @@ import { Utility } from 'src/modules/utility/entities/utility.entity';
 import { BaseObject } from 'src/shared/entities/base-object.entity';
 import { ROOM_STATE } from 'src/shared/enums/common.enum';
 import {
+	AfterLoad,
 	Column,
 	Entity,
 	JoinTable,
@@ -35,7 +36,7 @@ export class Room extends BaseObject {
 	@Column()
 	height: number;
 
-	@Column()
+	@Column({ nullable: true })
 	dimensions: number;
 
 	@Column()
@@ -89,4 +90,9 @@ export class Room extends BaseObject {
 	@ManyToMany(() => Utility, (assign: Utility) => assign.rooms)
 	@JoinTable()
 	utilities?: Utility[];
+
+	@AfterLoad()
+	updateDimensions() {
+		this.dimensions = this.width * this.height;
+	}
 }

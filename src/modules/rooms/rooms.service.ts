@@ -85,7 +85,6 @@ export class RoomsService extends BaseService<Room> {
 			const { descriptions, ...data } = input;
 			const room = this.roomRepository.create(data);
 			room.state = ROOM_STATE.AVAILABLE;
-			room.dimensions = room.height * room.width;
 			const res = await this.roomRepository.save(room);
 			if (descriptions) {
 				descriptions.forEach(async (des) => {
@@ -273,7 +272,7 @@ export class RoomsService extends BaseService<Room> {
 			if (!room) {
 				throw new BadRequestException('Room not found');
 			}
-			if (utilities.length) {
+			if (utilities?.length) {
 				const utilitiesArray = [];
 				for (const id of utilities) {
 					const utility = await this.utilityService.findOneByCondititon({ id });
