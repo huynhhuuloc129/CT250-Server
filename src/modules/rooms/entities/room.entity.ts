@@ -9,7 +9,14 @@ import { RoomingSubscription } from 'src/modules/rooming-subscriptions/entities/
 import { Utility } from 'src/modules/utility/entities/utility.entity';
 import { BaseObject } from 'src/shared/entities/base-object.entity';
 import { ROOM_STATE } from 'src/shared/enums/common.enum';
-import { Column, Entity, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
+import {
+	Column,
+	Entity,
+	JoinTable,
+	ManyToMany,
+	ManyToOne,
+	OneToMany,
+} from 'typeorm';
 
 @Entity()
 export class Room extends BaseObject {
@@ -80,5 +87,6 @@ export class Room extends BaseObject {
 	roomingSubscriptions: RoomingSubscription[];
 
 	@ManyToMany(() => Utility, (assign: Utility) => assign.rooms)
-	Utilities?: Utility[];
+	@JoinTable()
+	utilities?: Utility[];
 }

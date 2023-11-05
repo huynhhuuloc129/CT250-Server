@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { BaseService } from 'src/shared/bases/service.base';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ILike, In, Repository } from 'typeorm';
+import { FindOptionsWhere, ILike, In, Repository } from 'typeorm';
 import { Room } from './entities/room.entity';
 import { GetRoomDto } from './dto/get-room.dto';
 import { CreateRoomDto } from './dto/create-room.dto';
@@ -17,6 +17,8 @@ import { RoomingSubscriptionService } from '../rooming-subscriptions/rooming-sub
 import { CreateRoomingSubscriptionDto } from '../rooming-subscriptions/dto/create-rooming-subscription.dto';
 import { UpdateRoomingSubscriptionRequestDto } from '../rooming-subscription-requests/dto/update-rooming-subscription-request.dto';
 import { UpdateRoomingSubscriptionDto } from '../rooming-subscriptions/dto/update-rooming-subscription.dto';
+import { UpdateRoomDto } from './dto/update-room.dto';
+import { UtilityService } from '../utility/utility.service';
 
 @Injectable()
 export class RoomsService extends BaseService<Room> {
@@ -26,6 +28,7 @@ export class RoomsService extends BaseService<Room> {
 		private roomDescriptionService: RoomDescriptionService,
 		private roomingSubscriptionRequestService: RoomingSubscriptionRequestService,
 		private roomingSubscriptionService: RoomingSubscriptionService,
+		private utilityService: UtilityService,
 	) {
 		super(roomRepository);
 	}
@@ -249,6 +252,29 @@ export class RoomsService extends BaseService<Room> {
 			}
 
 			return data;
+		} catch (err) {
+			throw new BadRequestException(err);
+		}
+	}
+
+	async updateRoom(where: FindOptionsWhere<Room>, input: UpdateRoomDto) {
+		try {
+			const { utilities, ...data } = input;
+			const room = await this.roomRepository.findOne({ where });
+			if (!room) {
+				throw new BadRequestException('Room not found');
+			}
+			if (utilities.length) {
+				const utilitiesArray = [];
+				for (const id of utilities) {
+					const utility = await this.utilityService.findOneByCondititon({ id });
+					utilitiesArray.push(utility);
+				}
+				room.utilities = utilitiesArray;
+				await this.roomRepository.save(room);
+			}
+
+			return await this.updateOne(where, data);
 		} catch (err) {
 			throw new BadRequestException(err);
 		}

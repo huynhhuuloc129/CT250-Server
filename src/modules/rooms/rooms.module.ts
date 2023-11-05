@@ -6,6 +6,7 @@ import { RoomsService } from './rooms.service';
 import { RoomDescriptionsModule } from '../room-descriptions/room-descriptions.module';
 import { RoomingSubscriptionRequestsModule } from '../rooming-subscription-requests/rooming-subscription-requests.module';
 import { RoomingSubscriptionsModule } from '../rooming-subscriptions/rooming-subscriptions.module';
+import { UtilityModule } from '../utility/utility.module';
 
 @Module({
 	imports: [
@@ -13,6 +14,7 @@ import { RoomingSubscriptionsModule } from '../rooming-subscriptions/rooming-sub
 		RoomDescriptionsModule,
 		RoomingSubscriptionRequestsModule,
 		RoomingSubscriptionsModule,
+		UtilityModule,
 	],
 	controllers: [RoomsController],
 	providers: [RoomsService],
