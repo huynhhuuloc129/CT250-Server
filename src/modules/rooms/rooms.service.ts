@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { BaseService } from 'src/shared/bases/service.base';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOptionsWhere, ILike, In, Repository } from 'typeorm';
+import { FindOptionsWhere, ILike, In, Not, Repository } from 'typeorm';
 import { Room } from './entities/room.entity';
 import { GetRoomDto } from './dto/get-room.dto';
 import { CreateRoomDto } from './dto/create-room.dto';
@@ -183,7 +183,7 @@ export class RoomsService extends BaseService<Room> {
 				await this.roomingSubscriptionService.createOne(rSData);
 
 				//NOTE: reject all other request
-				const rSOtherRequests =
+				const rSOtherRequestsOfRoom =
 					await this.roomingSubscriptionRequestService.findAllData({
 						roomId: rSRequest.roomId,
 						state: In([
@@ -191,8 +191,17 @@ export class RoomsService extends BaseService<Room> {
 							ROOMING_SUBSCRIPTION_REQUEST_STATE.WAITING_TENANT_CALL,
 						]),
 					});
+				const rSOtherRequestsOfUser =
+					await this.roomingSubscriptionRequestService.findAllData({
+						tenantId: data.tenantId,
+						id: Not(data.id),
+					});
 
-				for (const reqItem of rSOtherRequests) {
+				const combinedArray = rSOtherRequestsOfRoom.concat(
+					rSOtherRequestsOfUser,
+				);
+
+				for (const reqItem of combinedArray) {
 					reqItem.state = ROOMING_SUBSCRIPTION_REQUEST_STATE.REJECT;
 					await this.roomingSubscriptionRequestService.updateOne(
 						{ id: reqItem.id },
