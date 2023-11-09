@@ -35,7 +35,6 @@ export class TemporaryTenantController {
 		return await this.temporaryTenantService.findOne({ id });
 	}
 
-	@Public()
 	@ApiBearerAuth('bearer')
 	@RequiredRoles(USER_ROLE.lessor)
 	@Patch(':id')
@@ -46,7 +45,6 @@ export class TemporaryTenantController {
 		return await this.temporaryTenantService.updateOne({ id }, input);
 	}
 
-	@Public()
 	@ApiBearerAuth('bearer')
 	@RequiredRoles(USER_ROLE.lessor)
 	@Delete(':id')
