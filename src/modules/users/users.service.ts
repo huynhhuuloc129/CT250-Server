@@ -112,6 +112,22 @@ export class UsersService {
 		});
 	}
 
+	async updatePasswordByCondititon(
+		filter: object | object[],
+		updateDto: { password: string },
+	): Promise<User> {
+		const entity = await this.usersRepository.findOne({ where: filter });
+
+		if (!entity) {
+			throw new NotFoundException(`Not found user`);
+		}
+
+		return await this.usersRepository.save({
+			...entity,
+			...updateDto,
+		});
+	}
+
 	async deleteOneById(id: number): Promise<object> {
 		return await this.usersRepository.delete(id);
 	}
