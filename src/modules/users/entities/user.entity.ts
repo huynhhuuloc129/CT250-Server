@@ -41,6 +41,9 @@ export class User extends BaseObject {
 	lastName: string;
 
 	@Column({ nullable: true })
+	summary: string;
+
+	@Column({ nullable: true })
 	citizenID: string;
 
 	@Column({ nullable: true })

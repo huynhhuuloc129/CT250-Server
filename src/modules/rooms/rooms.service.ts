@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { BaseService } from 'src/shared/bases/service.base';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ILike, In, Repository } from 'typeorm';
+import { FindOptionsWhere, ILike, In, Not, Repository } from 'typeorm';
 import { Room } from './entities/room.entity';
 import { GetRoomDto } from './dto/get-room.dto';
 import { CreateRoomDto } from './dto/create-room.dto';
@@ -17,6 +17,8 @@ import { RoomingSubscriptionService } from '../rooming-subscriptions/rooming-sub
 import { CreateRoomingSubscriptionDto } from '../rooming-subscriptions/dto/create-rooming-subscription.dto';
 import { UpdateRoomingSubscriptionRequestDto } from '../rooming-subscription-requests/dto/update-rooming-subscription-request.dto';
 import { UpdateRoomingSubscriptionDto } from '../rooming-subscriptions/dto/update-rooming-subscription.dto';
+import { UpdateRoomDto } from './dto/update-room.dto';
+import { UtilityService } from '../utility/utility.service';
 
 @Injectable()
 export class RoomsService extends BaseService<Room> {
@@ -26,6 +28,7 @@ export class RoomsService extends BaseService<Room> {
 		private roomDescriptionService: RoomDescriptionService,
 		private roomingSubscriptionRequestService: RoomingSubscriptionRequestService,
 		private roomingSubscriptionService: RoomingSubscriptionService,
+		private utilityService: UtilityService,
 	) {
 		super(roomRepository);
 	}
@@ -82,7 +85,6 @@ export class RoomsService extends BaseService<Room> {
 			const { descriptions, ...data } = input;
 			const room = this.roomRepository.create(data);
 			room.state = ROOM_STATE.AVAILABLE;
-			room.dimensions = room.height * room.width;
 			const res = await this.roomRepository.save(room);
 			if (descriptions) {
 				descriptions.forEach(async (des) => {
@@ -177,11 +179,10 @@ export class RoomsService extends BaseService<Room> {
 					state: ROOMING_SUBSCRIPTION_STATE.STAYING,
 					tenantId: data.tenantId,
 				};
-				console.log(rSData);
 				await this.roomingSubscriptionService.createOne(rSData);
 
 				//NOTE: reject all other request
-				const rSOtherRequests =
+				const rSOtherRequestsOfRoom =
 					await this.roomingSubscriptionRequestService.findAllData({
 						roomId: rSRequest.roomId,
 						state: In([
@@ -189,8 +190,17 @@ export class RoomsService extends BaseService<Room> {
 							ROOMING_SUBSCRIPTION_REQUEST_STATE.WAITING_TENANT_CALL,
 						]),
 					});
+				const rSOtherRequestsOfUser =
+					await this.roomingSubscriptionRequestService.findAllData({
+						tenantId: data.tenantId,
+						id: Not(data.id),
+					});
 
-				for (const reqItem of rSOtherRequests) {
+				const combinedArray = rSOtherRequestsOfRoom.concat(
+					rSOtherRequestsOfUser,
+				);
+
+				for (const reqItem of combinedArray) {
 					reqItem.state = ROOMING_SUBSCRIPTION_REQUEST_STATE.REJECT;
 					await this.roomingSubscriptionRequestService.updateOne(
 						{ id: reqItem.id },
@@ -250,6 +260,29 @@ export class RoomsService extends BaseService<Room> {
 			}
 
 			return data;
+		} catch (err) {
+			throw new BadRequestException(err);
+		}
+	}
+
+	async updateRoom(where: FindOptionsWhere<Room>, input: UpdateRoomDto) {
+		try {
+			const { utilities, ...data } = input;
+			const room = await this.roomRepository.findOne({ where });
+			if (!room) {
+				throw new BadRequestException('Room not found');
+			}
+			if (utilities?.length) {
+				const utilitiesArray = [];
+				for (const id of utilities) {
+					const utility = await this.utilityService.findOneByCondititon({ id });
+					utilitiesArray.push(utility);
+				}
+				room.utilities = utilitiesArray;
+				await this.roomRepository.save(room);
+			}
+
+			return await this.updateOne(where, data);
 		} catch (err) {
 			throw new BadRequestException(err);
 		}

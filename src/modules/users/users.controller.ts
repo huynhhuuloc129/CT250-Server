@@ -44,7 +44,7 @@ export class UsersController {
 	}
 
 	@Patch(':userId')
-	@RequiredRoles(USER_ROLE.ADMIN)
+	// @RequiredRoles(USER_ROLE.ADMIN)
 	@ApiBearerAuth('bearer')
 	@ApiOperation({ summary: 'Upate one user' })
 	async updateOneByID(

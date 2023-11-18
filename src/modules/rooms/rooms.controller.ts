@@ -38,6 +38,7 @@ export class RoomsController {
 				lessor: { user: true },
 				descriptions: true,
 				reviews: true,
+				utilities: { photo: true },
 			},
 		});
 		if (!data) {
@@ -49,12 +50,12 @@ export class RoomsController {
 	@Patch(':id')
 	@ApiBearerAuth('bearer')
 	@RequiredRoles(USER_ROLE.lessor)
-	async update(
+	async updateRoom(
 		@Param('id', ParseIntPipe) id: number,
 		@Body() input: UpdateRoomDto,
 		@GetCurrentUser() user: User,
 	) {
 		console.log(user);
-		return await this.roomService.updateOne({ id }, input);
+		return await this.roomService.updateRoom({ id }, input);
 	}
 }

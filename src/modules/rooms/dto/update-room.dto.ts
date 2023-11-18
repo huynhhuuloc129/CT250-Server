@@ -1,10 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
 	IsString,
 	IsNumber,
 	Min,
 	IsOptional,
 	MaxLength,
+	IsArray,
 } from 'class-validator';
 
 export class UpdateRoomDto {
@@ -49,4 +51,10 @@ export class UpdateRoomDto {
 	@IsString()
 	@MaxLength(200)
 	summary?: string;
+
+	@ApiProperty()
+	@IsOptional()
+	@IsArray()
+	@Type(() => Number)
+	utilities?: number[];
 }

@@ -19,6 +19,7 @@ import { CreateRoomingHouseDto } from './dto/create-rooming-house.dto';
 import { GetRoomingHouseDto } from './dto/get-rooming-house.dto';
 import { CreateRoomingSubscriptionRequestDto } from '../rooming-subscription-requests/dto/create-rooming-subscription-request.dto';
 import { UpdateRoomingSubscriptionDto } from '../rooming-subscriptions/dto/update-rooming-subscription.dto';
+import { TenantService } from '../tenant/tenant.service';
 
 @Injectable()
 export class RoomingHousesService extends BaseService<RoomingHouse> {
@@ -26,6 +27,7 @@ export class RoomingHousesService extends BaseService<RoomingHouse> {
 		@InjectRepository(RoomingHouse)
 		private roomingHouseRepository: Repository<RoomingHouse>,
 		private roomService: RoomsService,
+		private tenantService: TenantService,
 	) {
 		super(roomingHouseRepository);
 	}
@@ -202,6 +204,12 @@ export class RoomingHousesService extends BaseService<RoomingHouse> {
 					{ id: rHouse.id },
 					{ availableRoomNumber: rHouse.availableRoomNumber - 1 },
 				);
+
+				//NOTE: update isRegistered of user
+				await this.tenantService.updateOneByCondititon(
+					{ id: data.tenantId },
+					{ isRegistered: true },
+				);
 			}
 			return data;
 		} catch (err) {
@@ -232,6 +240,12 @@ export class RoomingHousesService extends BaseService<RoomingHouse> {
 						id: roomingHouse.id,
 					},
 					{ availableRoomNumber: roomingHouse.availableRoomNumber + 1 },
+				);
+
+				//NOTE: update isRegistered of user
+				await this.tenantService.updateOneByCondititon(
+					{ id: data.tenantId },
+					{ isRegistered: false },
 				);
 			}
 
