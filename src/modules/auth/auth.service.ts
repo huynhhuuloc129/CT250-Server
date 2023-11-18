@@ -15,6 +15,7 @@ import { UsersService } from '../users/users.service';
 import { TenantService } from '../tenant/tenant.service';
 import { CreateTenantDto } from '../tenant/dto/create-tenant.dto';
 import { LoginDto } from './dto/login.dto';
+import { UpdatePasswordDto } from './dto/update-password.dto';
 
 @Injectable()
 export class AuthService {
@@ -25,6 +26,37 @@ export class AuthService {
 		private tenantsService: TenantService,
 		private usersService: UsersService,
 	) {}
+
+	async updatePassword(dto: UpdatePasswordDto, userId: number) {
+		const user = await this.usersService.findOneById(userId);
+
+		if (!user) {
+			throw new NotFoundException('Not found user');
+		}
+
+		const isCurrentPasswordValid = await this.usersService.verifyData(
+			user.password,
+			dto.password,
+		);
+
+		if (!isCurrentPasswordValid) {
+			throw new BadRequestException('Current password not correct');
+		}
+
+		if (dto.newPassword !== dto.newPasswordConfirm) {
+			throw new BadRequestException(
+				'New password and password comfirm must be the same',
+			);
+		}
+
+		const newPassword = await this.usersService.hashData(dto.newPassword);
+
+		return this.usersService.updatePasswordByCondititon(
+			{ id: userId },
+			{ password: newPassword },
+		);
+	}
+
 	async updateRefreshTokenHashed(userId: number, refreshToken: string) {
 		const refreshTokenHashed = await this.usersService.hashData(refreshToken);
 		await this.usersService.updateOneByCondititon(

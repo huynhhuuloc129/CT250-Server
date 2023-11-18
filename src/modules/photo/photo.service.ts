@@ -51,7 +51,7 @@ export class PhotoService {
 			},
 		});
 
-		if (!photo || !photo.room || photo.room.lessor.id) {
+		if (!photo || !photo.room || !photo.room.lessor.id) {
 			throw new NotFoundException('Not found room photo');
 		}
 

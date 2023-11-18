@@ -8,6 +8,7 @@ import { LoginDto } from './dto/login.dto';
 import { Public } from './utils';
 import { RefreshTokenGuard } from './guards/refresh-token.guard';
 import { GetCurrentUser } from './decorators/get-current-user.decorator';
+import { UpdatePasswordDto } from './dto/update-password.dto';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -71,5 +72,15 @@ export class AuthController {
 		@GetCurrentUser('refreshToken') refreshToken: string,
 	): Promise<TokenResponse> {
 		return await this.authService.refreshToken(userId, refreshToken);
+	}
+
+	@Post('update-password')
+	@ApiBearerAuth('bearer')
+	@ApiOperation({ summary: 'Update password for current user' })
+	updatePassword(
+		@Body() dto: UpdatePasswordDto,
+		@GetCurrentUser('id') userId: number,
+	) {
+		return this.authService.updatePassword(dto, userId);
 	}
 }
