@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Param, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateTenantDto } from '../tenant/dto/create-tenant.dto';
 import { AuthService } from './auth.service';
@@ -8,6 +8,8 @@ import { LoginDto } from './dto/login.dto';
 import { Public } from './utils';
 import { RefreshTokenGuard } from './guards/refresh-token.guard';
 import { GetCurrentUser } from './decorators/get-current-user.decorator';
+import { UpdatePasswordDto } from './dto/update-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -71,5 +73,22 @@ export class AuthController {
 		@GetCurrentUser('refreshToken') refreshToken: string,
 	): Promise<TokenResponse> {
 		return await this.authService.refreshToken(userId, refreshToken);
+	}
+
+	@Post('update-password')
+	@ApiBearerAuth('bearer')
+	@ApiOperation({ summary: 'Update password for current user' })
+	updatePassword(
+		@Body() dto: UpdatePasswordDto,
+		@GetCurrentUser('id') userId: number,
+	) {
+		return this.authService.updatePassword(dto, userId);
+	}
+
+	@Public()
+	@Post('reset-password/:email')
+	@ApiOperation({ summary: 'Reset password' })
+	resetPassword(@Body() dto: ResetPasswordDto, @Param('email') email: string) {
+		return this.authService.resetPassword(dto, email);
 	}
 }
