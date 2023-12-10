@@ -16,6 +16,7 @@ import { TenantService } from '../tenant/tenant.service';
 import { CreateTenantDto } from '../tenant/dto/create-tenant.dto';
 import { LoginDto } from './dto/login.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 
 @Injectable()
 export class AuthService {
@@ -53,6 +54,27 @@ export class AuthService {
 
 		return this.usersService.updatePasswordByCondititon(
 			{ id: userId },
+			{ password: newPassword },
+		);
+	}
+
+	async resetPassword(dto: ResetPasswordDto, email: string) {
+		const user = await this.usersService.findOneByCondititon({ email });
+
+		if (!user) {
+			throw new NotFoundException('Not found user');
+		}
+
+		if (dto.newPassword !== dto.newPasswordConfirm) {
+			throw new BadRequestException(
+				'New password and password comfirm must be the same',
+			);
+		}
+
+		const newPassword = await this.usersService.hashData(dto.newPassword);
+
+		return this.usersService.updatePasswordByCondititon(
+			{ email },
 			{ password: newPassword },
 		);
 	}
